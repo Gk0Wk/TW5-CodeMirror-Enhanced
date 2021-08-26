@@ -4,7 +4,7 @@ Adds Syntax Highlighting for TiddlyWiki tiddlers (text/vnd.tiddlywiki) to the Co
 
 ## 插件说明
 
-增加 [CodeMirror](http://codemirror.net) 对TiddlyWiki5语法高亮的支持，所有类型留空或者为`text/vnd.tiddlywiki`的tiddler都会有高亮。请首先安装最新版CodeMirror主插件。
+增加 [CodeMirror](http://codemirror.net) 对TiddlyWiki5语法高亮的支持，所有类型留空或者为`text/vnd.tiddlywiki`的tiddler都会有高亮。请首先安装最新版CodeMirror主插件和CodeMirror XML子插件(不然会报错)。
 
 插件还在开发中，如有任何建议或者bug请直接提Issue。
 
