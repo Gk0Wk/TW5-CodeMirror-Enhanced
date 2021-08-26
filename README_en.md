@@ -8,8 +8,6 @@ Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the
 
 ---
 
-[TOC]
-
 ## Plugin description
 
 Add [CodeMirror](http://codemirror.net) support for TiddlyWiki5 syntax highlighting, all tiddlers with MIME type left blank or `text/vnd.tiddlywiki` will be highlighted. Also supports real-time code completion hints like `VSCode` while typing (currently only WikiLink completion is implemented) and **no need** to activate with `Ctrl+Space`.
@@ -18,7 +16,7 @@ Plugin is still under development, if you have any suggestions or bugs, please d
 
 ## Installation & Compilation
 
-<span style="color: red; font-weight: 900;">First install the latest version of CodeMirror main plugin and CodeMirror XML sub-plugin (otherwise it will report an error).</span>
+<span style="color: red; font-weight: 900;">First install the latest version of `CodeMirror` main plugin, `CodeMirror Mode XML` sub-plugin and `CodeMirror Autocomplete` sub-plugin (otherwise it will report an error).</span>
 
 Go directly to [Release](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/releases) and download `CodeMirrorModeTiddlyWiki5-X.X.X.json`, then drag and drop it into your TiddlyWiki, or import it in TiddlyWiki.
 

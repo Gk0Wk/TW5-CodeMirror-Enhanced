@@ -1,3 +1,8 @@
+.CodeMirror-hints {
+    /* 以免提示框被压在tiddler下面 */
+	z-index: 999999999999 !important;
+}
+
 span.cm-underlined {
     text-decoration-line: underline;
 }

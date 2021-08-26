@@ -8,8 +8,6 @@ Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the
 
 ---
 
-[TOC]
-
 ## 插件说明
 
 增加 [CodeMirror](http://codemirror.net) 对TiddlyWiki5语法高亮的支持，所有MIME类型留空或者为`text/vnd.tiddlywiki`的tiddler都会有高亮。同时支持像`VSCode`那样在打字时实时进行代码补全提示(目前仅实现了WikiLink补全)，且**不需要**用`Ctrl+Space`激活。
@@ -18,7 +16,7 @@ Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the
 
 ## 安装&编译
 
-<span style="color: red; font-weight: 900;">请首先安装最新版CodeMirror主插件和CodeMirror XML子插件(不然会报错)。</span>
+<span style="color: red; font-weight: 900;">请首先安装最新版`CodeMirror`主插件、`CodeMirror Mode XML`子插件和`CodeMirror Autocomplete`子插件(不然会报错)。</span>
 
 直接去[Release](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/releases)下载`CodeMirrorModeTiddlyWiki5-X.X.X.json`，然后将其拖拽到你的TiddlyWiki中，或者在TiddlyWiki中导入之。
 
