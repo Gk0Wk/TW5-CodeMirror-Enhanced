@@ -2,8 +2,6 @@
 
 Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the CodeMirror, along with some other useful editor addon (wikilink hint, macro hint, etc.). Now is under development.
 
-为TiddlyWiki的CodeMirror编辑器添加TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮，同时还有其他有用的编辑器插件(如Wiki链接自动提示、宏提示等)。现在正在开发中。
-
 [> 中文README <](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/blob/main/README.md)
 
 ---
@@ -16,7 +14,7 @@ Plugin is still under development, if you have any suggestions or bugs, please d
 
 ## Installation & Compilation
 
-<span style="color: red; font-weight: 900;">First install the latest version of `CodeMirror` main plugin, `CodeMirror Mode XML` sub-plugin and `CodeMirror Autocomplete` sub-plugin (otherwise it will report an error).</span>
+<span style="color: red; font-weight: 900;">First install the latest version of `CodeMirror` main plugin and `CodeMirror Autocomplete` sub-plugin (otherwise it will report an error).</span>
 
 Go directly to [Release](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/releases) and download `CodeMirrorModeTiddlyWiki5-X.X.X.json`, then drag and drop it into your TiddlyWiki, or import it in TiddlyWiki.
 
