@@ -2,6 +2,9 @@
 
 Adds Syntax Highlighting for TiddlyWiki tiddlers (text/vnd.tiddlywiki) to the CodeMirror.
 
+![default](media/default.jpg)
+![ayu-dark](media/ayu-dark.jpg)
+![tiddlywiki](media/tiddlywiki.jpg)
 ## 插件说明
 
 增加 [CodeMirror](http://codemirror.net) 对TiddlyWiki5语法高亮的支持，所有类型留空或者为`text/vnd.tiddlywiki`的tiddler都会有高亮。请首先安装最新版CodeMirror主插件和CodeMirror XML子插件(不然会报错)。
