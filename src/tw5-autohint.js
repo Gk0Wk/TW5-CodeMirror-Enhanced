@@ -1,7 +1,7 @@
 (function(mod) {
-    if (typeof exports == "object" && typeof module == "object") // CommonJS
+    if (typeof exports === "object" && typeof module === "object") // CommonJS
         mod(require("../../lib/codemirror"));
-    else if (typeof define == "function" && define.amd) // AMD
+    else if (typeof define === "function" && define.amd) // AMD
         define(["../../lib/codemirror"], mod);
     else // Plain browser env
         mod(CodeMirror);
@@ -9,15 +9,15 @@
     "use strict";
 
     // 有新的editor实例创建，就Hook一下，达到实时提示的效果
-    CodeMirror.defineInitHook(editor => {
+    CodeMirror.defineInitHook(function (editor) {
         // 如果补全建议中只有一个，不会自动补全，否则体验会非常糟糕
         editor.options.hintOptions = {
             completeSingle: false
         };
         // 当光标移动(输入、删除、光标移动)时进行补全
-        editor.on("cursorActivity", () => {
-            if (!editor.state.completeActive) {
-                editor.showHint();
+        editor.on("change", function (cm, event) {
+            if (!cm.state.completeActive && typeof cm.showHint === 'function') {
+                cm.showHint();
             }
         });
     });
@@ -32,12 +32,12 @@
 
         // wikilin匹配
         // 向前找，找到[{|"为止，而如果找到]}.>或者到头，就不要继续找
-        var escapeChars = ['.', ']', '}', '>']
-        var stopChars = ['[', '{', '|', '"']
+        var escapeChars = ['.', ']', '}', '>'];
+        var stopChars = ['[', '{', '|', '"'];
         while (pointer) {
-            var ch = curLine.charAt(pointer - 1)
+            var ch = curLine.charAt(pointer - 1);
             if (end - pointer > max_length || escapeChars.includes(ch)) {
-                return null
+                return null;
             }
             if (!(stopChars.includes(ch))) {
                 pointer--;
@@ -52,13 +52,13 @@
                 list: $tw.wiki.filterTiddlers(`[all[tiddlers]search:title:literal[${curWord}]!prefix[$:/state]]`),
                 from: CodeMirror.Pos(cur.line, pointer),
                 to: CodeMirror.Pos(cur.line, end)
-            }
+            };
         } else {
             return {
                 list: $tw.wiki.filterTiddlers(`[all[tiddlers]!is[system]!is[shadow]search:title:literal[${curWord}]!prefix[$:/state]]`),
                 from: CodeMirror.Pos(cur.line, pointer),
                 to: CodeMirror.Pos(cur.line, end)
-            }
+            };
         }
-    })
+    });
 });

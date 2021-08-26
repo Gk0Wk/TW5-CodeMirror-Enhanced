@@ -1,9 +1,9 @@
 /* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus */
 (function(mod) {
     if (typeof exports == "object" && typeof module == "object") // CommonJS
-        mod(require("../../lib/codemirror"), require("../xml/xml"));
+        mod(require("../../lib/codemirror"));
     else if (typeof define == "function" && define.amd) // AMD
-        define(["../../lib/codemirror", "../xml/xml"], mod);
+        define(["../../lib/codemirror"], mod);
     else // Plain browser env
         mod(CodeMirror);
 })(function(CodeMirror) {
@@ -539,7 +539,7 @@
               },
         };
         return mode;
-    }, "xml");
+    });
 
     CodeMirror.defineMIME("text/vnd.tiddlywiki", "tiddlywiki5");
     CodeMirror.defineMIME("", "tiddlywiki5");

@@ -1,12 +1,12 @@
 {
     "meta": {
-        "version": "0.0.2",
+        "version": "0.0.3",
         "type": "application/json",
         "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5",
         "plugin-type": "plugin",
         "parent-plugin": "$:/plugins/tiddlywiki/codemirror",
         "name": "CodeMirror Mode TiddlyWiki5",
-        "list": "readme-zh",
+        "list": "readme",
         "description": "TiddlyWiki5 highlighting mode for CodeMirror",
         "dependents": "$:/plugins/tiddlywiki/codemirror-mode-xml"
     },
@@ -41,10 +41,10 @@
         },
         {
             "type": "external",
-            "src": "./src/readme-zh.tw5",
+            "src": "./src/readme.tw5",
             "meta": {
                 "type": "",
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/readme-zh",
+                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/readme",
                 "tags": ""
             }
         },
