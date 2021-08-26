@@ -1,3 +1,4 @@
+/* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus */
 (function(mod) {
     if (typeof exports === "object" && typeof module === "object") // CommonJS
         mod(require("../../lib/codemirror"));

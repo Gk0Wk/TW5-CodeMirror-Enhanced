@@ -7,6 +7,7 @@ span.cm-underlined {
     text-decoration-line: underline;
 }
 
+/* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus */
 span.cm-superscript {
     vertical-align: super;
     font-size: 0.7em;

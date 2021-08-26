@@ -1,4 +1,9 @@
-/* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus */
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+/* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus,
+   and the original author of this mode is PMario(https://github.com/pmario) */
 (function(mod) {
     if (typeof exports == "object" && typeof module == "object") // CommonJS
         mod(require("../../lib/codemirror"));
