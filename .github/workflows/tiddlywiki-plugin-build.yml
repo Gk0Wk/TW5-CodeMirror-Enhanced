@@ -37,7 +37,7 @@ jobs:
       - name: Build Plugin
         run: python build.py
 
-      - naem: Test
+      - name: Test
         run: echo ${{ github.ref }}
 
       - name: Upload to Release
