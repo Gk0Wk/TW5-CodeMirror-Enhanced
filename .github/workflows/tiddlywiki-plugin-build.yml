@@ -35,6 +35,9 @@ jobs:
       - name: Build Plugin
         run: python build.py
 
+      - naem: Test
+        run: echo ${{ github.ref }}
+
       - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
         if: startsWith(github.ref, 'refs/tags/')
