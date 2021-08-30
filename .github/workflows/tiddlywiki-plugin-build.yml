@@ -4,20 +4,18 @@ on:
   push:
     tags:
       - "*"
-  #   tags:
-  #     - "v*.*.*"
-  #   branches:
-  #     - main
-  #   paths-ignore:
-  #     - "README*.md"
-  #     - "media/**"
-  # pull_request:
-  #   # The branches below must be a subset of the branches above
-  #   branches:
-  #     - main
-  #   paths-ignore:
-  #     - "README*.md"
-  #     - "media/**"
+    branches:
+      - main
+    paths-ignore:
+      - "README*.md"
+      - "media/**"
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches:
+      - main
+    paths-ignore:
+      - "README*.md"
+      - "media/**"
 
 jobs:
   build:
@@ -36,9 +34,6 @@ jobs:
 
       - name: Build Plugin
         run: python build.py
-
-      - name: Test
-        run: echo ${{ github.ref }}
 
       - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
