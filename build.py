@@ -1,3 +1,8 @@
+# CodeMirror, copyright (c) by Marijn Haverbeke and others
+# Distributed under an MIT license: https://codemirror.net/LICENSE
+
+# Author: Gk0Wk (nmg_wk@yeah.net)
+# Licence: MIT
 if __name__ == '__main__':
     import json
     import os

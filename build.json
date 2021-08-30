@@ -1,6 +1,6 @@
 {
     "meta": {
-        "version": "0.0.3",
+        "version": "0.0.4",
         "type": "application/json",
         "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5",
         "plugin-type": "plugin",

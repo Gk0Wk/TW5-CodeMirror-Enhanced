@@ -17,8 +17,6 @@
   "use strict";
 
   CodeMirror.defineMode("tex", function(_config, parserConfig) {
-    "use strict";
-
     function pushCommand(state, command) {
       state.cmdState.push(command);
     }

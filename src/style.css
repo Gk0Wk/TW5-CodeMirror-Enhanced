@@ -1,6 +1,6 @@
 .CodeMirror-hints {
     /* 以免提示框被压在tiddler下面 */
-	z-index: 200 !important;
+    z-index: 800 !important;
 }
 
 span.cm-underlined {
@@ -60,9 +60,9 @@ span.cm-h6 {
 }
 
 span.link {
-    font-weight:600;
+    font-weight: 600;
 }
 
 span.cm-internallink {
-	text-decoration: none;
+    text-decoration: none;
 }

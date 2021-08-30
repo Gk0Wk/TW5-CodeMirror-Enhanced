@@ -9,17 +9,25 @@
 })(function(CodeMirror) {
     "use strict";
 
-    // 有新的editor实例创建，就Hook一下，达到实时提示的效果
-    CodeMirror.defineInitHook(function (editor) {
+    var hintOptions = {
         // 如果补全建议中只有一个，不会自动补全，否则体验会非常糟糕
-        editor.options.hintOptions = {
-            completeSingle: false
-        };
+        completeSingle: false
+    };
+    // 有新的editor实例创建，就Hook一下，达到实时提示的效果
+    CodeMirror.defineInitHook(function(editor) {
         // 当光标移动(输入、删除、光标移动)时进行补全
-        editor.on("change", function (cm, event) {
-            if (!cm.state.completeActive && typeof cm.showHint === 'function') {
-                cm.showHint();
-            }
+        editor.on("change", function(cm, event) {
+            if (!cm.state.completeActive && typeof cm.showHint === 'function')
+                return;
+            if (
+                event.origin === "+input" &&
+                event.text[0].trim() === "" &&
+                event.text[1] === ""
+            )
+                return;
+            if (event.origin === "+delete" && event.removed[0] === "")
+                return;
+            cm.showHint(hintOptions);
         });
     });
 
