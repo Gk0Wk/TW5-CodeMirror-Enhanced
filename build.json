@@ -10,9 +10,8 @@
         "description": "TiddlyWiki5 highlighting mode for CodeMirror",
         "dependents": ["$:/plugins/tiddlywiki/codemirror-autocomplete"]
     },
-    "tiddlers": [
-        {
-            "src": "tw5-mode.min.js",
+    "tiddlers": [{
+            "src": "tw5-mode.js",
             "dist": "mode/tiddlywiki5.js",
             "fields": {
                 "title": "$:/plugins/tiddlywiki/codemirror/mode/tiddlywiki5/tiddlywiki5.js",
@@ -21,7 +20,7 @@
             }
         },
         {
-            "src": "style.min.css",
+            "src": "style.css",
             "dist": "style.css",
             "fields": {
                 "type": "text/css",
@@ -30,7 +29,7 @@
             }
         },
         {
-            "src": "tex-mode.min.js",
+            "src": "tex-mode.js",
             "dist": "mode/tex.js",
             "fields": {
                 "type": "application/javascript",
@@ -45,7 +44,7 @@
             }
         },
         {
-            "src": "tw5-autohint.min.js",
+            "src": "tw5-autohint.js",
             "dist": "hint/hint-tiddlywiki5.js",
             "fields": {
                 "type": "application/javascript",
