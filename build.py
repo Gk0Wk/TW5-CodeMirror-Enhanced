@@ -47,7 +47,8 @@ def minify_source_code(build_info):
             src = os.path.join(SRC_DIR, tiddler['src'])
             dist = os.path.join(SRC_DIR, new_src)
             os.makedirs(os.path.join(SRC_DIR, new_spath), exist_ok=True)
-            os.system(f'uglifyjs {src} --output {dist}')
+            os.system(
+                f'uglifyjs {src} -c -m --v8 --webkit --ie --output {dist}')
             tiddler['src'] = new_src
         elif type_ == '.css':
             new_spath = os.path.join('..', BUILD_DIR, spath)

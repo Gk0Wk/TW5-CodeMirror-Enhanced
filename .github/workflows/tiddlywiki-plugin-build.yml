@@ -3,7 +3,7 @@ name: "TiddlyPlugin"
 on:
   push:
     tags:
-      - "*"
+      - "v*"
     branches:
       - main
     paths-ignore:

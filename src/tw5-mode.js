@@ -1,4 +1,3 @@
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: https://codemirror.net/LICENSE
 
@@ -99,7 +98,7 @@
             if (tokens == null) tokens = '';
             // 后缀
             if (state.quoteLevel > 0 && sol) {
-                tokens += ' quote quote-' + state.quoteLevel;
+                tokens += ' line-cm-quote-line quote-' + state.quoteLevel;
             }
             if (state.codeBlockModeState != null) {
                 tokens += ' comment';
@@ -110,7 +109,7 @@
             if (state.boldLine) {
                 tokens += ' strong';
             }
-            return tokens;
+            return tokens.trim();
         }
 
         function tokenBaseBald(sol, stream, state) {
@@ -381,7 +380,8 @@
             var innerMode = modeCfg.fencedCodeBlockHighlighting && getMode("text/x-latex");
             state.LaTeXModeState = !innerMode ? 'unknown' : {
                 mode: innerMode,
-                state: CodeMirror.startState(innerMode)
+                state: CodeMirror.startState(innerMode),
+                start: state.line
             };
             return "comment";
         }
@@ -393,7 +393,8 @@
                     getMode(match[1] || modeCfg.fencedCodeBlockDefaultMode);
                 state_.codeBlockModeState = !innerMode ? 'unknown' : {
                     mode: innerMode,
-                    state: CodeMirror.startState(innerMode)
+                    state: CodeMirror.startState(innerMode),
+                    start: state.line
                 };
                 if (match[1]) {
                     stream_.skipToEnd();
@@ -428,7 +429,7 @@
             } else {
                 state.quoteLevel = level - 1;
             }
-            return "quote";
+            return "quote line-cm-quote-line";
         }
 
         function twTokenMacro(stream, state) {
@@ -455,7 +456,10 @@
 
         // Interface
         var mode = {
-            blankLine: onNewLine,
+            blankLine: function(stream) {
+                onNewLine(stream);
+                return "";
+            },
             closeBrackets: "()[]{}''\"\"``",
             startState: function() {
                 return {
@@ -476,12 +480,14 @@
                 if (oldState.codeBlockModeState && typeof oldState.codeBlockModeState == 'object')
                     newState.codeBlockModeState = {
                         mode: oldState.codeBlockModeState.mode,
-                        state: CodeMirror.copyState(oldState.codeBlockModeState.mode, oldState.codeBlockModeState.state)
+                        state: CodeMirror.copyState(oldState.codeBlockModeState.mode, oldState.codeBlockModeState.state),
+                        start: oldState.start
                     };
                 if (oldState.LaTeXModeState)
                     newState.LaTeXModeState = {
                         mode: oldState.LaTeXModeState.mode,
-                        state: CodeMirror.copyState(oldState.LaTeXModeState.mode, oldState.LaTeXModeState.state)
+                        state: CodeMirror.copyState(oldState.LaTeXModeState.mode, oldState.LaTeXModeState.state),
+                        start: oldState.start
                     };
             },
             token: function(stream, state) {
@@ -500,10 +506,10 @@
                     }
                     if (typeof state.codeBlockModeState === "string") {
                         stream.skipToEnd();
-                        return "comment";
+                        return "comment line-background-cm-code-block-line";
                     }
                     // 否则，就是用对应的mode来做
-                    return state.codeBlockModeState.mode.token(stream, state.codeBlockModeState.state);
+                    return state.codeBlockModeState.mode.token(stream, state.codeBlockModeState.state) + " line-background-cm-code-block-line";
                 }
 
                 // LaTeX公式块
@@ -515,10 +521,10 @@
                     }
                     if (typeof state.LaTeXModeState === "string") {
                         stream.skipToEnd();
-                        return "comment";
+                        return "comment latex";
                     }
                     // 否则，就是用对应的mode来做
-                    return state.LaTeXModeState.mode.token(stream, state.LaTeXModeState.state);
+                    return state.LaTeXModeState.mode.token(stream, state.LaTeXModeState.state) + " latex";
                 }
 
                 // 读掉空行 / 行末的空白
@@ -532,16 +538,19 @@
                 if (state.LaTeXModeState != null && typeof state.LaTeXModeState === "object") {
                     return state.LaTeXModeState;
                 }
-                return {state: state, mode: mode};
-              },
+                return {
+                    state: state,
+                    mode: mode
+                };
+            },
             indent: function(state, textAfter, line) {
                 if (state.codeBlockModeState != null &&
                     typeof state.codeBlockModeState === "object" &&
                     typeof state.codeBlockModeState.mode.indent == 'function') {
-                        return state.codeBlockModeState.mode.indent(state.codeBlockModeState.state, textAfter, line);
+                    return state.codeBlockModeState.mode.indent(state.codeBlockModeState.state, textAfter, line);
                 }
                 return CodeMirror.Pass;
-              },
+            },
         };
         return mode;
     });

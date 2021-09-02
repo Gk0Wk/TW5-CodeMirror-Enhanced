@@ -17,7 +17,7 @@
     CodeMirror.defineInitHook(function(editor) {
         // 当光标移动(输入、删除、光标移动)时进行补全
         editor.on("change", function(cm, event) {
-            if (!cm.state.completeActive && typeof cm.showHint === 'function')
+            if (cm.state.completeActive && typeof cm.showHint !== 'function')
                 return;
             if (
                 event.origin === "+input" &&
@@ -25,8 +25,14 @@
                 event.text[1] === ""
             )
                 return;
-            if (event.origin === "+delete" && event.removed[0] === "")
-                return;
+            if (event.origin === "+delete") {
+                if (event.removed[0] === "")
+                    return;
+                if (event.to.ch < 2)
+                    return;
+                if (cm.getDoc().getLine(event.to.line).substr(0, event.to.ch - 1).trim() === "")
+                    return;
+            }
             cm.showHint(hintOptions);
         });
     });

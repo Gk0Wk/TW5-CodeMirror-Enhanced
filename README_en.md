@@ -1,8 +1,8 @@
 # CodeMirror-Mode-TiddlyWiki5
 
-Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the CodeMirror, along with some other useful editor addon (wikilink hint, macro hint, etc.). Now is under development.
+Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the CodeMirror, along with some other useful editor addon (wikilink hint, macro hint, etc.), and clickable links. Now is under development.
 
-[> 中文README <](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/blob/main/README.md)
+[> 中文 README <](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/blob/main/README.md)
 
 ---
 
@@ -44,6 +44,16 @@ Note: Some of these themes are installed by myself, if you are interested in cha
 <summary>WikiLink Auto Hint</summary>
 
 ![wikilink-hint](media/wikilink-hint.gif)
+
+</details>
+
+<details>
+<summary>Clickable links</summary>
+
+![wikilink-hint](media/clickable-link.gif)
+
+- For macOS users，`cmd` + `LeftClick` to open tiddler or external url.
+- For other users，`ctrl` + `LeftClick` to open tiddler or external url.
 
 </details>
 

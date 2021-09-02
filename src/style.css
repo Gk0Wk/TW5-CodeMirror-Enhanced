@@ -19,10 +19,14 @@ span.cm-subscript {
     line-height: 0.5;
 }
 
-span.cm-quote {
-    font-style: italic;
-    padding-left: 0.6em;
-    border-left: #444 solid 0.2em;
+pre.cm-quote-line {
+    padding-left: 0.4em !important;
+    border-left: #444 solid 0.2em !important;
+}
+
+.cm-code-block-line,
+.latex {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 span.cm-h1 {
@@ -59,8 +63,9 @@ span.cm-h6 {
     font-weight: 400;
 }
 
-span.link {
+span.cm-link {
     font-weight: 600;
+    cursor: pointer;
 }
 
 span.cm-internallink {

@@ -1,6 +1,6 @@
 {
     "plugin.info": {
-        "version": "0.0.4",
+        "version": "0.0.5",
         "type": "application/json",
         "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5",
         "plugin-type": "plugin",
@@ -49,6 +49,15 @@
             "fields": {
                 "type": "application/javascript",
                 "title": "$:/plugins/tiddlywiki/codemirror/addon/hint/hint-tiddlywiki5.js",
+                "module-type": "codemirror"
+            }
+        },
+        {
+            "src": "clickable-link.js",
+            "dist": "other/clickable-link.js",
+            "fields": {
+                "type": "application/javascript",
+                "title": "$:/plugins/tiddlywiki/codemirror/addon/other/clickable-link.js",
                 "module-type": "codemirror"
             }
         }
