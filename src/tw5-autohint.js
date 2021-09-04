@@ -9,9 +9,14 @@
 })(function(CodeMirror) {
     "use strict";
 
+    var renderAppend = function(domNode, selectedText, selectedNode) {
+        domNode.innerHTML = $tw.wiki.renderTiddler("text/html", selectedText);
+    };
+
     var hintOptions = {
         // 如果补全建议中只有一个，不会自动补全，否则体验会非常糟糕
-        completeSingle: false
+        completeSingle: false,
+        closeOnPick: true
     };
     // 有新的editor实例创建，就Hook一下，达到实时提示的效果
     CodeMirror.defineInitHook(function(editor) {
@@ -19,12 +24,24 @@
         editor.on("change", function(cm, event) {
             if (cm.state.completeActive && typeof cm.showHint !== 'function')
                 return;
-            if (
-                event.origin === "+input" &&
-                event.text[0].trim() === "" &&
-                event.text[1] === ""
-            )
+            if ($tw.wiki.getTiddlerText('$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint').toLowerCase() !== "true")
                 return;
+            if (event.origin === "+input") {
+                if (cm.doc.modeOption === "text/vnd.tiddlywiki") {
+                    if (/[;,]$/.test(event.text[0]))
+                        return;
+                } else {
+                    if (/[;,{}()[\]]$/.test(event.text[0]))
+                        return;
+                }
+                if (event.text[0].trim() === "") {
+                    if (event.text[1]) {
+                        if (event.text[1].trim() === "")
+                            return;
+                    } else
+                        return;
+                }
+            }
             if (event.origin === "+delete") {
                 if (event.removed[0] === "")
                     return;
@@ -62,18 +79,38 @@
         }
         if (pointer == 0) return null;
         var curWord = pointer !== end && curLine.slice(pointer, end);
-        if (curLine.charAt(pointer) == '$') {
-            return {
-                list: $tw.wiki.filterTiddlers(`[all[tiddlers]search:title:literal[${curWord}]!prefix[$:/state]]`),
-                from: CodeMirror.Pos(cur.line, pointer),
-                to: CodeMirror.Pos(cur.line, end)
-            };
-        } else {
-            return {
-                list: $tw.wiki.filterTiddlers(`[all[tiddlers]!is[system]!is[shadow]search:title:literal[${curWord}]!prefix[$:/state]]`),
-                from: CodeMirror.Pos(cur.line, pointer),
-                to: CodeMirror.Pos(cur.line, end)
-            };
+
+        // Hool to event
+        var result = {
+            from: CodeMirror.Pos(cur.line, pointer),
+            to: CodeMirror.Pos(cur.line, end)
+        };
+        result.list = (curLine.charAt(pointer) == '$') ?
+            $tw.wiki.filterTiddlers(`[all[tiddlers]search:title:literal[${curWord}]!prefix[$:/state]]`) :
+            $tw.wiki.filterTiddlers(`[all[tiddlers]!is[system]!is[shadow]search:title:literal[${curWord}]!prefix[$:/state]]`);
+
+        if ($tw.wiki.getTiddlerText('$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview').toLowerCase() === "true") {
+            CodeMirror.on(result, 'select', function(text, domNode) {
+                var appendId = domNode.parentNode.id + "-hint-append";
+                var hintsAppend = domNode.ownerDocument.getElementById(appendId);
+                var shouldCreate = !hintsAppend;
+                if (shouldCreate) {
+                    hintsAppend = domNode.ownerDocument.createElement("div");
+                    hintsAppend.id = appendId;
+                    hintsAppend.className = "CodeMirror-hints CodeMirror-hints-append " + editor.options.theme;
+                    hintsAppend.style.left = domNode.parentNode.offsetLeft + domNode.parentNode.offsetWidth + "px";
+                    hintsAppend.style.top = domNode.parentNode.offsetTop + "px";
+                }
+                renderAppend(hintsAppend, text, domNode);
+                if (shouldCreate) {
+                    CodeMirror.on(result, 'close', function() {
+                        domNode.ownerDocument.body.removeChild(hintsAppend);
+                    });
+                    domNode.ownerDocument.body.appendChild(hintsAppend);
+                }
+            });
         }
+
+        return result;
     });
 });

@@ -8,7 +8,7 @@ Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the
 
 ## Plugin description
 
-Add [CodeMirror](http://codemirror.net) support for TiddlyWiki5 syntax highlighting, all tiddlers with MIME type left blank or `text/vnd.tiddlywiki` will be highlighted. Also supports real-time code completion hints like `VSCode` while typing (currently only WikiLink completion is implemented) and **no need** to activate with `Ctrl+Space`.
+Add [CodeMirror](http://codemirror.net) support for TiddlyWiki5 syntax highlighting, all tiddlers with MIME type left blank or `text/vnd.tiddlywiki` will be highlighted. Also supports real-time code completion hints + preview like `VSCode` while typing (currently only WikiLink completion is implemented) and **no need** to activate with <kbd>Ctrl</kbd>+<kbd>Space</kbd>.
 
 Plugin is still under development, if you have any suggestions or bugs, please directly mention Issues.
 
@@ -41,9 +41,13 @@ TiddlyWiki:
 Note: Some of these themes are installed by myself, if you are interested in changing the theme, please read TiddlyWiki's CodeMirror's README.
 
 <details>
-<summary>WikiLink Auto Hint</summary>
+<summary>WikiLink Realtime Hint+Preview</summary>
 
 ![wikilink-hint](media/wikilink-hint.gif)
+
+With hint-preview opened：
+
+![hint-preview](media/hint-preview.jpg)
 
 </details>
 
@@ -52,8 +56,8 @@ Note: Some of these themes are installed by myself, if you are interested in cha
 
 ![wikilink-hint](media/clickable-link.gif)
 
-- For macOS users，`cmd` + `LeftClick` to open tiddler or external url.
-- For other users，`ctrl` + `LeftClick` to open tiddler or external url.
+- For macOS users，<kbd>cmd</kbd> + <kbd>LeftClick</kbd> to open tiddler or external url.
+- For other users，<kbd>ctrl</kbd> + <kbd>LeftClick</kbd> to open tiddler or external url.
 
 </details>
 
@@ -72,6 +76,8 @@ This plugin is also based on [TW5-CodeMirror-Plus](https://github.com/adithya-ba
 - [x] Syntax highlighting and indentation within code blocks.
 - [x] LaTeX formula highlighting and indentation.
 - [x] WikiLink AutoHint.
+- [x] Clickable URLs and WikiLinks.
+- [x] Preview for hint.
 - [ ] Other code hints.
 - [ ] Code error checking.
 - [ ] Mouse hovering over LaTeX code enables formula preview.

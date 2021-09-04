@@ -12,9 +12,10 @@
     var functionKey = /macintosh|mac os x/i.test(navigator.userAgent) ? 'metaKey' : 'ctrlKey';
     // 有新的editor实例创建，就Hook一下
     CodeMirror.defineInitHook(function(editor) {
-        // 当光标移动(输入、删除、光标移动)时进行补全
         editor.on("mousedown", function(cm, event) {
             if (event[functionKey]) {
+                if ($tw.wiki.getTiddlerText('$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link').toLowerCase() !== "true")
+                    return;
                 if (event.target.classList.contains("cm-externallink")) {
                     window.open(event.target.innerText);
                 } else if (event.target.classList.contains("cm-internallink")) {

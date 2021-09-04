@@ -25,8 +25,9 @@ def gen_plugin_name(build_info):
     :return: Output name of plugin
     :rtype: str
     """
-    return re.sub('[^A-Za-z0-9_]', '', build_info[PLUGIN_INFO_KEY]
-                  ['name']) + '-' + build_info[PLUGIN_INFO_KEY]['version']
+    return re.sub('[^A-Za-z0-9_-]+', '-',
+                  build_info[PLUGIN_INFO_KEY]['title'].split(
+                      '/')[-1]) + '-' + build_info[PLUGIN_INFO_KEY]['version']
 
 
 def minify_source_code(build_info):
@@ -38,6 +39,8 @@ def minify_source_code(build_info):
     :rtype: string of updated build.json
     """
     for tiddler in build_info['tiddlers']:
+        if 'src' not in tiddler:
+            continue
         snamepath, type_ = os.path.splitext(tiddler['src'])
         spath, sname = os.path.split(snamepath)
         type_ = type_.lower()
@@ -72,12 +75,15 @@ def build_json_plugin(build_info):
     tiddlers = {}
     for tiddler_ in build_info['tiddlers']:
         tiddler = tiddler_['fields']
-        file_path = os.path.join(SRC_DIR, tiddler_['src'])
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            with open(file_path, 'r') as ffp:
-                tiddler['text'] = ffp.read()
+        if 'src' in tiddler_:
+            file_path = os.path.join(SRC_DIR, tiddler_['src'])
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                with open(file_path, 'r') as ffp:
+                    tiddler['text'] = ffp.read()
+            else:
+                tiddler['text'] = ''
         else:
-            tiddler['text'] = ''
+            tiddler['text'] = tiddler_['text'] if 'text' in tiddler_ else ''
         tiddlers[tiddler['title']] = tiddler
     plugin = build_info[PLUGIN_INFO_KEY]
     plugin['text'] = json.dumps({'tiddlers': tiddlers})
@@ -93,28 +99,42 @@ def build_node_plugin(build_info):
     :param build_info: JSON object of build.json
     :type build_info: object
     """
-    os.makedirs(os.path.join(DIST_DIR, 'node'), exist_ok=True)
-    with open(os.path.join(DIST_DIR, 'node', PLUGIN_INFO_KEY), 'w') as ffp:
+    NODE_DIST = os.path.join(
+        DIST_DIR, 'node',
+        re.sub(
+            '[^A-Za-z0-9_-]+',
+            '-',
+            build_info[PLUGIN_INFO_KEY]['title'].split('/')[-2],
+        ), build_info[PLUGIN_INFO_KEY]['title'].split('/')[-1])
+
+    os.makedirs(NODE_DIST, exist_ok=True)
+    with open(os.path.join(NODE_DIST, 'plugin.info'), 'w') as ffp:
         ffp.write(json.dumps(build_info[PLUGIN_INFO_KEY], indent=4))
     for tiddler in build_info['tiddlers']:
-        src_path = os.path.join(SRC_DIR, tiddler['src'])
-        if not os.path.exists(src_path) or not os.path.isfile(src_path):
-            continue
         sub_dist_path = tiddler['dist'] if 'dist' in tiddler else tiddler[
             'fields']['title'].split('/', 4)[-1]
-        dist_path = os.path.join(DIST_DIR, 'node', sub_dist_path)
+        dist_path = os.path.join(NODE_DIST, sub_dist_path)
         os.makedirs(os.path.split(dist_path)[0], exist_ok=True)
-        shutil.copyfile(src_path, dist_path)
-        del tiddler['src']
+
+        if 'src' in tiddler:
+            src_path = os.path.join(SRC_DIR, tiddler['src'])
+            if not os.path.exists(src_path) or not os.path.isfile(src_path):
+                with open(dist_path, 'w') as ffp:
+                    ffp.write('')
+            shutil.copyfile(src_path, dist_path)
+            del tiddler['src']
+        else:
+            with open(dist_path, 'w') as ffp:
+                ffp.write(tiddler['text'] if 'text' in tiddler else '')
+            if 'text' in tiddler:
+                del tiddler['text']
+
         if 'dist' in tiddler:
             del tiddler['dist']
         tiddler['file'] = sub_dist_path
-    with open(os.path.join(DIST_DIR, 'node', 'tiddlywiki.files'), 'w') as ffp:
+    with open(os.path.join(NODE_DIST, 'tiddlywiki.files'), 'w') as ffp:
         ffp.write(json.dumps({'tiddlers': build_info['tiddlers']}, indent=4))
-    shutil.make_archive(os.path.join(
-        DIST_DIR,
-        gen_plugin_name(build_info),
-    ),
+    shutil.make_archive(os.path.join(DIST_DIR, gen_plugin_name(build_info)),
                         format="zip",
                         root_dir=os.path.join(DIST_DIR, 'node'))
     shutil.rmtree(os.path.join(DIST_DIR, 'node'))

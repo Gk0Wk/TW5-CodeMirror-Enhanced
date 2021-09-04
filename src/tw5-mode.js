@@ -269,15 +269,21 @@
 
         // 包含
         function twTranslclude(stream, state) {
-            var maybeEnd = false,
-                ch;
-            while (ch = stream.next()) {
-                if (ch == "}" && maybeEnd) {
-                    state.tokenize = tokenBase;
-                    break;
+            state.tokenize = function(stream_, state_) {
+                var ch;
+                while (ch = stream_.next()) {
+                    if (ch === "}" && stream_.peek() === "}") {
+                        stream_.backUp(1);
+                        state_.tokenize = function(stream__, state__) {
+                            stream__.match("}}");
+                            state__.tokenize = tokenBase;
+                            return "builtin";
+                        };
+                        break;
+                    }
                 }
-                maybeEnd = (ch == "}");
-            }
+                return "builtin internallink";
+            };
             return "builtin";
         }
 

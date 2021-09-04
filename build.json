@@ -1,12 +1,12 @@
 {
     "plugin.info": {
-        "version": "0.0.5",
+        "version": "0.0.6",
         "type": "application/json",
         "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5",
         "plugin-type": "plugin",
         "parent-plugin": "$:/plugins/tiddlywiki/codemirror",
         "name": "CodeMirror Mode TiddlyWiki5",
-        "list": "readme",
+        "list": "readme ControlPanel",
         "description": "TiddlyWiki5 highlighting mode for CodeMirror",
         "dependents": ["$:/plugins/tiddlywiki/codemirror-autocomplete"]
     },
@@ -59,6 +59,30 @@
                 "type": "application/javascript",
                 "title": "$:/plugins/tiddlywiki/codemirror/addon/other/clickable-link.js",
                 "module-type": "codemirror"
+            }
+        },
+        {
+            "src": "ControlPanel.tw5",
+            "fields": {
+                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/ControlPanel"
+            }
+        },
+        {
+            "text": "true",
+            "fields": {
+                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview"
+            }
+        },
+        {
+            "text": "true",
+            "fields": {
+                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link"
+            }
+        },
+        {
+            "text": "true",
+            "fields": {
+                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint"
             }
         }
     ]

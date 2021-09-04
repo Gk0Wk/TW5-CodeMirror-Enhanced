@@ -2,7 +2,7 @@
 
 Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the CodeMirror, along with some other useful editor addon (wikilink hint, macro hint, etc.). Now is under development.
 
-为 TiddlyWiki 的 CodeMirror 编辑器添加 TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮，同时还有其他有用的编辑器插件(如 Wiki 链接自动提示、宏提示等)，以及可以打开的链接。现在正在开发中。
+为 TiddlyWiki 的 CodeMirror 编辑器添加 TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮，同时还有其他有用的编辑器扩展(如 Wiki 链接自动提示、宏提示等)，以及可以打开的链接。现在正在开发中。
 
 [> English Readme <](https://github.com/Gk0Wk/CodeMirror-Mode-TiddlyWiki5/blob/main/README_en.md)
 
@@ -10,7 +10,7 @@ Adds Syntax Highlighting for TiddlyWiki5 tiddlers (`text/vnd.tiddlywiki`) to the
 
 ## 插件说明
 
-增加 [CodeMirror](http://codemirror.net) 对 TiddlyWiki5 语法高亮的支持，所有 MIME 类型留空或者为`text/vnd.tiddlywiki`的 tiddler 都会有高亮。同时支持像`VSCode`那样在打字时实时进行代码补全提示(目前仅实现了 WikiLink 补全)，且**不需要**用`Ctrl+Space`激活。
+增加 [CodeMirror](http://codemirror.net) 对 TiddlyWiki5 语法高亮的支持，所有 MIME 类型留空或者为`text/vnd.tiddlywiki`的 tiddler 都会有高亮。同时支持像`VSCode`那样在打字时实时进行代码补全提示+预览(目前仅实现了 WikiLink 补全)，且**不需要**用<kbd>Ctrl</kbd>+<kbd>Space</kbd>激活。
 
 插件还在开发中，如有任何建议或者 bug 请直接提 Issue。
 
@@ -43,9 +43,13 @@ TiddlyWiki:
 注意：这些主题有些是我自己装的，如感兴趣换主题，请阅读 TiddlyWiki 的 CodeMirror 的 README。
 
 <details>
-<summary>WikiLink自动补全提示</summary>
+<summary>WikiLink实时补全提示+预览</summary>
 
 ![wikilink-hint](media/wikilink-hint.gif)
+
+在预览打开的情况下：
+
+![hint-preview](media/hint-preview.jpg)
 
 </details>
 
@@ -54,8 +58,8 @@ TiddlyWiki:
 
 ![wikilink-hint](media/clickable-link.gif)
 
-- 对于 macOS 用户，`cmd` + `鼠标左键` 可以打开 tiddler 或者外部 url。
-- 对于非 macOS 用户，`ctrl` + `鼠标左键` 可以打开 tiddler 或者外部 url。
+- 对于 macOS 用户，<kbd>cmd</kbd> + <kbd>鼠标左键</kbd> 可以打开 tiddler 或者外部 url。
+- 对于非 macOS 用户，<kbd>ctrl</kbd> + <kbd>鼠标左键</kbd> 可以打开 tiddler 或者外部 url。
 
 </details>
 
@@ -74,6 +78,8 @@ TiddlyWiki:
 - [x] 代码块内的语法高亮与缩进。
 - [x] LaTeX 公式高亮与缩进。
 - [x] 自动补全内部链接的 tiddler 名称。
+- [x] 可点击的URL与WikiLink。
+- [x] 补全提示的预览框。
 - [ ] 其他代码提示。
 - [ ] 代码错误检查。
 - [ ] 鼠标悬在 LaTeX 代码上方能够进行公式预览。
