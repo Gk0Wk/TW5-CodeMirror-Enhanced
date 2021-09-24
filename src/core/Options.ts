@@ -1,35 +1,46 @@
 declare var $tw: any;
 
-function getBoolean(tiddler: string): boolean {
-  return $tw.wiki.getTiddlerText(tiddler).toLowerCase() === "true";
+function getBoolean(tiddler: string, defaultValue: boolean): boolean {
+  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
+  return tiddlerText ? tiddlerText.toLowerCase() === "true" : defaultValue;
 }
 
-function getInteger(tiddler: string): Number {
-  return $tw.utils.parseInt($tw.wiki.getTiddlerText(tiddler));
+function getInteger(tiddler: string, defaultValue: Number): Number {
+  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
+  return tiddlerText ? $tw.utils.parseInt(tiddlerText) : defaultValue;
 }
 
-function getNumber(tiddler: string): Number {
-  return $tw.utils.parseNumber($tw.wiki.getTiddlerText(tiddler));
+function getNumber(tiddler: string, defaultValue: Number): Number {
+  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
+  return tiddlerText
+    ? $tw.utils.parseNumber($tw.wiki.getTiddlerText(tiddler))
+    : defaultValue;
 }
 
 function getStrings(tiddler: string): Array<string> {
-  return $tw.utils.parseStringArray($tw.wiki.getTiddlerText(tiddler));
+  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
+  return tiddlerText
+    ? $tw.utils.parseStringArray($tw.wiki.getTiddlerText(tiddler))
+    : [];
 }
 
 export default class Options {
   static get clickableService() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link"
+      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link",
+      false
     );
   }
   static get realtimeHint() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint"
+      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint",
+      false
     );
   }
   static get hintPreview() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview"
+      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview",
+      false
     );
   }
 }
