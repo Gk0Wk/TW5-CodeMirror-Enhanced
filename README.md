@@ -96,6 +96,10 @@ TiddlyWiki:
 
 其他功能正在开发中。
 
+## 开发者
+
+[Wiki(咕咕咕)](https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/wiki)
+
 ## 开发感想 & 致谢
 
 在使用 TiddlyWiki 之后，一直苦于 TiddlyWiki5 语法没有高亮支持，写作体验不是很好。之前有也在网上找到一些相关的解决办法，例如在[Google Group](https://groups.google.com/g/tiddlywiki/c/c3y-PycRP4M)上面有人建议[用 TiddlyWiki2 的语法进行 Hack](https://www.gitmemory.com/issue/Jermolene/TiddlyWiki5/3685/770313436)，但是这种方法并不完美。

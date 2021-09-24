@@ -95,7 +95,11 @@ With hint-preview opened：
 
 Other features are under development.
 
-## Development Thoughts
+## Developer
+
+[Wiki(Not finished)](https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/wiki)
+
+## Thoughts & Thanks to
 
 After using TiddlyWiki, I've been suffering from the lack of highlighting support in TiddlyWiki5 syntax, and the writing experience is not very good. I have found some solutions on the web, for example, on the [Google Group](https://groups.google.com/g/tiddlywiki/c/c3y-PycRP4M) someone suggested [Hack with TiddlyWiki2 syntax](https://www.gitmemory.com/issue/Jermolene/TiddlyWiki5/3685/770313436), but this approach is not perfect.
 
