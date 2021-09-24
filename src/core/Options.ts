@@ -27,19 +27,19 @@ function getStrings(tiddler: string): Array<string> {
 export default class Options {
   static get clickableService() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link",
+      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/clickable-link",
       false
     );
   }
   static get realtimeHint() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint",
+      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/realtime-hint",
       false
     );
   }
   static get hintPreview() {
     return getBoolean(
-      "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview",
+      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/hint-preview",
       false
     );
   }
