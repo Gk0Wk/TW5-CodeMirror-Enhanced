@@ -1,4 +1,4 @@
-name: "TiddlyPlugin"
+name: "TiddlyWiki-CodeMirror-Enhanced"
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     branches:
       - main
     paths-ignore:
+      - "LICENSE"
       - "README*.md"
       - "media/**"
   pull_request:
@@ -14,6 +15,7 @@ on:
     branches:
       - main
     paths-ignore:
+      - "LICENSE"
       - "README*.md"
       - "media/**"
 
@@ -37,17 +39,25 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Install Minify Extensions
-        run: npm install uglify-js clean-css-cli -g
+      - name: Install Minify/Rollup Extensions
+        run: npm install uglify-js clean-css-cli rollup -g
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Packup TS Core Project
+        run: cd src/core && rollup -c && cd ../..
 
       - name: Build Plugin
         run: python build.py
 
-      - name: Upload to Release
-        uses: svenstaro/upload-release-action@v2
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/*
-          tag: ${{ github.ref }}
-          overwrite: true
-          file_glob: true
+          draft: true
+          files: |
+            dist/*.json
+            dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

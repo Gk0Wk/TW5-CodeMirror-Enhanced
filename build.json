@@ -1,27 +1,28 @@
 {
     "plugin.info": {
-        "version": "0.0.6",
+        "version": "0.1.1",
         "type": "application/json",
-        "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5",
+        "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced",
         "plugin-type": "plugin",
         "parent-plugin": "$:/plugins/tiddlywiki/codemirror",
-        "name": "CodeMirror Mode TiddlyWiki5",
+        "name": "CodeMirror TW5 Enhanced",
         "list": "readme ControlPanel",
         "description": "TiddlyWiki5 highlighting mode for CodeMirror",
-        "dependents": ["$:/plugins/tiddlywiki/codemirror-autocomplete"]
+        "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete",
+        "author": "Gk0Wk",
+        "email": "nmg_wk@yeah.net",
+        "source": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced"
     },
     "tiddlers": [{
-            "src": "tw5-mode.js",
-            "dist": "mode/tiddlywiki5.js",
+            "src": "mode/tiddlywiki5.js",
             "fields": {
-                "title": "$:/plugins/tiddlywiki/codemirror/mode/tiddlywiki5/tiddlywiki5.js",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/mode/tiddlywiki5.js",
                 "module-type": "codemirror",
                 "type": "application/javascript"
             }
         },
         {
             "src": "style.css",
-            "dist": "style.css",
             "fields": {
                 "type": "text/css",
                 "title": "$:/plugins/Gk0Wk/codemirror-tiddlywiki5/style.css",
@@ -29,60 +30,67 @@
             }
         },
         {
-            "src": "tex-mode.js",
-            "dist": "mode/tex.js",
+            "src": "mode/tex.js",
             "fields": {
                 "type": "application/javascript",
-                "title": "$:/plugins/tiddlywiki/codemirror/mode/tex/tex.js",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/mode/tex.js",
                 "module-type": "codemirror"
             }
         },
         {
             "src": "readme.tw5",
             "fields": {
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/readme"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/readme"
             }
         },
         {
-            "src": "tw5-autohint.js",
-            "dist": "hint/hint-tiddlywiki5.js",
+            "src": "../dist/build/core.js",
             "fields": {
                 "type": "application/javascript",
-                "title": "$:/plugins/tiddlywiki/codemirror/addon/hint/hint-tiddlywiki5.js",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/core.js",
                 "module-type": "codemirror"
             }
         },
         {
-            "src": "clickable-link.js",
-            "dist": "other/clickable-link.js",
+            "src": "addon/hint/hint-tw5-tiddler.js",
             "fields": {
                 "type": "application/javascript",
-                "title": "$:/plugins/tiddlywiki/codemirror/addon/other/clickable-link.js",
-                "module-type": "codemirror"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/hint/hint-tw5-tiddler.js",
+                "tags": "$:/CodeMirrorEnhanced/RealtimeHint",
+                "module-type": "library"
+            }
+        },
+        {
+            "src": "addon/clickable/clickable-link.js",
+            "fields": {
+                "type": "application/javascript",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/clickable/clickable-link.js",
+                "tags": "$:/CodeMirrorEnhanced/ClickableToken",
+                "module-type": "library"
             }
         },
         {
             "src": "ControlPanel.tw5",
             "fields": {
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/ControlPanel"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/ControlPanel"
             }
         },
         {
             "text": "true",
             "fields": {
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/hint-preview"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/hint-preview"
             }
         },
         {
             "text": "true",
             "fields": {
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/clickable-link"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/clickable-link"
             }
         },
         {
             "text": "true",
             "fields": {
-                "title": "$:/plugins/Gk0Wk/codemirror-mode-tiddlywiki5/config/realtime-hint"
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/realtime-hint"
             }
         }
     ]

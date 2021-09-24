@@ -7,6 +7,23 @@
     width: 400px !important;
 }
 
+li.cm-hacked-hint {
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+
+li.cm-hacked-hint>span:first-of-type {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li.cm-hacked-hint>span:last-of-type {
+    padding-left: 10px;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
 .CodeMirror-hints-append {
     max-height: 20em !important;
     width: 300px !important;

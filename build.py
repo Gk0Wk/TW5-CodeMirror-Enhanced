@@ -140,6 +140,36 @@ def build_node_plugin(build_info):
     shutil.rmtree(os.path.join(DIST_DIR, 'node'))
 
 
+def unpack_json_plugin(file, output):
+    """unpack json plugin to node plugin
+
+    :param file: path of json plugin
+    :type file: str
+    :param output: output dir
+    :type output: str
+    """
+    with open(file, 'r') as ffp:
+        obj = json.loads(ffp.read())[0]
+    tiddlers_json = {'tiddlers': []}
+    base_path = os.path.join(output, obj['title'].split('/', 2)[-1])
+    os.makedirs(base_path, exist_ok=True)
+    for tiddler_name, tiddler in json.loads(obj['text'])['tiddlers'].items():
+        file_subpath = tiddler_name.split('/', 4)[-1]
+        file_path = os.path.join(base_path, file_subpath)
+        with open(file_path, 'w') as ffp:
+            ffp.write(tiddler['text'])
+        del tiddler['text']
+        tiddlers_json['tiddlers'].append({
+            'fields': tiddler,
+            'file': file_subpath
+        })
+    with open(os.path.join(base_path, 'tiddlywiki.files'), 'w') as ffp:
+        ffp.write(json.dumps(tiddlers_json))
+    del obj['text']
+    with open(os.path.join(base_path, 'plugin.info'), 'w') as ffp:
+        ffp.write(json.dumps(obj))
+
+
 if __name__ == '__main__':
     with open('build.json', 'r') as fp:
         build_info_str = fp.read()
@@ -147,3 +177,4 @@ if __name__ == '__main__':
     build_json_plugin(json.loads(build_info_str))
     build_node_plugin(json.loads(build_info_str))
     shutil.rmtree(BUILD_DIR)
+    shutil.rmtree('dist/dist')
