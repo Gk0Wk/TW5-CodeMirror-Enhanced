@@ -1,5 +1,5 @@
 .CodeMirror-hints {
-    /* 以免提示框被压在tiddler下面 */
+    /* 以免提示框被压在 tiddler 下面 */
     z-index: 800 !important;
 }
 
