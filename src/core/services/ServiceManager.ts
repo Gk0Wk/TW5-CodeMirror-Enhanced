@@ -7,7 +7,7 @@ export interface Addons {
 
 export interface Service {
   readonly name: string;
-  readonly tag: string | null;
+  readonly tag?: string | null;
   readonly onLoad: (CodeMirror: any, name: string) => void;
   readonly onHook: (editor: any, name: string) => void;
 }
@@ -42,7 +42,7 @@ function updateService(): void {
     function (service: InnerService, name: string): void {
       if (!service.tag) return;
       let tiddlers: Array<string> = $tw.wiki.filterTiddlers(
-        `[all[tiddlers+shadows]tag[${service.tag}]type[application/javascript]]`
+        `[all[tiddlers+shadows]tag[${service.tag}]!is[draft]type[application/javascript]]`
       );
       $tw.utils.each(tiddlers, function (tiddler: string): void {
         if (!(tiddler in service.addons)) {
