@@ -1,11 +1,39 @@
 {
+  "name": "tw5-codemirror-enhanced",
+  "description": "Implement a swift and rich extension framework for TiddlyWiki5's CodeMirror editor, including TiddlyWiki5 (`text/vnd.tiddlywiki`) syntax highlighting, Wiki link auto-completion, clickable links, Tiddler preview, and more. More features ( syntax tree, syntax completion , WYSIWYG mode , quick template input , etc. ) is under development . This framework is open source framework , anyone is welcome to join the development , the documentation is being written .",
+  "version": "0.1.1",
+  "scripts": {
+    "build": "cd src/core && rollup -c && cd ../.. && python3 ./build.py",
+    "clean": "rm -rf ./dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
   "devDependencies": {
     "@lopatnov/rollup-plugin-uglify": "^2.1.1",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
-    "rollup": "^2.56.3",
-    "terser": "^5.8.0"
-  }
+    "clean-css-cli": "^5.4.1",
+    "rollup": "^2.58.0",
+    "terser": "^5.8.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.3",
+    "uglify-js": "^3.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced.git"
+  },
+  "keywords": [
+    "tiddlywiki",
+    "codemirror",
+    "autocomplete"
+  ],
+  "author": "Gk0Wk (nmg_wk@yeah.net)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/issues"
+  },
+  "homepage": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced#readme"
 }

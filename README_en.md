@@ -36,22 +36,13 @@ If you are using the `NodeJS` version of the TiddlyWiki5 project and wish to ins
 First install `python3`, `node` and `npm`, and install some necessary packages in the project root directory (same for yarn):
 
 ``shell
-npm install uglify-js clean-css-cli rollup -g
 npm install
+```
 
-````
-
-Then do the compilation, and if you have a `Makefile` program, run it directly:
-
-```shell
-make build
-````
-
-If you don't have `Makefile` or don't want to install it, run
+Then do the compilation:
 
 ```shell
-cd src/core && rollup -c && cd ... /...
-python3 . /build.py
+npm run build
 ```
 
 ## Function Introduction
