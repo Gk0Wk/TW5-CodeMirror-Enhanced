@@ -19,6 +19,7 @@ export class InnerService implements Service {
   public readonly onHook: (editor: any, name: string) => void;
   public readonly addons: Addons;
   public readonly isHackEvent: boolean;
+  public lastAddonsUpdateTime: Date;
   public isLoad: boolean;
   constructor(bald: Service) {
     this.name = bald.name;
@@ -27,6 +28,7 @@ export class InnerService implements Service {
     this.onHook = bald.onHook;
     this.addons = {};
     this.isLoad = false;
+    this.lastAddonsUpdateTime = new Date(0);
   }
 }
 
@@ -40,13 +42,28 @@ function updateService(): void {
   $tw.utils.each(
     services,
     function (service: InnerService, name: string): void {
+      // Update add-ons
       if (!service.tag) return;
       let tiddlers: Array<string> = $tw.wiki.filterTiddlers(
         `[all[tiddlers+shadows]tag[${service.tag}]!is[draft]type[application/javascript]]`
       );
       $tw.utils.each(tiddlers, function (tiddler: string): void {
         if (!(tiddler in service.addons)) {
+          // load add-on not loaded before
           service.addons[tiddler] = require(tiddler);
+        } else {
+          // reload add-on updated after last check
+          let tiddlerData = $tw.wiki.getTiddler(tiddler);
+          if (
+            tiddlerData &&
+            tiddlerData.fields &&
+            ((tiddlerData.fields.modified &&
+              tiddlerData.fields.modified >= service.lastAddonsUpdateTime) ||
+              (tiddlerData.fields.created &&
+                tiddlerData.fields.created >= service.lastAddonsUpdateTime))
+          ) {
+            service.addons[tiddler] = require(tiddler);
+          }
         }
       });
       $tw.utils.each(
@@ -57,6 +74,8 @@ function updateService(): void {
           }
         }
       );
+      // Update add-on update time
+      service.lastAddonsUpdateTime = new Date();
     }
   );
 }
