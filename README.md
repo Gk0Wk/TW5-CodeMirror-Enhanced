@@ -35,24 +35,16 @@ Implement a swift and rich extension framework for TiddlyWiki5's CodeMirror edit
 
 > 由于当前项目涉及 TypeScript 子项目的编译与打包，所以编译步骤较为繁琐，如你有更好的方案，欢迎提出意见！
 
-首先安装`python3`，`node`与`npm`，并在项目根目录安装一些必要的包(yarn 同理)：
+首先安装 `python3`，`node`与`npm`，并在项目根目录安装一些必要的包(yarn 同理)：
 
 ```shell
-npm install uglify-js clean-css-cli rollup -g
 npm install
 ```
 
-随后进行编译工作，如果你有`Makefile`程序请直接运行：
+随后进行编译工作：
 
 ```shell
-make build
-```
-
-如果你没有`Makefile`或者不想安装，请运行：
-
-```shell
-cd src/core && rollup -c && cd ../..
-python3 ./build.py
+npm run build
 ```
 
 ## 功能介绍

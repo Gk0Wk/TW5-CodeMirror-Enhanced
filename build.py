@@ -100,7 +100,7 @@ def build_node_plugin(build_info):
     :type build_info: object
     """
     NODE_DIST = os.path.join(
-        DIST_DIR, 'node',
+        DIST_DIR, 'plugins',
         re.sub(
             '[^A-Za-z0-9_-]+',
             '-',
@@ -136,8 +136,7 @@ def build_node_plugin(build_info):
         ffp.write(json.dumps({'tiddlers': build_info['tiddlers']}, indent=4))
     shutil.make_archive(os.path.join(DIST_DIR, gen_plugin_name(build_info)),
                         format="zip",
-                        root_dir=os.path.join(DIST_DIR, 'node'))
-    shutil.rmtree(os.path.join(DIST_DIR, 'node'))
+                        root_dir=os.path.join(DIST_DIR, 'plugins'))
 
 
 def unpack_json_plugin(file, output):
@@ -173,8 +172,8 @@ def unpack_json_plugin(file, output):
 if __name__ == '__main__':
     with open('build.json', 'r') as fp:
         build_info_str = fp.read()
+    build_node_plugin(json.loads(build_info_str))
     build_info_str = minify_source_code(json.loads(build_info_str))
     build_json_plugin(json.loads(build_info_str))
-    build_node_plugin(json.loads(build_info_str))
     shutil.rmtree(BUILD_DIR)
     shutil.rmtree('dist/dist')
