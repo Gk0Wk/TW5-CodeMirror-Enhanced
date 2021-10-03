@@ -45,6 +45,32 @@
             }
         });
 
+        $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/TextEditor/Snippet]]').forEach(snippetTiddler => {
+            var snippet = $tw.wiki.getTiddler(snippetTiddler);
+            if (snippet.fields['snippet-name']) {
+                if (snippet.fields['snippet-name'].indexOf(curWord) >= 0) {
+                    hints.push({
+                        text: {
+                            snippet: snippet.fields.text,
+                            preview: '!! ' + snippet.fields.caption + (snippet.fields['snippet-description'] ? ('\n\n' + snippet.fields['snippet-description']) : '')
+                        },
+                        displayText: snippet.fields['snippet-name']
+                    });
+                }
+            } else {
+                var splits = snippet.fields.title.split('/');
+                var name = splits[splits.length - 1];
+                if (name.indexOf(curWord) >= 0) {
+                    hints.push({
+                        text: {
+                            snippet: snippet.fields.text,
+                            preview: '!! ' + snippet.fields.caption + (snippet.fields['snippet-description'] ? ('\n\n' + snippet.fields['snippet-description']) : '')
+                        },
+                        displayText: name
+                    });
+                }
+            }
+        });
 
         return {
             from: CodeMirror.Pos(cur.line, pointer - 1),
