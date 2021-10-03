@@ -38,6 +38,19 @@ interface Services {
 
 const services: Services = {};
 
+function loadTiddler(tiddler: string): object | null {
+  switch ($tw.wiki.getTiddler(tiddler).fields.type) {
+    case "application/javascript":
+      return require(tiddler);
+    case "application/json":
+      return JSON.parse($tw.wiki.getTiddlerText(tiddler));
+    case "application/x-tiddler-dictionary":
+      return $tw.utils.parseFields($tw.wiki.getTiddlerText(tiddler));
+    default:
+      return null;
+  }
+}
+
 function updateService(): void {
   $tw.utils.each(
     services,
@@ -45,12 +58,13 @@ function updateService(): void {
       // Update add-ons
       if (!service.tag) return;
       let tiddlers: Array<string> = $tw.wiki.filterTiddlers(
-        `[all[tiddlers+shadows]tag[${service.tag}]!is[draft]type[application/javascript]]`
+        `[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`
       );
       $tw.utils.each(tiddlers, function (tiddler: string): void {
         if (!(tiddler in service.addons)) {
           // load add-on not loaded before
-          service.addons[tiddler] = require(tiddler);
+          let addon = loadTiddler(tiddler);
+          if (addon) service.addons[tiddler] = addon;
         } else {
           // reload add-on updated after last check
           let tiddlerData = $tw.wiki.getTiddler(tiddler);
@@ -62,7 +76,9 @@ function updateService(): void {
               (tiddlerData.fields.created &&
                 tiddlerData.fields.created >= service.lastAddonsUpdateTime))
           ) {
-            service.addons[tiddler] = require(tiddler);
+            let addon = loadTiddler(tiddler);
+            if (addon) service.addons[tiddler] = addon;
+            else delete service.addons[tiddler];
           }
         }
       });
