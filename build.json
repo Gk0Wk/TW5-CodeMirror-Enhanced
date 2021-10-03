@@ -61,6 +61,23 @@
             }
         },
         {
+            "src": "addon/hint/hint-tw5-snippet.js",
+            "fields": {
+                "type": "application/javascript",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/hint/hint-tw5-snippet.js",
+                "tags": "$:/CodeMirrorEnhanced/RealtimeHint",
+                "module-type": "library"
+            }
+        },
+        {
+            "src": "addon/snippetslist/tw5-snippets.json",
+            "fields": {
+                "type": "application/json",
+                "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/snippetslist/tw5-snippets.json",
+                "tags": "$:/CodeMirrorEnhanced/SnippetsList"
+            }
+        },
+        {
             "src": "addon/clickable/clickable-link.js",
             "fields": {
                 "type": "application/javascript",

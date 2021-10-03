@@ -8,7 +8,8 @@ export default {
     input: 'Main.ts',
     output: {
         file: '../../dist/build/core.js',
-        format: 'umd'
+        format: 'umd',
+        name: 'CodeMirrorEnhanced'
     },
     plugins: [
         typescript({

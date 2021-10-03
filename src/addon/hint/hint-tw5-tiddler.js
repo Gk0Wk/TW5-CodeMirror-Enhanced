@@ -9,15 +9,16 @@
 })(function(CodeMirror) {
     "use strict";
 
-    function hintTiddler(editor, options) {
+    function hintTiddler(editor, options, cme) {
         var cur = editor.getCursor();
         var curLine = editor.getLine(cur.line);
         var pointer = cur.ch;
         var end = cur.ch;
         var max_length = 30;
 
-        // wikilin匹配
-        // 向前找，找到[{|"为止，而如果找到]}.>或者到头，就不要继续找
+        // wikilink match
+        // look forward from cursor to [{|"
+        // if meet ]}.> or line head, stop
         var escapeChars = ['.', ']', '}', '>'];
         var stopChars = ['[', '{', '|', '"'];
         while (pointer) {
@@ -37,8 +38,8 @@
         return {
             from: CodeMirror.Pos(cur.line, pointer),
             to: CodeMirror.Pos(cur.line, end),
-            renderPreview: function(domNode, selectedText, selectedNode) {
-                selectedNode.renderCache = domNode.innerHTML = $tw.wiki.renderTiddler("text/html", selectedText.text);
+            renderPreview: function(domNode, selectedData, selectedNode) {
+                selectedNode.renderCache = domNode.innerHTML = $tw.wiki.renderTiddler("text/html", selectedData.text);
                 return true;
             },
             type: "tiddler",

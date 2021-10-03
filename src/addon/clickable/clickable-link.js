@@ -9,7 +9,7 @@
 })(function() {
     "use strict";
 
-    function handler(editor, event) {
+    function handler(editor, event, cme) {
         if (event.target.classList.contains("cm-externallink")) {
             window.open(event.target.innerText);
             return true;

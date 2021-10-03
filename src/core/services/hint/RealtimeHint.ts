@@ -3,7 +3,7 @@ import * as ServiceManager from "../ServiceManager";
 import Options from "../../Options";
 
 export interface HintAddon {
-  hint: (editor: any, options: any) => HintResults;
+  hint: (editor: any, options: any, cme: object) => HintResults;
 }
 
 export class Hints {
@@ -19,7 +19,7 @@ export interface Hint {
   render: (hintNode: HTMLLIElement, hints: Hints, curHint: Hint) => void;
   renderPreview?: (
     domNode: HTMLDivElement,
-    selectedText: Hint,
+    selectedData: Hint,
     selectedNode: HTMLLIElement
   ) => boolean;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
@@ -37,7 +37,7 @@ export interface HintResult {
   className?: string;
   renderPreview?: (
     domNode: HTMLDivElement,
-    selectedText: Hint,
+    selectedData: Hint,
     selectedNode: HTMLLIElement
   ) => boolean;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
@@ -53,7 +53,7 @@ export interface HintResults {
   type?: string;
   renderPreview?: (
     domNode: HTMLDivElement,
-    selectedText: Hint,
+    selectedData: Hint,
     selectedNode: HTMLLIElement
   ) => boolean;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
@@ -91,7 +91,7 @@ export function init(): void {
   ServiceManager.registerService({
     name: "RealtimeHint",
     tag: "$:/CodeMirrorEnhanced/RealtimeHint",
-    onLoad: function (CodeMirror: any): void {
+    onLoad: function (CodeMirror: any, cme: object): void {
       CodeMirror.registerHelper(
         "hint",
         "tiddlywiki5",
@@ -105,7 +105,7 @@ export function init(): void {
                   promises.push(
                     new Promise<Hints | null>((resolve_, reject_) => {
                       try {
-                        let hints: HintResults = addon.hint(editor, options);
+                        let hints: HintResults = addon.hint(editor, options, cme);
                         let tmplist: Array<Hint> = [];
                         let minPos: any = editor.getCursor();
                         if (hints && typeof hints === "object") {
@@ -268,7 +268,7 @@ export function init(): void {
         }
       );
     },
-    onHook: function (editor: any, name: string): void {
+    onHook: function (editor: any, cme: object): void {
       // Hint when text change
       editor.on("change", function (cm: any, event: any) {
         // Check if hint is open and hint function exists

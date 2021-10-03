@@ -8,15 +8,16 @@ export interface Addons {
 export interface Service {
   readonly name: string;
   readonly tag?: string | null;
-  readonly onLoad: (CodeMirror: any, name: string) => void;
-  readonly onHook: (editor: any, name: string) => void;
+  readonly api?: object;
+  readonly onLoad: (CodeMirror: any, cme: object) => void;
+  readonly onHook: (editor: any, cme: object) => void;
 }
 
 export class InnerService implements Service {
   public readonly name: string;
   public readonly tag: string | null;
-  public readonly onLoad: (CodeMirror: any, name: string) => void;
-  public readonly onHook: (editor: any, name: string) => void;
+  public readonly onLoad: (CodeMirror: any, cme: object) => void;
+  public readonly onHook: (editor: any, cme: object) => void;
   public readonly addons: Addons;
   public readonly isHackEvent: boolean;
   public lastAddonsUpdateTime: Date;
@@ -37,6 +38,8 @@ interface Services {
 }
 
 const services: Services = {};
+
+var api = {};
 
 function loadTiddler(tiddler: string): object | null {
   switch ($tw.wiki.getTiddler(tiddler).fields.type) {
@@ -98,6 +101,7 @@ function updateService(): void {
 
 export function registerService(service: Service): void {
   services[service.name] = new InnerService(service);
+  if (service.api) api[service.name] = service.api;
 }
 
 export function unregisterService(name: string): void {
@@ -112,16 +116,17 @@ export function getAddons(name: string): Addons {
   return services[name].addons;
 }
 
-export function init(CodeMirror: any): void {
-  // When new editor instance is created,
+export function init(CodeMirror: any, cme: object): object {
+  // When new editor instance is created, update addons and hook service
   CodeMirror.defineInitHook(function (editor: any): void {
     updateService();
     $tw.utils.each(
       services,
       function (service: InnerService, name: string): void {
-        if (!service.isLoad) service.onLoad(CodeMirror, name);
-        service.onHook(editor, name);
+        if (!service.isLoad) service.onLoad(CodeMirror, cme);
+        service.onHook(editor, cme);
       }
     );
   });
+  return api;
 }
