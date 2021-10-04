@@ -1,12 +1,12 @@
 /* Enhance from and specially thank to https://github.com/adithya-badidey/TW5-codemirror-plus */
 (function(mod) {
     if (typeof exports === "object" && typeof module === "object") // CommonJS
-        module.exports = mod(require("$:/plugins/tiddlywiki/codemirror/lib/codemirror.js"));
+        module.exports = mod();
     else if (typeof define === "function" && define.amd) // AMD
-        define(["$:/plugins/tiddlywiki/codemirror/lib/codemirror.js"], mod);
+        define([], mod);
     else // Plain browser env
-        mod(CodeMirror);
-})(function(CodeMirror) {
+        mod();
+})(function() {
     "use strict";
 
     function hintTiddler(editor, options, cme) {
@@ -35,16 +35,25 @@
         if (pointer == 0) return null;
         var curWord = pointer !== end && curLine.slice(pointer, end);
 
+        var tiddlerList = [];
+        var filteredTiddler = (curLine.charAt(pointer) == '$') ?
+            $tw.wiki.filterTiddlers('[all[tiddlers]search:title:literal[' + curWord + ']!prefix[$:/state]]') : $tw.wiki.filterTiddlers('[all[tiddlers]!is[system]search:title:literal[' + curWord + ']!prefix[$:/state]]');
+        filteredTiddler.forEach(function(tiddler) {
+            tiddlerList.push({
+                text: tiddler,
+                hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(tiddler, curWord)
+            });
+        });
+
         return {
-            from: CodeMirror.Pos(cur.line, pointer),
-            to: CodeMirror.Pos(cur.line, end),
+            from: cme.CodeMirror.Pos(cur.line, pointer),
+            to: cme.CodeMirror.Pos(cur.line, end),
             renderPreview: function(domNode, selectedData, selectedNode) {
                 selectedNode.renderCache = domNode.innerHTML = $tw.wiki.renderTiddler("text/html", selectedData.text);
                 return true;
             },
             type: "tiddler",
-            list: (curLine.charAt(pointer) == '$') ?
-                $tw.wiki.filterTiddlers(`[all[tiddlers]search:title:literal[${curWord}]!prefix[$:/state]]`) : $tw.wiki.filterTiddlers(`[all[tiddlers]!is[system]!is[shadow]search:title:literal[${curWord}]!prefix[$:/state]]`)
+            list: tiddlerList
         };
     }
 

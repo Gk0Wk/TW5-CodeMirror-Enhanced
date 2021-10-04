@@ -13,12 +13,16 @@ li.cm-hacked-hint {
     white-space: nowrap;
 }
 
-li.cm-hacked-hint>span:first-of-type {
+li.cm-hacked-hint>span.hint-title {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-li.cm-hacked-hint>span:last-of-type {
+li.cm-hacked-hint>span.hint-title>span.hint-title-highlighted {
+    background: yellow;
+}
+
+li.cm-hacked-hint>span.hint-type {
     padding-left: 10px;
     font-weight: bold;
     opacity: 0.5;

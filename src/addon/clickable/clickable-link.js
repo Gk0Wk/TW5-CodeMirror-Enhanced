@@ -3,7 +3,7 @@
     if (typeof exports === "object" && typeof module === "object") // CommonJS
         module.exports = mod();
     else if (typeof define === "function" && define.amd) // AMD
-        define([], mod);
+        define(mod);
     else // Plain browser env
         mod();
 })(function() {

@@ -6,6 +6,11 @@ export interface HintAddon {
   hint: (editor: any, options: any, cme: object) => HintResults;
 }
 
+export interface Range {
+  from: number;
+  to: number;
+}
+
 export class Hints {
   constructor(public readonly list: Array<Hint>, public from: any) {}
 }
@@ -22,6 +27,7 @@ export interface Hint {
     selectedData: Hint,
     selectedNode: HTMLLIElement
   ) => boolean;
+  hintMatch?: Array<Range>;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
   type?: string;
   renderCache?: string;
@@ -35,6 +41,7 @@ export interface HintResult {
   to?: any;
   type?: string;
   className?: string;
+  hintMatch?: Array<Range>;
   renderPreview?: (
     domNode: HTMLDivElement,
     selectedData: Hint,
@@ -51,6 +58,7 @@ export interface HintResults {
   to?: any;
   className?: string;
   type?: string;
+  hintMatch?: Array<Range>;
   renderPreview?: (
     domNode: HTMLDivElement,
     selectedData: Hint,
@@ -70,12 +78,37 @@ function globalHintRender(
   let titlePartNode: HTMLSpanElement = hintNode.appendChild(
     ownerDocument.createElement("span")
   );
+  titlePartNode.className = "hint-title";
   if (curHint.render_) {
     curHint.render_(titlePartNode, hints, curHint);
   } else {
-    titlePartNode.appendChild(
-      ownerDocument.createTextNode(curHint.displayText || curHint.text || "")
-    );
+    let text = curHint.displayText || curHint.text || "";
+    if (curHint.hintMatch) {
+      let textList = [];
+      try {
+        curHint.hintMatch.sort(function (a: Range, b: Range): number {
+          return a.from - b.from;
+        });
+        let pointer = 0;
+        curHint.hintMatch.forEach(function (range: Range): void {
+          if (range.from > pointer) {
+            textList.push(text.substring(pointer, range.from));
+          }
+          pointer = range.to;
+          textList.push(
+            `<span class="hint-title-highlighted">${text.substring(
+              range.from,
+              pointer
+            )}</span>`
+          );
+        });
+        if (text.length > pointer) textList.push(text.substring(pointer));
+        text = textList.join("");
+      } catch (e) {
+        text = curHint.displayText || curHint.text || "";
+      }
+    }
+    titlePartNode.innerHTML = text;
   }
   // Render (right side) [type]
   let typeString = curHint.type || null;
@@ -83,6 +116,7 @@ function globalHintRender(
     let typePartNode: HTMLSpanElement = hintNode.appendChild(
       ownerDocument.createElement("span")
     );
+    typePartNode.className = "hint-type";
     typePartNode.appendChild(ownerDocument.createTextNode(typeString));
   }
 }
@@ -105,7 +139,11 @@ export function init(): void {
                   promises.push(
                     new Promise<Hints | null>((resolve_, reject_) => {
                       try {
-                        let hints: HintResults = addon.hint(editor, options, cme);
+                        let hints: HintResults = addon.hint(
+                          editor,
+                          options,
+                          cme
+                        );
                         let tmplist: Array<Hint> = [];
                         let minPos: any = editor.getCursor();
                         if (hints && typeof hints === "object") {
@@ -137,6 +175,7 @@ export function init(): void {
                                 render: globalHintRender,
                                 renderPreview:
                                   hint.renderPreview || hints.renderPreview,
+                                hintMatch: hint.hintMatch || hints.hintMatch,
                                 hint: hint.hint || hints.hint,
                                 type: hint.type || hints.type,
                                 renderCache: hint.renderCache,
@@ -312,6 +351,26 @@ export function init(): void {
           closeOnPick: true,
         });
       });
+    },
+    api: {
+      makeLiteralHintMatch: function (
+        text: string,
+        search: string,
+        times?: number
+      ): Array<Range> {
+        console.log("[xxx]");
+        let hintMatch: Array<Range> = [];
+        if (times === 0 || !text || !search) return hintMatch;
+        let counter: number = 0;
+        let to: number = 0;
+        while (!times || counter++ < times) {
+          let from: number = text.indexOf(search, to);
+          if (from < 0) break;
+          to = from + search.length;
+          hintMatch.push({ from, to });
+        }
+        return hintMatch;
+      },
     },
   });
 }

@@ -1,12 +1,21 @@
 (function(mod) {
     if (typeof exports === "object" && typeof module === "object") // CommonJS
-        module.exports = mod(require("$:/plugins/tiddlywiki/codemirror/lib/codemirror.js"));
+        module.exports = mod();
     else if (typeof define === "function" && define.amd) // AMD
-        define(["$:/plugins/tiddlywiki/codemirror/lib/codemirror.js"], mod);
+        define(mod);
     else // Plain browser env
-        mod(CodeMirror);
-})(function(CodeMirror) {
+        mod();
+})(function() {
     "use strict";
+
+    function getSnippetName(tiddler) {
+        var name = tiddler.fields['snippet-name'];
+        if (!name) {
+            var splits = tiddler.fields.title.split('/');
+            name = splits[splits.length - 1];
+        }
+        return name;
+    }
 
     function hintSnippet(editor, options, cme) {
         var cur = editor.getCursor();
@@ -30,6 +39,8 @@
         if (pointer == 0) return null;
         var curWord = curLine.slice(pointer, end);
 
+        console.log('[0]');
+
         var hints = [];
         $tw.utils.each(cme.service.SnippetsList.getSnippetsList(), function(snippets) {
             try {
@@ -37,7 +48,8 @@
                     if (key.indexOf(curWord) >= 0)
                         hints.push({
                             text: value,
-                            displayText: key
+                            displayText: key,
+                            hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(key, curWord)
                         });
                 });
             } catch (e) {
@@ -45,36 +57,47 @@
             }
         });
 
-        $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/TextEditor/Snippet]]').forEach(snippetTiddler => {
+        console.log('[1]');
+
+        // Load tw5 snippet
+        $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/TextEditor/Snippet]]').forEach(function(snippetTiddler) {
             var snippet = $tw.wiki.getTiddler(snippetTiddler);
-            if (snippet.fields['snippet-name']) {
-                if (snippet.fields['snippet-name'].indexOf(curWord) >= 0) {
-                    hints.push({
-                        text: {
-                            snippet: snippet.fields.text,
-                            preview: '!! ' + snippet.fields.caption + (snippet.fields['snippet-description'] ? ('\n\n' + snippet.fields['snippet-description']) : '')
-                        },
-                        displayText: snippet.fields['snippet-name']
-                    });
-                }
-            } else {
-                var splits = snippet.fields.title.split('/');
-                var name = splits[splits.length - 1];
-                if (name.indexOf(curWord) >= 0) {
-                    hints.push({
-                        text: {
-                            snippet: snippet.fields.text,
-                            preview: '!! ' + snippet.fields.caption + (snippet.fields['snippet-description'] ? ('\n\n' + snippet.fields['snippet-description']) : '')
-                        },
-                        displayText: name
-                    });
-                }
+            var name = getSnippetName(snippet);
+            if (name.indexOf(curWord) >= 0) {
+                hints.push({
+                    text: {
+                        snippet: snippet.fields.text,
+                        preview: '!! ' + snippet.fields.caption + (snippet.fields['snippet-description'] ? ('\n\n' + snippet.fields['snippet-description']) : ''),
+                    },
+                    displayText: name,
+                    hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(name, curWord)
+                });
             }
         });
 
+        console.log('[2]');
+
+        // Load KaTeX snippet
+        $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/KaTeX/Snippet]]').forEach(function(snippetTiddler) {
+            var snippet = $tw.wiki.getTiddler(snippetTiddler);
+            var name = getSnippetName(snippet);
+            if (name.indexOf(curWord) >= 0) {
+                hints.push({
+                    text: {
+                        snippet: snippet.fields.text,
+                        preview: snippet.fields.text
+                    },
+                    displayText: name,
+                    hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(name, curWord)
+                });
+            }
+        });
+
+        console.log('[3]');
+
         return {
-            from: CodeMirror.Pos(cur.line, pointer - 1),
-            to: CodeMirror.Pos(cur.line, end),
+            from: cme.CodeMirror.Pos(cur.line, pointer - 1),
+            to: cme.CodeMirror.Pos(cur.line, end),
             renderPreview: function(domNode, selectedData, selectedNode) {
                 selectedNode.renderCache = domNode.innerHTML =
                     $tw.wiki.renderText('text/html', 'text/vnd.tiddlywiki', selectedData.text.preview ? selectedData.text.preview : "");

@@ -2,7 +2,9 @@ declare var $tw: any;
 declare function require(path: string): any;
 
 const CodeMirror = require("$:/plugins/tiddlywiki/codemirror/lib/codemirror.js");
-var api = {};
+let api = {
+  CodeMirror: CodeMirror,
+};
 
 // Service Manager
 import { init as initServiceManager } from "./services/ServiceManager";
