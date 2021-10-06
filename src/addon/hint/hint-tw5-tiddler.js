@@ -14,31 +14,32 @@
   function hintTiddler(editor, options, cme) {
     const current = editor.getCursor();
     var currentLine = editor.getLine(current.line);
-        var pointer = current.ch;
-        var end = current.ch;
-        var max_length = 30;
+    var pointer = current.ch;
+    var end = current.ch;
+    var max_length = 30;
 
-        // wikilink match
-        // look forward from cursor to [{|"
-        // if meet ]}.> or line head, stop
-        var escapeChars = ['.', ']', '}', '>'];
-        var stopChars = ['[', '{', '|', '"'];
-        while (pointer) {
-            var ch = currentLine.charAt(pointer - 1);
-            if (end - pointer > max_length || escapeChars.includes(ch)) {
-                return null;
-            }
-            if (!(stopChars.includes(ch))) {
-                pointer--;
-            } else {
-                break;
-            }
-        }
-        if (pointer == 0) return null;
-        var curWord = pointer !== end && currentLine.slice(pointer, end);
+    // wikilink match
+    // look forward from cursor to [{|"
+    // if meet ]}.> or line head, stop
+    var escapeChars = ['.', ']', '}', '>'];
+    var stopChars = ['[', '{', '|', '"'];
+    while (pointer) {
+      var ch = currentLine.charAt(pointer - 1);
+      if (end - pointer > max_length || escapeChars.includes(ch)) {
+        return null;
+      }
+      if (!stopChars.includes(ch)) {
+        pointer--;
+      } else {
+        break;
+      }
+    }
+    if (pointer == 0) return null;
+    var curWord = pointer !== end && currentLine.slice(pointer, end);
 
-        var tiddlerList = [];
-        var filteredTiddler = (currentLine.charAt(pointer) == '$') ?
+    var tiddlerList = [];
+    var filteredTiddler =
+      currentLine.charAt(pointer) === '$'
         ? $tw.wiki.filterTiddlers('[all[tiddlers]search:title:literal[' + curWord + ']!prefix[$:/state]]')
         : $tw.wiki.filterTiddlers('[all[tiddlers]!is[system]search:title:literal[' + curWord + ']!prefix[$:/state]]');
     filteredTiddler.forEach(function (tiddler) {

@@ -1,9 +1,10 @@
+import CodeMirror, { Editor } from 'codemirror';
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
 declare let $tw: any;
 
 export interface HintAddon {
-  hint: (editor: any, options: any, cme: object) => HintResults;
+  hint: (editor: any, options: any, cme: Editor) => HintResults;
 }
 
 export interface Range {
@@ -56,16 +57,17 @@ export interface HintResults {
   type?: string;
 }
 
-function globalHintRender(hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) {
+function globalHintRender(hintNode: HTMLLIElement, hints: Hints, currentHint: Hint): void {
   const ownerDocument: Document = hintNode.ownerDocument;
   // Render (left side) [title]
-  const titlePartNode: HTMLSpanElement = hintNode.appendChild(ownerDocument.createElement('span'));
+  const titlePartNode: HTMLSpanElement = ownerDocument.createElement('span');
+  hintNode.append(titlePartNode);
   titlePartNode.className = 'hint-title';
-  if (currentHint.render_ != undefined) {
+  if (currentHint.render_ !== undefined) {
     currentHint.render_(titlePartNode, hints, currentHint);
   } else {
-    let text = currentHint.displayText || currentHint.text || '';
-    if (currentHint.hintMatch != undefined) {
+    let text = currentHint.displayText ?? currentHint.text ?? '';
+    if (currentHint.hintMatch !== undefined) {
       const textList = [];
       try {
         currentHint.hintMatch.sort(function (a: Range, b: Range): number {
@@ -82,15 +84,16 @@ function globalHintRender(hintNode: HTMLLIElement, hints: Hints, currentHint: Hi
         if (text.length > pointer) textList.push(text.substring(pointer));
         text = textList.join('');
       } catch {
-        text = currentHint.displayText || currentHint.text || '';
+        text = currentHint.displayText ?? currentHint.text ?? '';
       }
     }
     titlePartNode.innerHTML = text;
   }
   // Render (right side) [type]
-  const typeString = currentHint.type || null;
-  if (typeString) {
-    const typePartNode: HTMLSpanElement = hintNode.appendChild(ownerDocument.createElement('span'));
+  const typeString = currentHint.type;
+  if (typeString !== undefined) {
+    const typePartNode: HTMLSpanElement = ownerDocument.createElement('span');
+    hintNode.append(typePartNode);
     typePartNode.className = 'hint-type';
     typePartNode.append(ownerDocument.createTextNode(typeString));
   }
@@ -100,8 +103,8 @@ export function init(): void {
   ServiceManager.registerService({
     name: 'RealtimeHint',
     tag: '$:/CodeMirrorEnhanced/RealtimeHint',
-    onLoad: function (CodeMirror: any, cme: object): void {
-      CodeMirror.registerHelper('hint', 'tiddlywiki5', async function (editor: any, options: any) {
+    onLoad: (codeMirror, cme): void => {
+      codeMirror.registerHelper('hint', 'tiddlywiki5', async function (editor: any, options: any) {
         return await new Promise<Hints | null>((resolve, reject) => {
           try {
             const promises: Array<Promise<Hints | null>> = [];
@@ -113,7 +116,7 @@ export function init(): void {
                     const tmplist: Hint[] = [];
                     let minPos: any = editor.getCursor();
                     if (hints && typeof hints === 'object') {
-                      if (hints.from && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
+                      if (hints.from && codeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
                       hints.list.forEach((hint: HintResult | string) => {
                         if (typeof hint === 'string') {
                           tmplist.push({
@@ -133,16 +136,16 @@ export function init(): void {
                             displayText: hint.displayText,
                             from: hint.from || hints.from,
                             to: hint.to || hints.to,
-                            render_: hint.render != undefined || hints.render,
+                            render_: hint.render !== undefined || hints.render,
                             render: globalHintRender,
-                            renderPreview: hint.renderPreview != undefined || hints.renderPreview,
-                            hintMatch: hint.hintMatch != undefined || hints.hintMatch,
-                            hint: hint.hint != undefined || hints.hint,
+                            renderPreview: hint.renderPreview !== undefined || hints.renderPreview,
+                            hintMatch: hint.hintMatch !== undefined || hints.hintMatch,
+                            hint: hint.hint !== undefined || hints.hint,
                             type: hint.type || hints.type,
                             renderCache: hint.renderCache,
                             className: 'cm-hacked-hint',
                           });
-                          if (hint.from && CodeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
+                          if (hint.from && codeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
                         }
                       });
                     }
@@ -162,9 +165,9 @@ export function init(): void {
                 hints.list.forEach((hint) => {
                   result.list.push(hint);
                 });
-                if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
+                if (codeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
               });
-              CodeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
+              codeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
                 if (Options.hintPreview) {
                   const appendId: string = (selectedNode.parentNode as HTMLElement).id + '-hint-append';
                   let previewBoxNode: HTMLDivElement = selectedNode.ownerDocument.getElementById(appendId) as HTMLDivElement;
@@ -182,7 +185,7 @@ export function init(): void {
                     if (selectedData.renderCache && typeof selectedData.renderCache === 'string') {
                       previewBoxNode.innerHTML = selectedData.renderCache;
                       shouldDisplay = true;
-                    } else if (selectedData.renderPreview != undefined && typeof selectedData.renderPreview === 'function') {
+                    } else if (selectedData.renderPreview !== undefined && typeof selectedData.renderPreview === 'function') {
                       shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
                       if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
                     } else {
@@ -194,7 +197,7 @@ export function init(): void {
                   }
                   if (shouldDisplay) {
                     if (shouldCreate) {
-                      CodeMirror.on(result, 'close', function (): void {
+                      codeMirror.on(result, 'close', function (): void {
                         if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
                       });
                       selectedNode.ownerDocument.body.append(previewBoxNode);
