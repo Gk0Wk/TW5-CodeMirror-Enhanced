@@ -358,7 +358,6 @@ export function init(): void {
         search: string,
         times?: number
       ): Array<Range> {
-        console.log("[xxx]");
         let hintMatch: Array<Range> = [];
         if (times === 0 || !text || !search) return hintMatch;
         let counter: number = 0;

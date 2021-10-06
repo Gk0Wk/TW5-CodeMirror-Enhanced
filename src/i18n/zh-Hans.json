@@ -1,0 +1,14 @@
+{
+    "readme": [
+        "如想了解更多，请关注我们的[[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]]。",
+        "",
+        "为TiddlyWiki的CodeMirror编辑器提供一个灵活而丰富的扩展框架(包括高亮、补全、预览等功能)，任何人都可以使用此框架为编辑器编写扩展插件！目前基于此框架实现的功能有：",
+        "",
+        "* TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮；",
+        "* Wiki链接自动提示；",
+        "* Tiddler预览；",
+        "* 可点击链接；",
+        "",
+        "更多功能正在开发中，欢迎你的加入！"
+    ]
+}

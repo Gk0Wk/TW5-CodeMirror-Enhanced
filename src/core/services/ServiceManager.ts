@@ -1,5 +1,6 @@
 declare var $tw: any;
-declare function require(path: string): any;
+
+import { loadTiddler } from "../utils/tiddlerIO";
 
 export interface Addons {
   [addonName: string]: unknown;
@@ -40,19 +41,6 @@ interface Services {
 const services: Services = {};
 
 var api = {};
-
-function loadTiddler(tiddler: string): object | null {
-  switch ($tw.wiki.getTiddler(tiddler).fields.type) {
-    case "application/javascript":
-      return require(tiddler);
-    case "application/json":
-      return JSON.parse($tw.wiki.getTiddlerText(tiddler));
-    case "application/x-tiddler-dictionary":
-      return $tw.utils.parseFields($tw.wiki.getTiddlerText(tiddler));
-    default:
-      return null;
-  }
-}
 
 function updateService(): void {
   $tw.utils.each(

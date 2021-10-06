@@ -1,0 +1,14 @@
+{
+    "readme": [
+        "View more on [[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]].",
+        "",
+        "CodeMirror editor for TiddlyWiki provides a flexible and rich extension framework (including highlighting, completion, preview and other features), anyone can use this framework to write extension plug-ins for the editor! Currently based on this framework to achieve the following features.",
+        "",
+        "* TiddlyWiki5 (`text/vnd.tiddlywiki`) syntax highlighting.",
+        "* Wiki link auto-tip; * Tiddler preview; * TiddlyWiki5 (`text/vnd.tiddlywiki`)",
+        "* Tiddler preview; * Tiddler preview.",
+        "* Clickable links.",
+        "",
+        "More features are in development, welcome to join!"
+    ]
+}

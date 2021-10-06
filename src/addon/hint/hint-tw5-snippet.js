@@ -39,8 +39,6 @@
         if (pointer == 0) return null;
         var curWord = curLine.slice(pointer, end);
 
-        console.log('[0]');
-
         var hints = [];
         $tw.utils.each(cme.service.SnippetsList.getSnippetsList(), function(snippets) {
             try {
@@ -56,8 +54,6 @@
                 console.error(e);
             }
         });
-
-        console.log('[1]');
 
         // Load tw5 snippet
         $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/TextEditor/Snippet]]').forEach(function(snippetTiddler) {
@@ -75,8 +71,6 @@
             }
         });
 
-        console.log('[2]');
-
         // Load KaTeX snippet
         $tw.wiki.filterTiddlers('[all[tiddlers+shadows]tag[$:/tags/KaTeX/Snippet]]').forEach(function(snippetTiddler) {
             var snippet = $tw.wiki.getTiddler(snippetTiddler);
@@ -92,8 +86,6 @@
                 });
             }
         });
-
-        console.log('[3]');
 
         return {
             from: cme.CodeMirror.Pos(cur.line, pointer - 1),

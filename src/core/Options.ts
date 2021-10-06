@@ -1,46 +1,39 @@
 declare var $tw: any;
 
-function getBoolean(tiddler: string, defaultValue: boolean): boolean {
-  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
-  return tiddlerText ? tiddlerText.toLowerCase() === "true" : defaultValue;
+function getOption(key: string): string | undefined {
+  return $tw.wiki.filterTiddlers(
+    `[[$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config.json]getindex[${key}]]`
+  )[0];
 }
 
-function getInteger(tiddler: string, defaultValue: Number): Number {
-  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
-  return tiddlerText ? $tw.utils.parseInt(tiddlerText) : defaultValue;
+function getBoolean(key: string, defaultValue: boolean): boolean {
+  let optionText: string | undefined = getOption(key);
+  return optionText ? optionText.toLowerCase() === "true" : defaultValue;
 }
 
-function getNumber(tiddler: string, defaultValue: Number): Number {
-  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
-  return tiddlerText
-    ? $tw.utils.parseNumber($tw.wiki.getTiddlerText(tiddler))
-    : defaultValue;
+function getInteger(key: string, defaultValue: Number): Number {
+  let optionText: string | undefined = getOption(key);
+  return optionText ? $tw.utils.parseInt(optionText) : defaultValue;
 }
 
-function getStrings(tiddler: string): Array<string> {
-  let tiddlerText = $tw.wiki.getTiddlerText(tiddler);
-  return tiddlerText
-    ? $tw.utils.parseStringArray($tw.wiki.getTiddlerText(tiddler))
-    : [];
+function getNumber(key: string, defaultValue: Number): Number {
+  let optionText: string | undefined = getOption(key);
+  return optionText ? $tw.utils.parseNumber(getOption(key)) : defaultValue;
+}
+
+function getString(key: string, defaultValue: string): string {
+  let optionText: string | undefined = getOption(key);
+  return optionText ? optionText : defaultValue;
 }
 
 export default class Options {
   static get clickableService() {
-    return getBoolean(
-      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/clickable-link",
-      false
-    );
+    return getBoolean("clickable-link", false);
   }
   static get realtimeHint() {
-    return getBoolean(
-      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/realtime-hint",
-      false
-    );
+    return getBoolean("realtime-hint", false);
   }
   static get hintPreview() {
-    return getBoolean(
-      "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config/hint-preview",
-      false
-    );
+    return getBoolean("hint-preview", false);
   }
 }
