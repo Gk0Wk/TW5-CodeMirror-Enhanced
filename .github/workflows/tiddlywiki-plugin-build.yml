@@ -1,23 +1,23 @@
-name: "TiddlyWiki-CodeMirror-Enhanced"
+name: 'TiddlyWiki-CodeMirror-Enhanced'
 
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
     branches:
       - main
     paths-ignore:
-      - "LICENSE"
-      - "README*.md"
-      - "media/**"
+      - 'LICENSE'
+      - 'README*.md'
+      - 'media/**'
   pull_request:
     # The branches below must be a subset of the branches above
     branches:
       - main
     paths-ignore:
-      - "LICENSE"
-      - "README*.md"
-      - "media/**"
+      - 'LICENSE'
+      - 'README*.md'
+      - 'media/**'
 
 jobs:
   build:
@@ -31,8 +31,8 @@ jobs:
       - name: Set up Python3
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.x"
-          architecture: "x64"
+          python-version: '3.x'
+          architecture: 'x64'
 
       - name: Set up NodeJs
         uses: actions/setup-node@v2
