@@ -1,10 +1,8 @@
-declare var $tw: any;
-import * as ServiceManager from "../ServiceManager";
-import Options from "../../Options";
+import * as ServiceManager from '../ServiceManager';
+import Options from '../../Options';
+declare let $tw: any;
 
-const functionKey = /macintosh|mac os x/i.test(navigator.userAgent)
-  ? "metaKey"
-  : "ctrlKey";
+const functionKey = /macintosh|mac os x/i.test(navigator.userAgent) ? 'metaKey' : 'ctrlKey';
 
 interface ClickableAddon {
   handler: (editor: any, event: any, cme: object) => boolean;
@@ -12,15 +10,14 @@ interface ClickableAddon {
 
 export function init(): void {
   ServiceManager.registerService({
-    name: "ClickableToken",
-    tag: "$:/CodeMirrorEnhanced/ClickableToken",
+    name: 'ClickableToken',
+    tag: '$:/CodeMirrorEnhanced/ClickableToken',
     onLoad: function (CodeMirror: any, cme: object): void {},
     onHook: function (editor: any, cme: object): void {
-      editor.on("mousedown", function (cm: any, event: any) {
+      editor.on('mousedown', function (cm: any, event: any) {
         if (event[functionKey] && Options.clickableService) {
-          let addons: ServiceManager.Addons =
-            ServiceManager.getAddons("ClickableToken");
-          for (let key in addons) {
+          const addons: ServiceManager.Addons = ServiceManager.getAddons('ClickableToken');
+          for (const key in addons) {
             if ((addons[key] as ClickableAddon).handler(editor, event, cme)) break;
           }
         }

@@ -1,6 +1,6 @@
-declare var $tw: any;
-import * as ServiceManager from "../ServiceManager";
-import Options from "../../Options";
+import * as ServiceManager from '../ServiceManager';
+import Options from '../../Options';
+declare let $tw: any;
 
 export interface HintAddon {
   hint: (editor: any, options: any, cme: object) => HintResults;
@@ -12,336 +12,238 @@ export interface Range {
 }
 
 export class Hints {
-  constructor(public readonly list: Array<Hint>, public from: any) {}
+  constructor(public readonly list: Hint[], public from: any) {}
 }
 
 export interface Hint {
-  text: string;
+  className: string;
   displayText?: string;
   from: any;
-  to: any;
-  render_?: (hintNode: HTMLSpanElement, hints: Hints, curHint: Hint) => void;
-  render: (hintNode: HTMLLIElement, hints: Hints, curHint: Hint) => void;
-  renderPreview?: (
-    domNode: HTMLDivElement,
-    selectedData: Hint,
-    selectedNode: HTMLLIElement
-  ) => boolean;
-  hintMatch?: Array<Range>;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
-  type?: string;
+  hintMatch?: Range[];
+  render: (hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) => void;
   renderCache?: string;
-  className: string;
+  renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
+  render_?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
+  text: string;
+  to: any;
+  type?: string;
 }
 
 export interface HintResult {
-  text: string;
+  className?: string;
   displayText?: string;
   from?: any;
+  hint?: (editor: any, hints: Hints, hint: Hint) => void;
+  hintMatch?: Range[];
+  render?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
+  renderCache?: string;
+  renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
+  text: string;
   to?: any;
   type?: string;
-  className?: string;
-  hintMatch?: Array<Range>;
-  renderPreview?: (
-    domNode: HTMLDivElement,
-    selectedData: Hint,
-    selectedNode: HTMLLIElement
-  ) => boolean;
-  hint?: (editor: any, hints: Hints, hint: Hint) => void;
-  render?: (hintNode: HTMLSpanElement, hints: Hints, curHint: Hint) => void;
-  renderCache?: string;
 }
 
 export interface HintResults {
-  list: Array<HintResult | string>;
-  from?: any;
-  to?: any;
   className?: string;
-  type?: string;
-  hintMatch?: Array<Range>;
-  renderPreview?: (
-    domNode: HTMLDivElement,
-    selectedData: Hint,
-    selectedNode: HTMLLIElement
-  ) => boolean;
+  from?: any;
   hint?: (editor: any, hints: Hints, hint: Hint) => void;
-  render?: (hintNode: HTMLSpanElement, hints: Hints, curHint: Hint) => void;
+  hintMatch?: Range[];
+  list: Array<HintResult | string>;
+  render?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
+  renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
+  to?: any;
+  type?: string;
 }
 
-function globalHintRender(
-  hintNode: HTMLLIElement,
-  hints: Hints,
-  curHint: Hint
-) {
-  let ownerDocument: Document = hintNode.ownerDocument;
+function globalHintRender(hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) {
+  const ownerDocument: Document = hintNode.ownerDocument;
   // Render (left side) [title]
-  let titlePartNode: HTMLSpanElement = hintNode.appendChild(
-    ownerDocument.createElement("span")
-  );
-  titlePartNode.className = "hint-title";
-  if (curHint.render_) {
-    curHint.render_(titlePartNode, hints, curHint);
+  const titlePartNode: HTMLSpanElement = hintNode.appendChild(ownerDocument.createElement('span'));
+  titlePartNode.className = 'hint-title';
+  if (currentHint.render_ != undefined) {
+    currentHint.render_(titlePartNode, hints, currentHint);
   } else {
-    let text = curHint.displayText || curHint.text || "";
-    if (curHint.hintMatch) {
-      let textList = [];
+    let text = currentHint.displayText || currentHint.text || '';
+    if (currentHint.hintMatch != undefined) {
+      const textList = [];
       try {
-        curHint.hintMatch.sort(function (a: Range, b: Range): number {
+        currentHint.hintMatch.sort(function (a: Range, b: Range): number {
           return a.from - b.from;
         });
         let pointer = 0;
-        curHint.hintMatch.forEach(function (range: Range): void {
+        currentHint.hintMatch.forEach(function (range: Range): void {
           if (range.from > pointer) {
             textList.push(text.substring(pointer, range.from));
           }
           pointer = range.to;
-          textList.push(
-            `<span class="hint-title-highlighted">${text.substring(
-              range.from,
-              pointer
-            )}</span>`
-          );
+          textList.push(`<span class="hint-title-highlighted">${text.substring(range.from, pointer)}</span>`);
         });
         if (text.length > pointer) textList.push(text.substring(pointer));
-        text = textList.join("");
-      } catch (e) {
-        text = curHint.displayText || curHint.text || "";
+        text = textList.join('');
+      } catch {
+        text = currentHint.displayText || currentHint.text || '';
       }
     }
     titlePartNode.innerHTML = text;
   }
   // Render (right side) [type]
-  let typeString = curHint.type || null;
+  const typeString = currentHint.type || null;
   if (typeString) {
-    let typePartNode: HTMLSpanElement = hintNode.appendChild(
-      ownerDocument.createElement("span")
-    );
-    typePartNode.className = "hint-type";
-    typePartNode.appendChild(ownerDocument.createTextNode(typeString));
+    const typePartNode: HTMLSpanElement = hintNode.appendChild(ownerDocument.createElement('span'));
+    typePartNode.className = 'hint-type';
+    typePartNode.append(ownerDocument.createTextNode(typeString));
   }
 }
 
 export function init(): void {
   ServiceManager.registerService({
-    name: "RealtimeHint",
-    tag: "$:/CodeMirrorEnhanced/RealtimeHint",
+    name: 'RealtimeHint',
+    tag: '$:/CodeMirrorEnhanced/RealtimeHint',
     onLoad: function (CodeMirror: any, cme: object): void {
-      CodeMirror.registerHelper(
-        "hint",
-        "tiddlywiki5",
-        function (editor: any, options: any) {
-          return new Promise<Hints | null>((resolve, reject) => {
-            try {
-              let promises: Array<Promise<Hints | null>> = [];
-              $tw.utils.each(
-                ServiceManager.getAddons("RealtimeHint"),
-                function (addon: HintAddon, addonTiddler: string) {
-                  promises.push(
-                    new Promise<Hints | null>((resolve_, reject_) => {
-                      try {
-                        let hints: HintResults = addon.hint(
-                          editor,
-                          options,
-                          cme
-                        );
-                        let tmplist: Array<Hint> = [];
-                        let minPos: any = editor.getCursor();
-                        if (hints && typeof hints === "object") {
-                          if (
-                            hints.from &&
-                            CodeMirror.cmpPos(minPos, hints.from) > 0
-                          )
-                            minPos = hints.from;
-                          hints.list.forEach((hint: HintResult | string) => {
-                            if (typeof hint === "string") {
-                              tmplist.push({
-                                text: hint,
-                                from: hints.from,
-                                to: hints.to,
-                                render_: hints.render,
-                                render: globalHintRender,
-                                renderPreview: hints.renderPreview,
-                                hint: hints.hint,
-                                type: hints.type,
-                                className: "cm-hacked-hint",
-                              });
-                            } else {
-                              tmplist.push({
-                                text: hint.text,
-                                displayText: hint.displayText,
-                                from: hint.from || hints.from,
-                                to: hint.to || hints.to,
-                                render_: hint.render || hints.render,
-                                render: globalHintRender,
-                                renderPreview:
-                                  hint.renderPreview || hints.renderPreview,
-                                hintMatch: hint.hintMatch || hints.hintMatch,
-                                hint: hint.hint || hints.hint,
-                                type: hint.type || hints.type,
-                                renderCache: hint.renderCache,
-                                className: "cm-hacked-hint",
-                              });
-                              if (
-                                hint.from &&
-                                CodeMirror.cmpPos(minPos, hint.from) > 0
-                              )
-                                minPos = hint.from;
-                            }
+      CodeMirror.registerHelper('hint', 'tiddlywiki5', async function (editor: any, options: any) {
+        return await new Promise<Hints | null>((resolve, reject) => {
+          try {
+            const promises: Array<Promise<Hints | null>> = [];
+            $tw.utils.each(ServiceManager.getAddons('RealtimeHint'), function (addon: HintAddon, addonTiddler: string) {
+              promises.push(
+                new Promise<Hints | null>((resolve_, reject_) => {
+                  try {
+                    const hints: HintResults = addon.hint(editor, options, cme);
+                    const tmplist: Hint[] = [];
+                    let minPos: any = editor.getCursor();
+                    if (hints && typeof hints === 'object') {
+                      if (hints.from && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
+                      hints.list.forEach((hint: HintResult | string) => {
+                        if (typeof hint === 'string') {
+                          tmplist.push({
+                            text: hint,
+                            from: hints.from,
+                            to: hints.to,
+                            render_: hints.render,
+                            render: globalHintRender,
+                            renderPreview: hints.renderPreview,
+                            hint: hints.hint,
+                            type: hints.type,
+                            className: 'cm-hacked-hint',
                           });
-                        }
-                        resolve_(new Hints(tmplist, minPos));
-                      } catch (e) {
-                        console.error(
-                          `Error occured by tiddler ${addonTiddler}:`
-                        );
-                        console.error(e);
-                        resolve_(null);
-                      }
-                    })
-                  );
-                }
-              );
-              Promise.all(promises).then((hintsList) => {
-                let result: Hints = new Hints([], editor.getCursor());
-                hintsList.forEach((hints) => {
-                  if (!hints) return;
-                  hints.list.forEach((hint) => {
-                    result.list.push(hint);
-                  });
-                  if (CodeMirror.cmpPos(result.from, hints.from) > 0)
-                    result.from = hints.from;
-                });
-                CodeMirror.on(
-                  result,
-                  "select",
-                  function (
-                    selectedData: Hint,
-                    selectedNode: HTMLLIElement
-                  ): void {
-                    if (Options.hintPreview) {
-                      let appendId: string =
-                        (selectedNode.parentNode as HTMLElement).id +
-                        "-hint-append";
-                      let previewBoxNode: HTMLDivElement =
-                        selectedNode.ownerDocument.getElementById(
-                          appendId
-                        ) as HTMLDivElement;
-                      let shouldCreate: boolean = !previewBoxNode;
-                      if (shouldCreate) {
-                        previewBoxNode =
-                          selectedNode.ownerDocument.createElement("div");
-                        previewBoxNode.id = appendId;
-                        previewBoxNode.className =
-                          "CodeMirror-hints CodeMirror-hints-append " +
-                          editor.options.theme;
-                        previewBoxNode.style.left =
-                          (selectedNode.parentNode as HTMLElement).offsetLeft +
-                          (selectedNode.parentNode as HTMLElement).offsetWidth +
-                          "px";
-                        previewBoxNode.style.top =
-                          (selectedNode.parentNode as HTMLElement).offsetTop +
-                          "px";
-                      }
-                      let shouldDisplay: boolean;
-                      try {
-                        if (
-                          selectedData.renderCache &&
-                          typeof selectedData.renderCache === "string"
-                        ) {
-                          previewBoxNode.innerHTML = selectedData.renderCache;
-                          shouldDisplay = true;
-                        } else if (
-                          selectedData.renderPreview &&
-                          typeof selectedData.renderPreview === "function"
-                        ) {
-                          shouldDisplay =
-                            selectedData.renderPreview(
-                              previewBoxNode,
-                              selectedData,
-                              selectedNode
-                            ) === true;
-                          if (
-                            shouldDisplay &&
-                            previewBoxNode.innerHTML.trim() === ""
-                          )
-                            shouldDisplay = false;
                         } else {
-                          shouldDisplay = false;
-                        }
-                      } catch (e) {
-                        previewBoxNode.innerText = String(e);
-                        console.error(e);
-                      }
-                      if (shouldDisplay) {
-                        if (shouldCreate) {
-                          CodeMirror.on(result, "close", function (): void {
-                            if (
-                              selectedNode.ownerDocument.body.contains(
-                                previewBoxNode
-                              )
-                            )
-                              selectedNode.ownerDocument.body.removeChild(
-                                previewBoxNode
-                              );
+                          tmplist.push({
+                            text: hint.text,
+                            displayText: hint.displayText,
+                            from: hint.from || hints.from,
+                            to: hint.to || hints.to,
+                            render_: hint.render != undefined || hints.render,
+                            render: globalHintRender,
+                            renderPreview: hint.renderPreview != undefined || hints.renderPreview,
+                            hintMatch: hint.hintMatch != undefined || hints.hintMatch,
+                            hint: hint.hint != undefined || hints.hint,
+                            type: hint.type || hints.type,
+                            renderCache: hint.renderCache,
+                            className: 'cm-hacked-hint',
                           });
-                          selectedNode.ownerDocument.body.appendChild(
-                            previewBoxNode
-                          );
+                          if (hint.from && CodeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
                         }
-                      } else if (
-                        selectedNode.ownerDocument.body.contains(previewBoxNode)
-                      )
-                        selectedNode.ownerDocument.body.removeChild(
-                          previewBoxNode
-                        );
+                      });
                     }
+                    resolve_(new Hints(tmplist, minPos));
+                  } catch (error) {
+                    console.error(`Error occured by tiddler ${addonTiddler}:`);
+                    console.error(error);
+                    resolve_(null);
                   }
-                );
-                resolve(result);
+                }),
+              );
+            });
+            Promise.all(promises).then((hintsList) => {
+              const result: Hints = new Hints([], editor.getCursor());
+              hintsList.forEach((hints) => {
+                if (hints == undefined) return;
+                hints.list.forEach((hint) => {
+                  result.list.push(hint);
+                });
+                if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
               });
-            } catch (e) {
-              console.error(e);
-              resolve(null);
-            }
-          });
-        }
-      );
+              CodeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
+                if (Options.hintPreview) {
+                  const appendId: string = (selectedNode.parentNode as HTMLElement).id + '-hint-append';
+                  let previewBoxNode: HTMLDivElement = selectedNode.ownerDocument.getElementById(appendId) as HTMLDivElement;
+                  const shouldCreate = !previewBoxNode;
+                  if (shouldCreate) {
+                    previewBoxNode = selectedNode.ownerDocument.createElement('div');
+                    previewBoxNode.id = appendId;
+                    previewBoxNode.className = 'CodeMirror-hints CodeMirror-hints-append ' + editor.options.theme;
+                    previewBoxNode.style.left =
+                      (selectedNode.parentNode as HTMLElement).offsetLeft + (selectedNode.parentNode as HTMLElement).offsetWidth + 'px';
+                    previewBoxNode.style.top = (selectedNode.parentNode as HTMLElement).offsetTop + 'px';
+                  }
+                  let shouldDisplay: boolean;
+                  try {
+                    if (selectedData.renderCache && typeof selectedData.renderCache === 'string') {
+                      previewBoxNode.innerHTML = selectedData.renderCache;
+                      shouldDisplay = true;
+                    } else if (selectedData.renderPreview != undefined && typeof selectedData.renderPreview === 'function') {
+                      shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
+                      if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
+                    } else {
+                      shouldDisplay = false;
+                    }
+                  } catch (error) {
+                    previewBoxNode.innerText = String(error);
+                    console.error(error);
+                  }
+                  if (shouldDisplay) {
+                    if (shouldCreate) {
+                      CodeMirror.on(result, 'close', function (): void {
+                        if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                      });
+                      selectedNode.ownerDocument.body.append(previewBoxNode);
+                    }
+                  } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                }
+              });
+              resolve(result);
+            });
+          } catch (error) {
+            console.error(error);
+            resolve(null);
+          }
+        });
+      });
     },
     onHook: function (editor: any, cme: object): void {
       // Hint when text change
-      editor.on("change", function (cm: any, event: any) {
+      editor.on('change', function (cm: any, event: any) {
         // Check if hint is open and hint function exists
-        if (cm.state.completeActive && typeof cm.showHint !== "function")
-          return;
+        if (cm.state.completeActive && typeof cm.showHint !== 'function') return;
         // Check if auto hint switch on
         if (!Options.realtimeHint) return;
         // If user type something
-        if (event.origin === "+input") {
+        if (event.origin === '+input') {
           // Check if cursor point to any stop words
-          if (cm.doc.modeOption === "text/vnd.tiddlywiki") {
+          if (cm.doc.modeOption === 'text/vnd.tiddlywiki') {
             // If writting tw text
-            if (/[;,]$/.test(event.text[0])) return;
+            if (/[,;]$/.test(event.text[0])) return;
           } else {
             // If writting other text
-            if (/[;,{}()[\]]$/.test(event.text[0])) return;
+            if (/[(),;[\]{}]$/.test(event.text[0])) return;
           }
           // Check if just break the line
-          if (event.text[0].trim() === "") {
+          if (event.text[0].trim() === '') {
             if (event.text[1]) {
-              if (event.text[1].trim() === "") return;
+              if (event.text[1].trim() === '') return;
             } else return;
           }
         }
         // If user delete something
-        else if (event.origin === "+delete") {
+        else if (event.origin === '+delete') {
           // If delete nothing
-          if (event.removed[0] === "") return;
+          if (event.removed[0] === '') return;
           // If cursor point to the line head
           if (event.to.ch < 2) return;
           // If text of line before the cursor is blank
-          let theLine: string = cm.getDoc().getLine(event.to.line);
-          if (!theLine || theLine.substr(0, event.to.ch - 1).trim() === "")
-            return;
+          const theLine: string = cm.getDoc().getLine(event.to.line);
+          if (!theLine || theLine.substr(0, event.to.ch - 1).trim() === '') return;
         }
         // If not above, show hint
         cm.showHint({
@@ -353,17 +255,13 @@ export function init(): void {
       });
     },
     api: {
-      makeLiteralHintMatch: function (
-        text: string,
-        search: string,
-        times?: number
-      ): Array<Range> {
-        let hintMatch: Array<Range> = [];
+      makeLiteralHintMatch: function (text: string, search: string, times?: number): Range[] {
+        const hintMatch: Range[] = [];
         if (times === 0 || !text || !search) return hintMatch;
-        let counter: number = 0;
-        let to: number = 0;
+        let counter = 0;
+        let to = 0;
         while (!times || counter++ < times) {
-          let from: number = text.indexOf(search, to);
+          const from: number = text.indexOf(search, to);
           if (from < 0) break;
           to = from + search.length;
           hintMatch.push({ from, to });
