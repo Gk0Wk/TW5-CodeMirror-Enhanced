@@ -42,19 +42,21 @@
     const currentWord = currentLine.slice(pointer, end);
 
     const hints = [];
-    $tw.utils.each(cme.service.SnippetsList.getSnippetsList(), function (snippets) {
-      try {
-        $tw.utils.each(snippets, function (value, key) {
-          if (key.includes(currentWord))
+    /** $:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/snippetslist/tw5-snippets.json: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}] */
+    Object.entries(cme.service.SnippetsList.getSnippetsList()).forEach(([snippetFileName, snippets]) => {
+      snippets.forEach((snippet) => {
+        try {
+          if (snippet.name.includes(currentWord))
             hints.push({
-              text: value,
-              displayText: key,
-              hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(key, currentWord),
+              /** pass full snippet object to hint service */
+              text: snippet,
+              displayText: snippet.name,
+              hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(snippet.name + snippet.id, currentWord),
             });
-        });
-      } catch (error) {
-        console.error(error);
-      }
+        } catch (error) {
+          console.error(error);
+        }
+      });
     });
 
     // Load tw5 snippet

@@ -37,5 +37,11 @@
       "button-on": "补全时预览已开启",
       "button-off": "补全时预览已关闭"
     }
+  },
+  "tw-snippet": {
+    "blockquote": {
+      "name": "块引用",
+      "preview": "!! 多行块引用\n\n<<<\n这是一个块引用段落\n写了两行中文\n<<<"
+    }
   }
 }

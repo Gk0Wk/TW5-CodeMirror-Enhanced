@@ -1,30 +1,45 @@
-{
-  "blockquoteSingleline": {
-    "snippet": "> $1",
-    "preview": "!! Single-line Block Quotes\n\n> Quoted text\n> Another line of quoted text\n\n!! You can also nest quotes like this:\n\n> A top quote\n>> A subquote\n> Another top quote\n\n!! You can also mix block quotes with other list items. For example:\n\n* List One\n** List Two\n**> A quote\n**> Another quote\n* List Three"
+[
+  {
+    "id": "tw-snippet.blockquoteSingleline.name",
+    "name": "tw-snippet.blockquoteSingleline.name",
+    "preview": "!! Single-line Block Quotes\n\n> Quoted text\n> Another line of quoted text\n\n!! You can also nest quotes like this:\n\n> A top quote\n>> A subquote\n> Another top quote\n\n!! You can also mix block quotes with other list items. For example:\n\n* List One\n** List Two\n**> A quote\n**> Another quote\n* List Three",
+    "snippet": "> $1"
   },
-  "blockquote": {
-    "snippet": "<<<\n$1\n<<<",
-    "preview": "!! Multi-line block quotes\n\n<<<\nThis is a block quoted paragraph\nwritten in English\n<<<"
+  {
+    "i18n": true,
+    "id": "blockquote",
+    "name": "tw-snippet.blockquote.name",
+    "preview": "tw-snippet.blockquote.preview",
+    "snippet": "<<<\n$1\n<<<"
   },
-  "blockquoteWithCSSClass": {
-    "snippet": "<<<$1\n$2\n<<<",
-    "preview": "!! CSS classes can be added to a block quote\n\n<<<.tc-big-quote\nA dramatic quote\n<<< Somebody Important"
+  {
+    "id": "tw-snippet.blockquoteWithCSSClass.name",
+    "name": "tw-snippet.blockquoteWithCSSClass.name",
+    "preview": "!! CSS classes can be added to a block quote\n\n<<<.tc-big-quote\nA dramatic quote\n<<< Somebody Important",
+    "snippet": "<<<$1\n$2\n<<<"
   },
-  "blockquoteCitation": {
-    "snippet": "<<<\n$1\n<<< $2",
-    "preview": "!! A citation can be added to the quote like this\n\n<<<\nComputers are like a bicycle for our minds\n<<< Steve Jobs"
+  {
+    "id": "tw-snippet.blockquoteCitation.name",
+    "name": "tw-snippet.blockquoteCitation.name",
+    "preview": "!! A citation can be added to the quote like this\n\n<<<\nComputers are like a bicycle for our minds\n<<< Steve Jobs",
+    "snippet": "<<<\n$1\n<<< $2"
   },
-  "codeblock": {
-    "snippet": "```$1\n$2\n```",
-    "preview": "!! You can use triple backticks <code>&#96;&#96;&#96;</code> to mark code blocks\n\n```\nThis will be monospaced\n```\n\nTo be interpreted correctly, the three backticks need to be at the start of the line and immediately followed by a line-break.\n\nBe aware that any preceding paragraph content should be properly terminated with a double line break, too. So, this example is wrong:\n\n<pre>\nThis is an ordinary paragraph\n&#96;&#96;&#96;\nThis will be monospaced\n&#96;&#96;&#96;\n</pre>\n\nThe correct version is:\n\n<pre>\nThis is an ordinary paragraph\n\n&#96;&#96;&#96;\nThis will be monospaced\n&#96;&#96;&#96;\n</pre>\n\nNote that some keyboard layouts treat the backtick as a [[dead key|https://en.wikipedia.org/wiki/Dead_key]], making it hard to type. The trick is to type three backticks followed by a space. Alternatively, type all six backticks in one go, then a space, and then move the cursor back three characters to type or paste the content.\n\n"
+  {
+    "id": "tw-snippet.codeblock.name",
+    "name": "tw-snippet.codeblock.name",
+    "preview": "!! You can use triple backticks <code>&#96;&#96;&#96;</code> to mark code blocks\n\n```\nThis will be monospaced\n```\n\nTo be interpreted correctly, the three backticks need to be at the start of the line and immediately followed by a line-break.\n\nBe aware that any preceding paragraph content should be properly terminated with a double line break, too. So, this example is wrong:\n\n<pre>\nThis is an ordinary paragraph\n&#96;&#96;&#96;\nThis will be monospaced\n&#96;&#96;&#96;\n</pre>\n\nThe correct version is:\n\n<pre>\nThis is an ordinary paragraph\n\n&#96;&#96;&#96;\nThis will be monospaced\n&#96;&#96;&#96;\n</pre>\n\nNote that some keyboard layouts treat the backtick as a [[dead key|https://en.wikipedia.org/wiki/Dead_key]], making it hard to type. The trick is to type three backticks followed by a space. Alternatively, type all six backticks in one go, then a space, and then move the cursor back three characters to type or paste the content.\n\n",
+    "snippet": "```$1\n$2\n```"
   },
-  "image": {
-    "snippet": "[img[$1]]",
-    "preview": "!! Insert a image.\n\n[img[$:/core/icon]] "
+  {
+    "id": "tw-snippet.image.name",
+    "name": "tw-snippet.image.name",
+    "preview": "!! Insert a image.\n\n[img[$:/core/icon]] ",
+    "snippet": "[img[$1]]"
   },
-  "center": {
-    "snippet": "<center>$1</center>",
-    "preview": "!! Centralize elements.\n\n<center>like this</center>"
+  {
+    "id": "tw-snippet.center.name",
+    "name": "tw-snippet.center.name",
+    "preview": "!! Centralize elements.\n\n<center>like this</center>",
+    "snippet": "<center>$1</center>"
   }
-}
+]

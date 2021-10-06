@@ -37,5 +37,11 @@
       "button-on": "Hint preview is enabled",
       "button-off": "Hint preview is disabled"
     }
+  },
+  "tw-snippet": {
+    "blockquote": {
+      "name": "blockquote",
+      "preview": "!! Multi-line block quotes\n\n<<<\nThis is a block quoted paragraph\nwritten in English\n<<<"
+    }
   }
 }
