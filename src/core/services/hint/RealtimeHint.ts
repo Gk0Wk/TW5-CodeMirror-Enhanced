@@ -11,6 +11,7 @@ export interface Range {
   to: number;
 }
 
+// FIXME: make this `type Hints = Hint[];`
 export class Hints {
   constructor(public readonly list: Hint[], public from: any) {}
 }
@@ -103,117 +104,113 @@ export function init(): void {
     name: 'RealtimeHint',
     tag: '$:/CodeMirrorEnhanced/RealtimeHint',
     onLoad: (codeMirror, cme): void => {
-      codeMirror.registerHelper('hint', 'tiddlywiki5', async function (editor: any, options: any) {
-        return await new Promise<Hints | null>((resolve, reject) => {
-          try {
-            const promises: Array<Promise<Hints | null>> = [];
-            $tw.utils.each(ServiceManager.getAddons('RealtimeHint'), function (addon: HintAddon, addonTiddler: string) {
-              promises.push(
-                new Promise<Hints | null>((resolve_, reject_) => {
-                  try {
-                    const hints: HintResults = addon.hint(editor, options, cme);
-                    const tmplist: Hint[] = [];
-                    let minPos: any = editor.getCursor();
-                    if (hints && typeof hints === 'object') {
-                      if (hints.from && codeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
-                      hints.list.forEach((hint: HintResult | string) => {
-                        if (typeof hint === 'string') {
-                          tmplist.push({
-                            text: hint,
-                            from: hints.from,
-                            to: hints.to,
-                            render_: hints.render,
-                            render: globalHintRender,
-                            renderPreview: hints.renderPreview,
-                            hint: hints.hint,
-                            type: hints.type,
-                            className: 'cm-hacked-hint',
-                          });
-                        } else {
-                          tmplist.push({
-                            text: hint.text,
-                            displayText: hint.displayText,
-                            from: hint.from || hints.from,
-                            to: hint.to || hints.to,
-                            render_: hint.render !== undefined || hints.render,
-                            render: globalHintRender,
-                            renderPreview: hint.renderPreview !== undefined || hints.renderPreview,
-                            hintMatch: hint.hintMatch !== undefined || hints.hintMatch,
-                            hint: hint.hint !== undefined || hints.hint,
-                            type: hint.type || hints.type,
-                            renderCache: hint.renderCache,
-                            className: 'cm-hacked-hint',
-                          });
-                          if (hint.from && codeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
-                        }
+      codeMirror.registerHelper('hint', 'tiddlywiki5', async (editor: any, options: any) => {
+        try {
+          const getHintAsyncTasks: Array<Promise<Hints | null>> = Object.entries(ServiceManager.getAddons('RealtimeHint')).map(
+            async ([addonTiddler, addon]: [string, unknown]): Promise<Hints | null> => {
+              // TODO: do some check here to make sure it is HintAddon
+              const hintAddon = addon as HintAddon;
+              try {
+                const hints: HintResults = hintAddon.hint(editor, options, cme);
+                const tmplist: Hint[] = [];
+                let minPos: any = editor.getCursor();
+                if (hints && typeof hints === 'object') {
+                  if (hints.from && codeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
+                  hints.list.forEach((hint: HintResult | string) => {
+                    if (typeof hint === 'string') {
+                      tmplist.push({
+                        text: hint,
+                        from: hints.from,
+                        to: hints.to,
+                        render_: hints.render,
+                        render: globalHintRender,
+                        renderPreview: hints.renderPreview,
+                        hint: hints.hint,
+                        type: hints.type,
+                        className: 'cm-hacked-hint',
                       });
-                    }
-                    resolve_(new Hints(tmplist, minPos));
-                  } catch (error) {
-                    console.error(`Error occured by tiddler ${addonTiddler}:`);
-                    console.error(error);
-                    resolve_(null);
-                  }
-                }),
-              );
-            });
-            Promise.all(promises).then((hintsList) => {
-              const result: Hints = new Hints([], editor.getCursor());
-              hintsList.forEach((hints) => {
-                if (hints == undefined) return;
-                hints.list.forEach((hint) => {
-                  result.list.push(hint);
-                });
-                if (codeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
-              });
-              codeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
-                if (Options.hintPreview) {
-                  const appendId: string = (selectedNode.parentNode as HTMLElement).id + '-hint-append';
-                  let previewBoxNode: HTMLDivElement = selectedNode.ownerDocument.getElementById(appendId) as HTMLDivElement;
-                  const shouldCreate = !previewBoxNode;
-                  if (shouldCreate) {
-                    previewBoxNode = selectedNode.ownerDocument.createElement('div');
-                    previewBoxNode.id = appendId;
-                    previewBoxNode.className = 'CodeMirror-hints CodeMirror-hints-append ' + editor.options.theme;
-                    previewBoxNode.style.left =
-                      (selectedNode.parentNode as HTMLElement).offsetLeft + (selectedNode.parentNode as HTMLElement).offsetWidth + 'px';
-                    previewBoxNode.style.top = (selectedNode.parentNode as HTMLElement).offsetTop + 'px';
-                  }
-                  let shouldDisplay: boolean;
-                  try {
-                    if (selectedData.renderCache && typeof selectedData.renderCache === 'string') {
-                      previewBoxNode.innerHTML = selectedData.renderCache;
-                      shouldDisplay = true;
-                    } else if (selectedData.renderPreview !== undefined && typeof selectedData.renderPreview === 'function') {
-                      shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
-                      if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
                     } else {
-                      shouldDisplay = false;
-                    }
-                  } catch (error) {
-                    previewBoxNode.innerText = String(error);
-                    console.error(error);
-                  }
-                  if (shouldDisplay) {
-                    if (shouldCreate) {
-                      codeMirror.on(result, 'close', function (): void {
-                        if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                      tmplist.push({
+                        text: hint.text,
+                        displayText: hint.displayText,
+                        from: hint.from || hints.from,
+                        to: hint.to || hints.to,
+                        render_: hint.render !== undefined || hints.render,
+                        render: globalHintRender,
+                        renderPreview: hint.renderPreview !== undefined || hints.renderPreview,
+                        hintMatch: hint.hintMatch !== undefined || hints.hintMatch,
+                        hint: hint.hint !== undefined || hints.hint,
+                        type: hint.type || hints.type,
+                        renderCache: hint.renderCache,
+                        className: 'cm-hacked-hint',
                       });
-                      selectedNode.ownerDocument.body.append(previewBoxNode);
+                      if (hint.from && codeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
                     }
-                  } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                  });
                 }
-              });
-              resolve(result);
+                return new Hints(tmplist, minPos);
+              } catch (error) {
+                console.error(`Error occured by tiddler ${addonTiddler}:`);
+                console.error(error);
+                return null;
+              }
+            },
+          );
+          const hintsList = await Promise.all(getHintAsyncTasks);
+          const result: Hints = new Hints([], editor.getCursor());
+          hintsList.forEach((hints) => {
+            if (hints == undefined) return;
+            hints.list.forEach((hint) => {
+              result.list.push(hint);
             });
-          } catch (error) {
-            console.error(error);
-            resolve(null);
-          }
-        });
+            if (codeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
+          });
+          // perform action to dom node when a hint is selected
+          codeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
+            if (Options.hintPreview) {
+              const appendId: string = (selectedNode.parentNode as HTMLElement).id + '-hint-append';
+              let previewBoxNode: HTMLDivElement = selectedNode.ownerDocument.getElementById(appendId) as HTMLDivElement;
+              const shouldCreate = !previewBoxNode;
+              if (shouldCreate) {
+                previewBoxNode = selectedNode.ownerDocument.createElement('div');
+                previewBoxNode.id = appendId;
+                previewBoxNode.className = 'CodeMirror-hints CodeMirror-hints-append ' + editor.options.theme;
+                previewBoxNode.style.left = (selectedNode.parentNode as HTMLElement).offsetLeft + (selectedNode.parentNode as HTMLElement).offsetWidth + 'px';
+                previewBoxNode.style.top = (selectedNode.parentNode as HTMLElement).offsetTop + 'px';
+              }
+              let shouldDisplay: boolean;
+              try {
+                if (selectedData.renderCache && typeof selectedData.renderCache === 'string') {
+                  previewBoxNode.innerHTML = selectedData.renderCache;
+                  shouldDisplay = true;
+                } else if (selectedData.renderPreview !== undefined && typeof selectedData.renderPreview === 'function') {
+                  shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
+                  if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
+                } else {
+                  shouldDisplay = false;
+                }
+              } catch (error) {
+                previewBoxNode.innerText = String(error);
+                console.error(error);
+              }
+              if (shouldDisplay) {
+                if (shouldCreate) {
+                  codeMirror.on(result, 'close', function (): void {
+                    if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                  });
+                  selectedNode.ownerDocument.body.append(previewBoxNode);
+                }
+              } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+            }
+          });
+          return result;
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
       });
     },
-    onHook: function (editor: any, cme: object): void {
+    onHook: (editor: any, cme: object): void => {
       // Hint when text change
       editor.on('change', function (cm: any, event: any) {
         // Check if hint is open and hint function exists
@@ -257,7 +254,7 @@ export function init(): void {
       });
     },
     api: {
-      makeLiteralHintMatch: function (text: string, search: string, times?: number): Range[] {
+      makeLiteralHintMatch: (text: string, search: string, times?: number): Range[] => {
         const hintMatch: Range[] = [];
         if (times === 0 || !text || !search) return hintMatch;
         let counter = 0;
