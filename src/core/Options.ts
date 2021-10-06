@@ -28,7 +28,7 @@ function getString(key: string, defaultValue: string): string {
 
 export default class Options {
   static get clickableService() {
-    return getBoolean("clickable-link", false);
+    return getBoolean("clickable-links", false);
   }
   static get realtimeHint() {
     return getBoolean("realtime-hint", false);

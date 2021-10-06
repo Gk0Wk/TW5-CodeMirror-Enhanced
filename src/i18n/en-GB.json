@@ -10,5 +10,32 @@
         "* Clickable links.",
         "",
         "More features are in development, welcome to join!"
-    ]
+    ],
+    "control-panel": {
+        "language": {
+            "title": "Current language used by the plugin",
+            "description": [
+                "Choose the language that suits you, `system` stands for follow the system preference.",
+                "If there is no language that suits you, please ask in [[Issue|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/issues]], anyone is welcome to contribute code!"
+            ]
+        },
+        "realtime-hint": {
+            "title": "Realtime-hint when typing",
+            "description": "Real-time code completion hints like VSCode while typing (currently only ~WikiLink completion is implemented) and no need to activate with <kbd>Ctrl</kbd>+<kbd>Space</kbd>.",
+            "button-on": "Real-time code completion is enabled",
+            "button-off": "Real-time code completion is disabled"
+        },
+        "clickable-links": {
+            "title": "Clickable links",
+            "description": "Whethere WikiLinks and URLs are clickable.",
+            "button-on": "Clickable links is enabled",
+            "button-off": "Clickable links is disabled"
+        },
+        "hint-preview": {
+            "title": "Hint preview",
+            "description": "When auto-completion is performed, a small document/preview box pops up to the right of the completion box based on the selected suggestion entry.",
+            "button-on": "Hint preview is enabled",
+            "button-off": "Hint preview is disabled"
+        }
+    }
 }
