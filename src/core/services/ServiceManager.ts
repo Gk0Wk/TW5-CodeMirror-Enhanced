@@ -1,4 +1,3 @@
-import CodeMirror, { Editor } from 'codemirror';
 import { loadTiddler } from '../utils/tiddlerIO';
 
 declare let $tw: any;
@@ -10,16 +9,16 @@ export interface Addons {
 export interface Service {
   readonly api?: object;
   readonly name: string;
-  readonly onHook: (editor: any, cme: Editor) => void;
-  readonly onLoad: (codeMirror: any, cme: Editor) => void;
+  readonly onHook: (editor: any, cme: any) => void;
+  readonly onLoad: (codeMirror: any, cme: any) => void;
   readonly tag?: string | null;
 }
 
 export class InnerService implements Service {
   public readonly name: string;
   public readonly tag: string | null;
-  public readonly onLoad: (CodeMirror: any, cme: Editor) => void;
-  public readonly onHook: (editor: any, cme: Editor) => void;
+  public readonly onLoad: (CodeMirror: any, cme: any) => void;
+  public readonly onHook: (editor: any, cme: any) => void;
   public readonly addons: Addons;
   public readonly isHackEvent: boolean;
   public lastAddonsUpdateTime: Date;

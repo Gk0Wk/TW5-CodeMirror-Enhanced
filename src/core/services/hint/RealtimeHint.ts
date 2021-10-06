@@ -1,10 +1,9 @@
-import CodeMirror, { Editor } from 'codemirror';
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
 declare let $tw: any;
 
 export interface HintAddon {
-  hint: (editor: any, options: any, cme: Editor) => HintResults;
+  hint: (editor: any, options: any, cme: any) => HintResults;
 }
 
 export interface Range {
