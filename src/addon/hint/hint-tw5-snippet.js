@@ -58,6 +58,7 @@
               /** pass full snippet object to hint service */
               text: snippet,
               displayText: snippet.name,
+              // FIXME: try to make it able to search via id, but not working here
               hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(snippet.name + snippet.id, currentWord),
             });
           }
