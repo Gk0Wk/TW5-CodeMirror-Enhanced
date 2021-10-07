@@ -40,7 +40,8 @@ const services: Record<string, InnerService> = {};
 const api: Record<string, unknown> = {};
 
 function updateService(): void {
-  $tw.utils.each(services, function (service: InnerService, name: string): void {
+  for (const name in services) {
+    const service: InnerService = services[name];
     // Update add-ons
     if (service.tag === undefined) return;
     const tiddlers: string[] = $tw.wiki.filterTiddlers(`[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`) as string[];
@@ -69,15 +70,15 @@ function updateService(): void {
     }
 
     // Unregister tiddlers already without tag
-    $tw.utils.each(service.addons, function (addon: unknown, tiddler: string): void {
+    for (const tiddler in service.addons) {
       if (!tiddlers.includes(tiddler)) {
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete service.addons[tiddler];
       }
-    });
+    }
     // Update add-on update time
     service.lastAddonsUpdateTime = new Date();
-  });
+  }
 }
 
 export function registerService(service: Service): void {
@@ -102,10 +103,11 @@ export function init(cme: Record<string, unknown>): Record<string, unknown> {
   // When new editor instance is created, update addons and hook service
   CodeMirror.defineInitHook(function (editor: CodeMirror.Editor): void {
     updateService();
-    $tw.utils.each(services, function (service: InnerService, name: string): void {
+    for (const name in services) {
+      const service: InnerService = services[name];
       if (!service.isLoad) service.onLoad(cme);
       service.onHook(editor, cme);
-    });
+    }
   });
   return api;
 }

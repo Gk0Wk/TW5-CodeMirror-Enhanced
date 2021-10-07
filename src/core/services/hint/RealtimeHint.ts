@@ -108,64 +108,70 @@ export function init(): void {
     onLoad: (cme: Record<string, unknown>): void => {
       CodeMirror.registerHelper('hint', 'tiddlywiki5', async (editor: CodeMirror.Editor, options: CodeMirror.ShowHintOptions) => {
         try {
-          const getHintAsyncTasks: Array<Promise<Hints | undefined>> = Object.entries(ServiceManager.getAddons('RealtimeHint')).map(
-            async ([addonTiddler, addon]: [string, unknown]): Promise<Hints | undefined> => {
-              // TODO: do some check here to make sure it is HintAddon
-              const hintAddon = addon as HintAddon;
-              try {
-                const hints: HintResults | undefined = hintAddon.hint(editor, options, cme);
-                const tmplist: Hint[] = [];
-                let minPos: CodeMirror.Position = editor.getCursor();
-                if (typeof hints === 'object') {
-                  if (hints.from !== undefined && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
-                  hints.list.forEach((hint: HintResult | string) => {
-                    if (typeof hint === 'string') {
-                      if (hints.from !== undefined && hints.to !== undefined)
-                        tmplist.push({
-                          text: hint,
-                          from: hints.from,
-                          to: hints.to,
-                          render_: hints.render,
-                          render: globalHintRender,
-                          renderPreview: hints.renderPreview,
-                          hint: hints.hint,
-                          type: hints.type,
-                          className: 'cm-hacked-hint',
-                        });
-                    } else {
-                      const _from = hint.from === undefined ? hints.from : hint.from;
-                      const _to = hint.to === undefined ? hints.to : hint.to;
-                      if (_from !== undefined && _to !== undefined)
-                        tmplist.push({
-                          text: hint.text,
-                          displayText: hint.displayText,
-                          from: _from,
-                          to: _to,
-                          render_: hint.render === undefined ? hints.render : hint.render,
-                          render: globalHintRender,
-                          renderPreview: hint.renderPreview === undefined ? hints.renderPreview : hint.renderPreview,
-                          hintMatch: hint.hintMatch === undefined ? hints.hintMatch : hint.hintMatch,
-                          hint: hint.hint === undefined ? hints.hint : hint.hint,
-                          type: hint.type === undefined ? hints.type : hint.type,
-                          renderCache: hint.renderCache,
-                          className: 'cm-hacked-hint',
-                        });
-                      if (hint.from !== undefined && CodeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
-                    }
+          const addons = ServiceManager.getAddons('RealtimeHint');
+          const getHintAsyncTasks: Array<Promise<Hints | undefined>> = [];
+          for (const addonTiddler in addons) {
+            const addon = addons[addonTiddler];
+            getHintAsyncTasks.push(
+              new Promise<Hints | undefined>((resolve) => {
+                // TODO: do some check here to make sure it is HintAddon
+                const hintAddon = addon as HintAddon;
+                try {
+                  const hints: HintResults | undefined = hintAddon.hint(editor, options, cme);
+                  const tmplist: Hint[] = [];
+                  let minPos: CodeMirror.Position = editor.getCursor();
+                  if (typeof hints === 'object') {
+                    if (hints.from !== undefined && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
+                    hints.list.forEach((hint: HintResult | string) => {
+                      if (typeof hint === 'string') {
+                        if (hints.from !== undefined && hints.to !== undefined)
+                          tmplist.push({
+                            text: hint,
+                            from: hints.from,
+                            to: hints.to,
+                            render_: hints.render,
+                            render: globalHintRender,
+                            renderPreview: hints.renderPreview,
+                            hint: hints.hint,
+                            type: hints.type,
+                            className: 'cm-hacked-hint',
+                          });
+                      } else {
+                        const _from = hint.from === undefined ? hints.from : hint.from;
+                        const _to = hint.to === undefined ? hints.to : hint.to;
+                        if (_from !== undefined && _to !== undefined)
+                          tmplist.push({
+                            text: hint.text,
+                            displayText: hint.displayText,
+                            from: _from,
+                            to: _to,
+                            render_: hint.render === undefined ? hints.render : hint.render,
+                            render: globalHintRender,
+                            renderPreview: hint.renderPreview === undefined ? hints.renderPreview : hint.renderPreview,
+                            hintMatch: hint.hintMatch === undefined ? hints.hintMatch : hint.hintMatch,
+                            hint: hint.hint === undefined ? hints.hint : hint.hint,
+                            type: hint.type === undefined ? hints.type : hint.type,
+                            renderCache: hint.renderCache,
+                            className: 'cm-hacked-hint',
+                          });
+                        if (hint.from !== undefined && CodeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
+                      }
+                    });
+                  }
+                  resolve({
+                    from: minPos,
+                    list: tmplist,
+                    to: editor.getCursor(),
                   });
+                } catch (error) {
+                  console.error(`Error occured by tiddler ${addonTiddler}:`);
+                  console.error(error);
+                  // eslint-disable-next-line unicorn/no-useless-undefined
+                  resolve(undefined);
                 }
-                return {
-                  from: minPos,
-                  list: tmplist,
-                  to: editor.getCursor(),
-                };
-              } catch (error) {
-                console.error(`Error occured by tiddler ${addonTiddler}:`);
-                console.error(error);
-                return undefined;
-              }
-            },
-          );
+              }),
+            );
+          }
           const hintsList = await Promise.all(getHintAsyncTasks);
           const result: Hints = {
             from: editor.getCursor(),
