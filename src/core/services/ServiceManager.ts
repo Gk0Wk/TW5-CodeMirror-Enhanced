@@ -1,24 +1,24 @@
-declare var $tw: any;
+import { loadTiddler } from '../utils/tiddlerIO';
 
-import { loadTiddler } from "../utils/tiddlerIO";
+declare let $tw: any;
 
 export interface Addons {
   [addonName: string]: unknown;
 }
 
 export interface Service {
-  readonly name: string;
-  readonly tag?: string | null;
   readonly api?: object;
-  readonly onLoad: (CodeMirror: any, cme: object) => void;
-  readonly onHook: (editor: any, cme: object) => void;
+  readonly name: string;
+  readonly onHook: (editor: any, cme: any) => void;
+  readonly onLoad: (codeMirror: any, cme: any) => void;
+  readonly tag?: string | null;
 }
 
 export class InnerService implements Service {
   public readonly name: string;
   public readonly tag: string | null;
-  public readonly onLoad: (CodeMirror: any, cme: object) => void;
-  public readonly onHook: (editor: any, cme: object) => void;
+  public readonly onLoad: (CodeMirror: any, cme: any) => void;
+  public readonly onHook: (editor: any, cme: any) => void;
   public readonly addons: Addons;
   public readonly isHackEvent: boolean;
   public lastAddonsUpdateTime: Date;
@@ -40,56 +40,46 @@ interface Services {
 
 const services: Services = {};
 
-var api = {};
+const api = {};
 
 function updateService(): void {
-  $tw.utils.each(
-    services,
-    function (service: InnerService, name: string): void {
-      // Update add-ons
-      if (!service.tag) return;
-      let tiddlers: Array<string> = $tw.wiki.filterTiddlers(
-        `[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`
-      );
-      $tw.utils.each(tiddlers, function (tiddler: string): void {
-        if (!(tiddler in service.addons)) {
-          // load add-on not loaded before
-          let addon = loadTiddler(tiddler);
-          if (addon) service.addons[tiddler] = addon;
-        } else {
-          // reload add-on updated after last check
-          let tiddlerData = $tw.wiki.getTiddler(tiddler);
-          if (
-            tiddlerData &&
-            tiddlerData.fields &&
-            ((tiddlerData.fields.modified &&
-              tiddlerData.fields.modified >= service.lastAddonsUpdateTime) ||
-              (tiddlerData.fields.created &&
-                tiddlerData.fields.created >= service.lastAddonsUpdateTime))
-          ) {
-            let addon = loadTiddler(tiddler);
-            if (addon) service.addons[tiddler] = addon;
-            else delete service.addons[tiddler];
-          }
+  $tw.utils.each(services, function (service: InnerService, name: string): void {
+    // Update add-ons
+    if (!service.tag) return;
+    const tiddlers: string[] = $tw.wiki.filterTiddlers(`[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`);
+    $tw.utils.each(tiddlers, function (tiddler: string): void {
+      if (!(tiddler in service.addons)) {
+        // load add-on not loaded before
+        const addon = loadTiddler(tiddler);
+        if (addon != undefined) service.addons[tiddler] = addon;
+      } else {
+        // reload add-on updated after last check
+        const tiddlerData = $tw.wiki.getTiddler(tiddler);
+        if (
+          tiddlerData &&
+          tiddlerData.fields &&
+          ((tiddlerData.fields.modified && tiddlerData.fields.modified >= service.lastAddonsUpdateTime) ||
+            (tiddlerData.fields.created && tiddlerData.fields.created >= service.lastAddonsUpdateTime))
+        ) {
+          const addon = loadTiddler(tiddler);
+          if (addon != undefined) service.addons[tiddler] = addon;
+          else delete service.addons[tiddler];
         }
-      });
-      $tw.utils.each(
-        service.addons,
-        function (addon: unknown, tiddler: string): void {
-          if (tiddler! in tiddlers) {
-            delete service.addons[tiddler];
-          }
-        }
-      );
-      // Update add-on update time
-      service.lastAddonsUpdateTime = new Date();
-    }
-  );
+      }
+    });
+    $tw.utils.each(service.addons, function (addon: unknown, tiddler: string): void {
+      if (tiddler in tiddlers) {
+        delete service.addons[tiddler];
+      }
+    });
+    // Update add-on update time
+    service.lastAddonsUpdateTime = new Date();
+  });
 }
 
 export function registerService(service: Service): void {
   services[service.name] = new InnerService(service);
-  if (service.api) api[service.name] = service.api;
+  if (service.api != undefined) api[service.name] = service.api;
 }
 
 export function unregisterService(name: string): void {
@@ -108,13 +98,10 @@ export function init(CodeMirror: any, cme: object): object {
   // When new editor instance is created, update addons and hook service
   CodeMirror.defineInitHook(function (editor: any): void {
     updateService();
-    $tw.utils.each(
-      services,
-      function (service: InnerService, name: string): void {
-        if (!service.isLoad) service.onLoad(CodeMirror, cme);
-        service.onHook(editor, cme);
-      }
-    );
+    $tw.utils.each(services, function (service: InnerService, name: string): void {
+      if (!service.isLoad) service.onLoad(CodeMirror, cme);
+      service.onHook(editor, cme);
+    });
   });
   return api;
 }

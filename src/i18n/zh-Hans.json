@@ -1,41 +1,41 @@
 {
-    "readme": [
-        "如想了解更多，请关注我们的[[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]]。",
-        "",
-        "为TiddlyWiki的CodeMirror编辑器提供一个灵活而丰富的扩展框架(包括高亮、补全、预览等功能)，任何人都可以使用此框架为编辑器编写扩展插件！目前基于此框架实现的功能有：",
-        "",
-        "* TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮；",
-        "* Wiki链接自动提示；",
-        "* Tiddler预览；",
-        "* 可点击链接；",
-        "",
-        "更多功能正在开发中，欢迎你的加入！"
-    ],
-    "control-panel": {
-        "language": {
-            "title": "当前插件所使用的语言",
-            "description": [
-                "选择适合你的语言，`system`代表跟随系统偏好。",
-                "如果没有适合你的语言，请在[[Issue|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/issues]]中提出，欢迎任何人贡献代码！"
-            ]
-        },
-        "realtime-hint": {
-            "title": "实时代码补全",
-            "description": "无需<kbd>Ctrl</kbd>+<kbd>Space</kbd>，像VSCode一样，在输入时实时进行补全提示(现只支持WikiLink)。",
-            "button-on": "实时代码补全已开启",
-            "button-off": "实时代码补全已关闭"
-        },
-        "clickable-links": {
-            "title": "可点击的链接",
-            "description": "WikiLinks和URL是否可以点击。",
-            "button-on": "可点击链接已开启",
-            "button-off": "可点击链接补全已关闭"
-        },
-        "hint-preview": {
-            "title": "补全时预览",
-            "description": "自动补全时，根据所选建议条目，在补全框右侧弹出小的文档/预览框。",
-            "button-on": "补全时预览已开启",
-            "button-off": "补全时预览已关闭"
-        }
+  "readme": [
+    "如想了解更多，请关注我们的[[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]]。",
+    "",
+    "为TiddlyWiki的CodeMirror编辑器提供一个灵活而丰富的扩展框架(包括高亮、补全、预览等功能)，任何人都可以使用此框架为编辑器编写扩展插件！目前基于此框架实现的功能有：",
+    "",
+    "* TiddlyWiki5(`text/vnd.tiddlywiki`)语法高亮；",
+    "* Wiki链接自动提示；",
+    "* Tiddler预览；",
+    "* 可点击链接；",
+    "",
+    "更多功能正在开发中，欢迎你的加入！"
+  ],
+  "control-panel": {
+    "language": {
+      "title": "当前插件所使用的语言",
+      "description": [
+        "选择适合你的语言，`system`代表跟随系统偏好。",
+        "如果没有适合你的语言，请在[[Issue|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/issues]]中提出，欢迎任何人贡献代码！"
+      ]
+    },
+    "realtime-hint": {
+      "title": "实时代码补全",
+      "description": "无需<kbd>Ctrl</kbd>+<kbd>Space</kbd>，像VSCode一样，在输入时实时进行补全提示(现只支持WikiLink)。",
+      "button-on": "实时代码补全已开启",
+      "button-off": "实时代码补全已关闭"
+    },
+    "clickable-links": {
+      "title": "可点击的链接",
+      "description": "WikiLinks和URL是否可以点击。",
+      "button-on": "可点击链接已开启",
+      "button-off": "可点击链接补全已关闭"
+    },
+    "hint-preview": {
+      "title": "补全时预览",
+      "description": "自动补全时，根据所选建议条目，在补全框右侧弹出小的文档/预览框。",
+      "button-on": "补全时预览已开启",
+      "button-off": "补全时预览已关闭"
     }
+  }
 }
