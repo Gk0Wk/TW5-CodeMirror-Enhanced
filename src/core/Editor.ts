@@ -31,7 +31,7 @@ function replaceCurrentSelections(textArray: string[]): void {
 export function init(): Record<string, unknown> {
   // When new editor instance is created, update addons and hook service
   CodeMirror.defineInitHook(function (editor: CodeMirror.Editor): void {
-    editor.on('focus', function (editor_: CodeMirror.Editor): void {
+    editor.on<'focus'>('focus', function (editor_: CodeMirror.Editor): void {
       activatedEditor = editor_;
     });
   });

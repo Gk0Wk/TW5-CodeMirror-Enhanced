@@ -16,7 +16,7 @@ export function init(): void {
       // Do nothing
     },
     onHook: function (editor: Editor, cme: Record<string, unknown>): void {
-      editor.on('mousedown', function (cm: Editor, event: MouseEvent) {
+      editor.on<'mousedown'>('mousedown', function (cm: Editor, event: MouseEvent) {
         if (event[functionKey] && Options.clickableService) {
           const addons: ServiceManager.Addons = ServiceManager.getAddons('ClickableToken');
           for (const key in addons) {

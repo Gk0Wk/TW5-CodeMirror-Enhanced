@@ -12,23 +12,24 @@ export interface Range {
   to: number;
 }
 
-// FIXME: make this `type Hints = Hint[];`
-export class Hints {
-  constructor(public readonly list: Hint[], public from: CodeMirror.Position) {}
+export interface Hints {
+  from: CodeMirror.Position;
+  readonly list: Array<Hint | string>;
+  to: CodeMirror.Position;
 }
 
 export interface Hint {
-  className: string;
+  className?: string;
   displayText?: string;
-  from: CodeMirror.Position;
+  from?: CodeMirror.Position;
   hint?: (editor: CodeMirror.Editor, hints: Hints, hint: Hint) => void;
   hintMatch?: Range[];
-  render: (hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) => void;
+  render?: (hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) => void;
   renderCache?: string;
   renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
   render_?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
   text: string;
-  to: CodeMirror.Position;
+  to?: CodeMirror.Position;
   type?: string;
 }
 
@@ -153,7 +154,11 @@ export function init(): void {
                     }
                   });
                 }
-                return new Hints(tmplist, minPos);
+                return {
+                  from: minPos,
+                  list: tmplist,
+                  to: editor.getCursor(),
+                };
               } catch (error) {
                 console.error(`Error occured by tiddler ${addonTiddler}:`);
                 console.error(error);
@@ -162,7 +167,11 @@ export function init(): void {
             },
           );
           const hintsList = await Promise.all(getHintAsyncTasks);
-          const result: Hints = new Hints([], editor.getCursor());
+          const result: Hints = {
+            from: editor.getCursor(),
+            list: [],
+            to: editor.getCursor(),
+          };
           hintsList.forEach((hints) => {
             if (hints === undefined) return;
             hints.list.forEach((hint) => {
@@ -171,7 +180,9 @@ export function init(): void {
             if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
           });
           // perform action to dom node when a hint is selected
-          CodeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
+          CodeMirror.on<'select'>(result, 'select', function (selectedData_: string | Hint, selectedNode_: Element): void {
+            const selectedData = selectedData_ as unknown as Hint;
+            const selectedNode = selectedNode_ as HTMLLIElement;
             if (Options.hintPreview) {
               const parentNode = selectedNode.parentNode as HTMLElement;
               const appendId: string = parentNode.id + '-hint-append';
@@ -218,7 +229,7 @@ export function init(): void {
     },
     onHook: (editor: CodeMirror.Editor, cme: Record<string, unknown>): void => {
       // Hint when text change
-      editor.on('change', function (cm: CodeMirror.Editor, event: CodeMirror.EditorChange) {
+      editor.on<'change'>('change', function (cm: CodeMirror.Editor, event: CodeMirror.EditorChange) {
         // Check if hint is open and hint function exists
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
         if (cm.state.completeActive && typeof cm.showHint !== 'function') return;
@@ -226,8 +237,8 @@ export function init(): void {
         if (!Options.realtimeHint) return;
         // If user type something
         if (event.origin === '+input') {
-          // Check if cursor point to any stop words
           if (cm.getDoc().modeOption === 'text/vnd.tiddlywiki') {
+            // Check if cursor point to any stop words
             // If writting tw text
             if (/[,;]$/.test(event.text[0])) return;
           } else {
@@ -243,13 +254,16 @@ export function init(): void {
         }
         // If user delete something
         else if (event.origin === '+delete') {
-          // If delete nothing
-          if (event.removed === undefined || event.removed[0] === '') return;
+          // If delete nothing or to much thing(2+ lines)
+          if (event.removed === undefined || event.removed.length > 2 || event.removed[0] === '') return;
           // If cursor point to the line head
           if (event.to.ch < 2) return;
           // If text of line before the cursor is blank
           const theLine: string = cm.getDoc().getLine(event.to.line);
           if (theLine.length === 0 || theLine.substr(0, event.to.ch - 1).trim() === '') return;
+        } else {
+          // paste cut undo
+          return;
         }
         // If not above, show hint
         cm.showHint({
