@@ -1,7 +1,7 @@
-declare let $tw: any;
-declare function require(path: string): any;
+declare let $tw: unknown;
+declare function require(path: string): unknown;
 
-export function loadTiddler(tiddler: string): object | null {
+export function loadTiddler(tiddler: string): unknown {
   try {
     switch ($tw.wiki.getTiddler(tiddler).fields.type) {
       case 'application/javascript':
@@ -11,11 +11,11 @@ export function loadTiddler(tiddler: string): object | null {
       case 'application/x-tiddler-dictionary':
         return $tw.utils.parseFields($tw.wiki.getTiddlerText(tiddler));
       default:
-        return null;
+        return undefined;
     }
   } catch (error) {
     console.error(error);
-    return null;
+    return undefined;
   }
 }
 

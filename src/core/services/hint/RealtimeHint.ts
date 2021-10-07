@@ -103,7 +103,7 @@ export function init(): void {
   ServiceManager.registerService({
     name: 'RealtimeHint',
     tag: '$:/CodeMirrorEnhanced/RealtimeHint',
-    onLoad: (codeMirror, cme): void => {
+    onLoad: (codeMirror: CodeMirror, cme: any): void => {
       codeMirror.registerHelper('hint', 'tiddlywiki5', async (editor: any, options: any) => {
         try {
           const getHintAsyncTasks: Array<Promise<Hints | null>> = Object.entries(ServiceManager.getAddons('RealtimeHint')).map(

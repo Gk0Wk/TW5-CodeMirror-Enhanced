@@ -1,6 +1,6 @@
 import * as ServiceManager from '../ServiceManager';
 import { Addons, getAddons } from '../ServiceManager';
-declare let $tw: any;
+import * as cm from 'codemirror';
 
 export interface ISnippet {
   /** whether to enable i18n for name and preview, if this is true, then name and preview should be i18n key instead of literal */
@@ -22,7 +22,7 @@ export function init(): void {
     name: 'SnippetsList',
     tag: '$:/CodeMirrorEnhanced/SnippetsList',
     onLoad: function (CodeMirror: any, cme: object): void {},
-    onHook: function (editor: any, cme: object): void {},
+    onHook: function (editor: cm.Editor, cme: object): void {},
     api: {
       getSnippetsList,
     },

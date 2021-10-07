@@ -46,7 +46,7 @@
     Object.entries(cme.service.SnippetsList.getSnippetsList()).forEach(([snippetFileName, snippets]) => {
       snippets.forEach((snippet) => {
         try {
-          if (snippet.name.includes(currentWord)) {
+          if (snippet.id.includes(currentWord)) {
             if (snippet.i18n) {
               // cannot use ... syntax here, for backward compatibility
               snippet = Object.assign(snippet, {
@@ -54,12 +54,12 @@
                 preview: $tw.wiki.filterTiddlers(`[cmei18n[${snippet.preview}]]`)[0],
               });
             }
+            const displayText = snippet.name + "  /" + snippet.id;
             hints.push({
               /** pass full snippet object to hint service */
               text: snippet,
-              displayText: snippet.name,
-              // FIXME: try to make it able to search via id, but not working here
-              hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(snippet.name + snippet.id, currentWord),
+              displayText: displayText,
+              hintMatch: cme.service.RealtimeHint.makeLiteralHintMatch(displayText, currentWord),
             });
           }
         } catch (error) {

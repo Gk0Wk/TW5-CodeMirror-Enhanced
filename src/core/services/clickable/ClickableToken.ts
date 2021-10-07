@@ -1,11 +1,11 @@
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
-declare let $tw: any;
+import { Editor } from 'codemirror';
 
 const functionKey = /macintosh|mac os x/i.test(navigator.userAgent) ? 'metaKey' : 'ctrlKey';
 
 interface ClickableAddon {
-  handler: (editor: any, event: any, cme: object) => boolean;
+  handler: (editor: Editor, event: any, cme: object) => boolean;
 }
 
 export function init(): void {
@@ -13,8 +13,8 @@ export function init(): void {
     name: 'ClickableToken',
     tag: '$:/CodeMirrorEnhanced/ClickableToken',
     onLoad: function (CodeMirror: any, cme: object): void {},
-    onHook: function (editor: any, cme: object): void {
-      editor.on('mousedown', function (cm: any, event: any) {
+    onHook: function (editor: Editor, cme: object): void {
+      editor.on('mousedown', function (cm: Editor, event: MouseEvent) {
         if (event[functionKey] && Options.clickableService) {
           const addons: ServiceManager.Addons = ServiceManager.getAddons('ClickableToken');
           for (const key in addons) {

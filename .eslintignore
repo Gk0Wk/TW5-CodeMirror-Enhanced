@@ -3,3 +3,4 @@ node_modules/
 .github/
 dist/
 media/
+src/mode/

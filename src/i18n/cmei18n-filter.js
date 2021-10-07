@@ -52,7 +52,8 @@
         message = node;
         break;
       } else if (Array.isArray(node)) {
-        message = node.join('\n');
+        cache[message] = node.join('\n');
+        message = cache[message];
         break;
       } else if (cache[message]) {
         message = cache[message];
