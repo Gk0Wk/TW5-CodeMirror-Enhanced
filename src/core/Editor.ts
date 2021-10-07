@@ -1,35 +1,37 @@
-declare let $tw: any;
+import * as CodeMirror from 'codemirror';
 
-let activatedEditor: any = null;
+let activatedEditor: CodeMirror.Editor | undefined;
 
-function currentEditor(): any {
-  if (!activatedEditor.display.wrapper.ownerDocument.contains(activatedEditor.display.wrapper)) activatedEditor = null;
+function currentEditor(): CodeMirror.Editor | undefined {
+  if (activatedEditor === undefined) return undefined;
+  const wrapper: HTMLElement = activatedEditor.getWrapperElement();
+  if (!wrapper.ownerDocument.contains(wrapper)) activatedEditor = undefined;
   return activatedEditor;
 }
 
 function insertToCurrentEditor(text: string): boolean {
   const editor = currentEditor();
-  if (!editor) return false;
+  if (editor === undefined) return false;
   editor.replaceRange(text, editor.getCursor(), editor.getCursor(), 'input');
   return true;
 }
 
 function getCurrentSelections(): string[] {
   const editor = currentEditor();
-  if (!editor) return [];
+  if (editor === undefined) return [];
   return editor.getSelections();
 }
 
 function replaceCurrentSelections(textArray: string[]): void {
   const editor = currentEditor();
-  if (!editor) return;
+  if (editor === undefined) return;
   editor.replaceSelections(textArray);
 }
 
-export function init(CodeMirror: any): object {
+export function init(): Record<string, unknown> {
   // When new editor instance is created, update addons and hook service
-  CodeMirror.defineInitHook(function (editor: any): void {
-    editor.on('focus', function (editor_: any): void {
+  CodeMirror.defineInitHook(function (editor: CodeMirror.Editor): void {
+    editor.on('focus', function (editor_: CodeMirror.Editor): void {
       activatedEditor = editor_;
     });
   });

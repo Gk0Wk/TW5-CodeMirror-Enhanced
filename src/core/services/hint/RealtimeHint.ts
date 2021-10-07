@@ -1,9 +1,10 @@
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
-declare let $tw: any;
+import * as CodeMirror from 'codemirror';
+import 'codemirror/addon/hint/show-hint';
 
 export interface HintAddon {
-  hint: (editor: any, options: any, cme: any) => HintResults;
+  hint: (editor: CodeMirror.Editor, options: CodeMirror.ShowHintOptions, cme: Record<string, unknown>) => HintResults | undefined;
 }
 
 export interface Range {
@@ -13,47 +14,47 @@ export interface Range {
 
 // FIXME: make this `type Hints = Hint[];`
 export class Hints {
-  constructor(public readonly list: Hint[], public from: any) {}
+  constructor(public readonly list: Hint[], public from: CodeMirror.Position) {}
 }
 
 export interface Hint {
   className: string;
   displayText?: string;
-  from: any;
-  hint?: (editor: any, hints: Hints, hint: Hint) => void;
+  from: CodeMirror.Position;
+  hint?: (editor: CodeMirror.Editor, hints: Hints, hint: Hint) => void;
   hintMatch?: Range[];
   render: (hintNode: HTMLLIElement, hints: Hints, currentHint: Hint) => void;
   renderCache?: string;
   renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
   render_?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
   text: string;
-  to: any;
+  to: CodeMirror.Position;
   type?: string;
 }
 
 export interface HintResult {
   className?: string;
   displayText?: string;
-  from?: any;
-  hint?: (editor: any, hints: Hints, hint: Hint) => void;
+  from?: CodeMirror.Position;
+  hint?: (editor: CodeMirror.Editor, hints: Hints, hint: Hint) => void;
   hintMatch?: Range[];
   render?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
   renderCache?: string;
   renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
   text: string;
-  to?: any;
+  to?: CodeMirror.Position;
   type?: string;
 }
 
 export interface HintResults {
   className?: string;
-  from?: any;
-  hint?: (editor: any, hints: Hints, hint: Hint) => void;
+  from?: CodeMirror.Position;
+  hint?: (editor: CodeMirror.Editor, hints: Hints, hint: Hint) => void;
   hintMatch?: Range[];
   list: Array<HintResult | string>;
   render?: (hintNode: HTMLSpanElement, hints: Hints, currentHint: Hint) => void;
   renderPreview?: (domNode: HTMLDivElement, selectedData: Hint, selectedNode: HTMLLIElement) => boolean;
-  to?: any;
+  to?: CodeMirror.Position;
   type?: string;
 }
 
@@ -103,48 +104,52 @@ export function init(): void {
   ServiceManager.registerService({
     name: 'RealtimeHint',
     tag: '$:/CodeMirrorEnhanced/RealtimeHint',
-    onLoad: (codeMirror: CodeMirror, cme: any): void => {
-      codeMirror.registerHelper('hint', 'tiddlywiki5', async (editor: any, options: any) => {
+    onLoad: (cme: Record<string, unknown>): void => {
+      CodeMirror.registerHelper('hint', 'tiddlywiki5', async (editor: CodeMirror.Editor, options: CodeMirror.ShowHintOptions) => {
         try {
-          const getHintAsyncTasks: Array<Promise<Hints | null>> = Object.entries(ServiceManager.getAddons('RealtimeHint')).map(
-            async ([addonTiddler, addon]: [string, unknown]): Promise<Hints | null> => {
+          const getHintAsyncTasks: Array<Promise<Hints | undefined>> = Object.entries(ServiceManager.getAddons('RealtimeHint')).map(
+            async ([addonTiddler, addon]: [string, unknown]): Promise<Hints | undefined> => {
               // TODO: do some check here to make sure it is HintAddon
               const hintAddon = addon as HintAddon;
               try {
-                const hints: HintResults = hintAddon.hint(editor, options, cme);
+                const hints: HintResults | undefined = hintAddon.hint(editor, options, cme);
                 const tmplist: Hint[] = [];
-                let minPos: any = editor.getCursor();
-                if (hints && typeof hints === 'object') {
-                  if (hints.from && codeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
+                let minPos: CodeMirror.Position = editor.getCursor();
+                if (typeof hints === 'object') {
+                  if (hints.from !== undefined && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
                   hints.list.forEach((hint: HintResult | string) => {
                     if (typeof hint === 'string') {
-                      tmplist.push({
-                        text: hint,
-                        from: hints.from,
-                        to: hints.to,
-                        render_: hints.render,
-                        render: globalHintRender,
-                        renderPreview: hints.renderPreview,
-                        hint: hints.hint,
-                        type: hints.type,
-                        className: 'cm-hacked-hint',
-                      });
+                      if (hints.from !== undefined && hints.to !== undefined)
+                        tmplist.push({
+                          text: hint,
+                          from: hints.from,
+                          to: hints.to,
+                          render_: hints.render,
+                          render: globalHintRender,
+                          renderPreview: hints.renderPreview,
+                          hint: hints.hint,
+                          type: hints.type,
+                          className: 'cm-hacked-hint',
+                        });
                     } else {
-                      tmplist.push({
-                        text: hint.text,
-                        displayText: hint.displayText,
-                        from: hint.from || hints.from,
-                        to: hint.to || hints.to,
-                        render_: hint.render !== undefined || hints.render,
-                        render: globalHintRender,
-                        renderPreview: hint.renderPreview !== undefined || hints.renderPreview,
-                        hintMatch: hint.hintMatch !== undefined || hints.hintMatch,
-                        hint: hint.hint !== undefined || hints.hint,
-                        type: hint.type || hints.type,
-                        renderCache: hint.renderCache,
-                        className: 'cm-hacked-hint',
-                      });
-                      if (hint.from && codeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
+                      const _from = hint.from === undefined ? hints.from : hint.from;
+                      const _to = hint.to === undefined ? hints.to : hint.to;
+                      if (_from !== undefined && _to !== undefined)
+                        tmplist.push({
+                          text: hint.text,
+                          displayText: hint.displayText,
+                          from: _from,
+                          to: _to,
+                          render_: hint.render === undefined ? hints.render : hint.render,
+                          render: globalHintRender,
+                          renderPreview: hint.renderPreview === undefined ? hints.renderPreview : hint.renderPreview,
+                          hintMatch: hint.hintMatch === undefined ? hints.hintMatch : hint.hintMatch,
+                          hint: hint.hint === undefined ? hints.hint : hint.hint,
+                          type: hint.type === undefined ? hints.type : hint.type,
+                          renderCache: hint.renderCache,
+                          className: 'cm-hacked-hint',
+                        });
+                      if (hint.from !== undefined && CodeMirror.cmpPos(minPos, hint.from) > 0) minPos = hint.from;
                     }
                   });
                 }
@@ -152,75 +157,77 @@ export function init(): void {
               } catch (error) {
                 console.error(`Error occured by tiddler ${addonTiddler}:`);
                 console.error(error);
-                return null;
+                return undefined;
               }
             },
           );
           const hintsList = await Promise.all(getHintAsyncTasks);
           const result: Hints = new Hints([], editor.getCursor());
           hintsList.forEach((hints) => {
-            if (hints == undefined) return;
+            if (hints === undefined) return;
             hints.list.forEach((hint) => {
               result.list.push(hint);
             });
-            if (codeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
+            if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
           });
           // perform action to dom node when a hint is selected
-          codeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
+          CodeMirror.on(result, 'select', function (selectedData: Hint, selectedNode: HTMLLIElement): void {
             if (Options.hintPreview) {
-              const appendId: string = (selectedNode.parentNode as HTMLElement).id + '-hint-append';
-              let previewBoxNode: HTMLDivElement = selectedNode.ownerDocument.getElementById(appendId) as HTMLDivElement;
-              const shouldCreate = !previewBoxNode;
+              const parentNode = selectedNode.parentNode as HTMLElement;
+              const appendId: string = parentNode.id + '-hint-append';
+              let previewBoxNode: HTMLDivElement | null = selectedNode.ownerDocument.querySelector(`#${appendId}`) as HTMLDivElement;
+              const shouldCreate = previewBoxNode === null;
               if (shouldCreate) {
                 previewBoxNode = selectedNode.ownerDocument.createElement('div');
                 previewBoxNode.id = appendId;
-                previewBoxNode.className = 'CodeMirror-hints CodeMirror-hints-append ' + editor.options.theme;
-                previewBoxNode.style.left = (selectedNode.parentNode as HTMLElement).offsetLeft + (selectedNode.parentNode as HTMLElement).offsetWidth + 'px';
-                previewBoxNode.style.top = (selectedNode.parentNode as HTMLElement).offsetTop + 'px';
+                previewBoxNode.className =
+                  'CodeMirror-hints CodeMirror-hints-append ' + (editor.getOption('theme') === undefined ? '' : (editor.getOption('theme') as string));
+                previewBoxNode.style.left = `${parentNode.offsetLeft + parentNode.offsetWidth}px`;
+                previewBoxNode.style.top = `${parentNode.offsetTop}px`;
               }
-              let shouldDisplay: boolean;
+              let shouldDisplay = false;
               try {
-                if (selectedData.renderCache && typeof selectedData.renderCache === 'string') {
+                if (selectedData.renderCache !== undefined && typeof selectedData.renderCache === 'string') {
                   previewBoxNode.innerHTML = selectedData.renderCache;
                   shouldDisplay = true;
                 } else if (selectedData.renderPreview !== undefined && typeof selectedData.renderPreview === 'function') {
                   shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
                   if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
-                } else {
-                  shouldDisplay = false;
                 }
               } catch (error) {
-                previewBoxNode.innerText = String(error);
+                previewBoxNode.textContent = String(error);
                 console.error(error);
               }
               if (shouldDisplay) {
                 if (shouldCreate) {
-                  codeMirror.on(result, 'close', function (): void {
-                    if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+                  CodeMirror.on(result, 'close', function (): void {
+                    if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode?.remove();
                   });
                   selectedNode.ownerDocument.body.append(previewBoxNode);
                 }
-              } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode.remove();
+              } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode?.remove();
             }
           });
           return result;
         } catch (error) {
           console.error(error);
+          // eslint-disable-next-line unicorn/no-null
           return null;
         }
       });
     },
-    onHook: (editor: any, cme: object): void => {
+    onHook: (editor: CodeMirror.Editor, cme: Record<string, unknown>): void => {
       // Hint when text change
-      editor.on('change', function (cm: any, event: any) {
+      editor.on('change', function (cm: CodeMirror.Editor, event: CodeMirror.EditorChange) {
         // Check if hint is open and hint function exists
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
         if (cm.state.completeActive && typeof cm.showHint !== 'function') return;
         // Check if auto hint switch on
         if (!Options.realtimeHint) return;
         // If user type something
         if (event.origin === '+input') {
           // Check if cursor point to any stop words
-          if (cm.doc.modeOption === 'text/vnd.tiddlywiki') {
+          if (cm.getDoc().modeOption === 'text/vnd.tiddlywiki') {
             // If writting tw text
             if (/[,;]$/.test(event.text[0])) return;
           } else {
@@ -229,7 +236,7 @@ export function init(): void {
           }
           // Check if just break the line
           if (event.text[0].trim() === '') {
-            if (event.text[1]) {
+            if (event.text.length > 1) {
               if (event.text[1].trim() === '') return;
             } else return;
           }
@@ -237,12 +244,12 @@ export function init(): void {
         // If user delete something
         else if (event.origin === '+delete') {
           // If delete nothing
-          if (event.removed[0] === '') return;
+          if (event.removed === undefined || event.removed[0] === '') return;
           // If cursor point to the line head
           if (event.to.ch < 2) return;
           // If text of line before the cursor is blank
           const theLine: string = cm.getDoc().getLine(event.to.line);
-          if (!theLine || theLine.substr(0, event.to.ch - 1).trim() === '') return;
+          if (theLine.length === 0 || theLine.substr(0, event.to.ch - 1).trim() === '') return;
         }
         // If not above, show hint
         cm.showHint({
@@ -256,10 +263,11 @@ export function init(): void {
     api: {
       makeLiteralHintMatch: (text: string, search: string, times?: number): Range[] => {
         const hintMatch: Range[] = [];
-        if (times === 0 || !text || !search) return hintMatch;
+        if (times === 0 || text.length === 0 || search.length === 0) return hintMatch;
         let counter = 0;
         let to = 0;
-        while (!times || counter++ < times) {
+        // eslint-disable-next-line no-unmodified-loop-condition
+        while (times === undefined || counter++ < times) {
           const from: number = text.indexOf(search, to);
           if (from < 0) break;
           to = from + search.length;

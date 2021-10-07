@@ -1,39 +1,39 @@
-declare let $tw: any;
+declare let $tw: unknown;
 
 function getOption(key: string): string | undefined {
-  return $tw.wiki.filterTiddlers(`[[$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config.json]getindex[${key}]]`)[0];
+  return ($tw.wiki.filterTiddlers(`[[$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config.json]getindex[${key}]]`) as string[])[0];
 }
 
 function getBoolean(key: string, defaultValue: boolean): boolean {
   const optionText: string | undefined = getOption(key);
-  return optionText ? optionText.toLowerCase() === 'true' : defaultValue;
+  return optionText !== undefined ? optionText.toLowerCase() === 'true' : defaultValue;
 }
 
 function getInteger(key: string, defaultValue: number): number {
   const optionText: string | undefined = getOption(key);
-  return optionText ? $tw.utils.parseInt(optionText) : defaultValue;
+  return optionText !== undefined ? ($tw.utils.parseInt(optionText) as number) : defaultValue;
 }
 
 function getNumber(key: string, defaultValue: number): number {
   const optionText: string | undefined = getOption(key);
-  return optionText ? $tw.utils.parseNumber(getOption(key)) : defaultValue;
+  return optionText !== undefined ? ($tw.utils.parseNumber(optionText) as number) : defaultValue;
 }
 
 function getString(key: string, defaultValue: string): string {
   const optionText: string | undefined = getOption(key);
-  return optionText || defaultValue;
+  return optionText !== undefined ? optionText : defaultValue;
 }
 
 export default class Options {
-  static get clickableService() {
+  static get clickableService(): boolean {
     return getBoolean('clickable-links', false);
   }
 
-  static get realtimeHint() {
+  static get realtimeHint(): boolean {
     return getBoolean('realtime-hint', false);
   }
 
-  static get hintPreview() {
+  static get hintPreview(): boolean {
     return getBoolean('hint-preview', false);
   }
 }

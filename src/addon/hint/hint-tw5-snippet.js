@@ -30,7 +30,7 @@
     while (pointer) {
       const ch = currentLine.charAt(pointer - 1);
       if (end - pointer > max_length && !/[\w./\-]/i.test(ch)) {
-        return null;
+        return undefined;
       }
       if (ch !== '/') {
         pointer--;
@@ -38,7 +38,7 @@
         break;
       }
     }
-    if (pointer == 0) return null;
+    if (pointer == 0) return undefined;
     const currentWord = currentLine.slice(pointer, end);
 
     const hints = [];

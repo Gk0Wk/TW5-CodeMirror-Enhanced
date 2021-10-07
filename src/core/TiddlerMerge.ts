@@ -56,7 +56,7 @@ function checkIncomingTiddler(tiddler: Tiddler): Tiddler | undefined {
   return temporaryTiddler;
 }
 
-export function init(CodeMirror: any): Record<string, unknown> {
+export function init(): Record<string, unknown> {
   // Merge config file
   if (isOverrideCMEShadowTiddler('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config.json')) {
     const mergedTiddler = mergeShadowAndTiddler('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/config.json');

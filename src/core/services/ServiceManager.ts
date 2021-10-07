@@ -1,8 +1,8 @@
 import { loadTiddler } from '../utils/tiddlerIO';
-import { Editor } from 'codemirror';
+import * as CodeMirror from 'codemirror';
 import { Tiddler } from '../tw/Tiddler';
 
-declare let $tw: any;
+declare let $tw: unknown;
 
 export interface Addons {
   [addonName: string]: unknown;
@@ -11,16 +11,16 @@ export interface Addons {
 export interface Service {
   readonly api?: Record<string, unknown>;
   readonly name: string;
-  readonly onHook: (editor: Editor, cme: any) => void;
-  readonly onLoad: (codeMirror: any, cme: any) => void;
+  readonly onHook: (editor: CodeMirror.Editor, cme: Record<string, unknown>) => void;
+  readonly onLoad: (cme: Record<string, unknown>) => void;
   readonly tag?: string;
 }
 
 export class InnerService implements Service {
   public readonly name: string;
   public readonly tag?: string;
-  public readonly onLoad: (CodeMirror: any, cme: any) => void;
-  public readonly onHook: (editor: Editor, cme: any) => void;
+  public readonly onLoad: (cme: Record<string, unknown>) => void;
+  public readonly onHook: (editor: CodeMirror.Editor, cme: Record<string, unknown>) => void;
   public readonly addons: Addons;
   public lastAddonsUpdateTime: Date;
   public isLoad: boolean;
@@ -44,7 +44,10 @@ function updateService(): void {
     // Update add-ons
     if (service.tag === undefined) return;
     const tiddlers: string[] = $tw.wiki.filterTiddlers(`[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`) as string[];
-    $tw.utils.each(tiddlers, function (tiddler: string): void {
+
+    // register each existing addon tiddler
+    for (let index = 0, length = tiddlers.length; index < length; index++) {
+      const tiddler: string = tiddlers[index];
       if (!(tiddler in service.addons)) {
         // load add-on not loaded before
         const addon = loadTiddler(tiddler);
@@ -63,7 +66,9 @@ function updateService(): void {
           else delete service.addons[tiddler];
         }
       }
-    });
+    }
+
+    // Unregister tiddlers already without tag
     $tw.utils.each(service.addons, function (addon: unknown, tiddler: string): void {
       if (!tiddlers.includes(tiddler)) {
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -93,12 +98,12 @@ export function getAddons(name: string): Addons {
   return services[name].addons;
 }
 
-export function init(CodeMirror: any, cme: Record<string, unknown>): Record<string, unknown> {
+export function init(cme: Record<string, unknown>): Record<string, unknown> {
   // When new editor instance is created, update addons and hook service
-  CodeMirror.defineInitHook(function (editor: Editor): void {
-    updateService();·
+  CodeMirror.defineInitHook(function (editor: CodeMirror.Editor): void {
+    updateService();
     $tw.utils.each(services, function (service: InnerService, name: string): void {
-      if (!service.isLoad) service.onLoad(CodeMirror, cme);
+      if (!service.isLoad) service.onLoad(cme);
       service.onHook(editor, cme);
     });
   });
