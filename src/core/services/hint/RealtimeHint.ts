@@ -185,46 +185,61 @@ export function init(): void {
             });
             if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;
           });
-          // perform action to dom node when a hint is selected
-          CodeMirror.on<'select'>(result, 'select', function (selectedData_: string | Hint, selectedNode_: Element): void {
-            const selectedData = selectedData_ as unknown as Hint;
-            const selectedNode = selectedNode_ as HTMLLIElement;
-            if (Options.hintPreview) {
-              const parentNode = selectedNode.parentNode as HTMLElement;
-              const appendId: string = parentNode.id + '-hint-append';
-              let previewBoxNode: HTMLDivElement | null = selectedNode.ownerDocument.querySelector(`#${appendId}`) as HTMLDivElement;
-              const shouldCreate = previewBoxNode === null;
-              if (shouldCreate) {
-                previewBoxNode = selectedNode.ownerDocument.createElement('div');
-                previewBoxNode.id = appendId;
-                previewBoxNode.className =
-                  'CodeMirror-hints CodeMirror-hints-append ' + (editor.getOption('theme') === undefined ? '' : (editor.getOption('theme') as string));
-                previewBoxNode.style.left = `${parentNode.offsetLeft + parentNode.offsetWidth}px`;
-                previewBoxNode.style.top = `${parentNode.offsetTop}px`;
-              }
-              let shouldDisplay = false;
-              try {
-                if (selectedData.renderCache !== undefined && typeof selectedData.renderCache === 'string') {
-                  previewBoxNode.innerHTML = selectedData.renderCache;
-                  shouldDisplay = true;
-                } else if (selectedData.renderPreview !== undefined && typeof selectedData.renderPreview === 'function') {
-                  shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
-                  if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
-                }
-              } catch (error) {
-                previewBoxNode.textContent = String(error);
-                console.error(error);
-              }
-              if (shouldDisplay) {
+          // Check if hint result is empty
+          // eslint-disable-next-line unicorn/no-null
+          let previewBoxNode: HTMLDivElement | null;
+          const closePreview = (): void => {
+            if (previewBoxNode?.ownerDocument.body?.contains(previewBoxNode) === true) previewBoxNode?.remove();
+          };
+          if (result.list.length > 0) {
+            // perform action to dom node when a hint is selected
+            CodeMirror.on<'select'>(result, 'select', function (selectedData_: string | Hint, selectedNode_: Element): void {
+              const selectedData = selectedData_ as unknown as Hint;
+              const selectedNode = selectedNode_ as HTMLLIElement;
+              if (Options.hintPreview) {
+                const parentNode = selectedNode.parentNode as HTMLElement;
+                const appendId: string = parentNode.id + '-hint-append';
+                previewBoxNode = selectedNode.ownerDocument.querySelector(`#${appendId}`) as HTMLDivElement;
+                const shouldCreate = previewBoxNode === null || previewBoxNode === undefined;
                 if (shouldCreate) {
-                  CodeMirror.on(result, 'close', function (): void {
-                    if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode?.remove();
-                  });
-                  selectedNode.ownerDocument.body.append(previewBoxNode);
+                  previewBoxNode = selectedNode.ownerDocument.createElement('div');
+                  previewBoxNode.id = appendId;
+                  previewBoxNode.className =
+                    'CodeMirror-hints CodeMirror-hints-append ' + (editor.getOption('theme') === undefined ? '' : (editor.getOption('theme') as string));
+                  previewBoxNode.style.left = `${parentNode.offsetLeft + parentNode.offsetWidth}px`;
+                  previewBoxNode.style.top = `${parentNode.offsetTop}px`;
                 }
-              } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode?.remove();
-            }
-          });
+                let shouldDisplay = false;
+                try {
+                  if (typeof selectedData.renderCache === 'string') {
+                    previewBoxNode.innerHTML = selectedData.renderCache;
+                    shouldDisplay = true;
+                  } else if (typeof selectedData.renderPreview === 'function') {
+                    shouldDisplay = selectedData.renderPreview(previewBoxNode, selectedData, selectedNode);
+                    if (shouldDisplay && previewBoxNode.innerHTML.trim() === '') shouldDisplay = false;
+                  }
+                } catch (error) {
+                  previewBoxNode.textContent = String(error);
+                  console.error(error);
+                }
+                if (shouldDisplay) {
+                  if (shouldCreate) {
+                    CodeMirror.on<'close'>(result, 'close', closePreview);
+                    CodeMirror.on<'endCompletion'>(editor, 'endCompletion', closePreview);
+                    let closingOnBlur: number;
+                    editor.on<'blur'>('blur', (): void => {
+                      closingOnBlur = setTimeout(closePreview, 100);
+                    });
+                    editor.on<'focus'>('focus', (): void => clearTimeout(closingOnBlur));
+                    selectedNode.ownerDocument.body.append(previewBoxNode);
+                  }
+                } else if (selectedNode.ownerDocument.body.contains(previewBoxNode)) previewBoxNode?.remove();
+              }
+            });
+          } else {
+            // If empty, close previous preview box.
+            closePreview();
+          }
           return result;
         } catch (error) {
           console.error(error);
