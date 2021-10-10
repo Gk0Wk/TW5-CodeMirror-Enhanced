@@ -1,4 +1,9 @@
 title: Index
 type: text/vnd.tiddlywiki
 
-Please view $:/ControlPanel for plugins list, more readme is on the way.
+# Type `/` for snippets
+# Try more syntax for highlights
+
+{{EditorExample}}
+
+{{EditorExampleStateTiddler}}

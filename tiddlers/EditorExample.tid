@@ -1,0 +1,4 @@
+title: EditorExample
+type: text/vnd.tiddlywiki
+
+<$edit-codemirror class="demo-textarea" focus="yes" tiddler="EditorExampleStateTiddler" />
