@@ -108,4 +108,4 @@ dist
 # demo page
 public-dist
 output
-tiddlers/$__StoryList.tid
+docs/tiddlers/$__StoryList.tid
