@@ -9,7 +9,8 @@
     "lint:fix": "eslint ./src --ext js,ts,tsx,json --fix",
     "lint:prettier": "prettier --check \"**/*.*\"",
     "lint:prettier:fix": "prettier --write \"**/*.*\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo-wiki": "zx scripts/build-wiki.mjs"
   },
   "main": "index.js",
   "devDependencies": {
@@ -39,12 +40,16 @@
     "eslint-plugin-security-node": "1.0.14",
     "eslint-plugin-typescript-sort-keys": "^1.8.0",
     "eslint-plugin-unicorn": "36.0.0",
+    "html-minifier-terser": "^6.0.2",
     "prettier": "^2.4.1",
     "rollup": "^2.58.0",
     "terser": "^5.9.0",
+    "tiddlywiki": "^5.2.0",
     "tslib": "^2.3.1",
     "typescript": "^4.4.3",
-    "uglify-js": "^3.14.2"
+    "uglify-js": "^3.14.2",
+    "workbox-cli": "^6.3.0",
+    "zx": "^4.2.0"
   },
   "repository": {
     "type": "git",
