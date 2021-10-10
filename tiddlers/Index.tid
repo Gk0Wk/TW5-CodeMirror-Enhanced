@@ -1,9 +1,0 @@
-title: Index
-type: text/vnd.tiddlywiki
-
-# Type `/` for snippets
-# Try more syntax for highlights
-
-{{EditorExample}}
-
-{{EditorExampleStateTiddler}}
