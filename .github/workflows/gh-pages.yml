@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependency
         run: npm install
       - name: Build
-        run: npm run build
+        run: npm run build && cp dist/TW5-CodeMirror-Enhanced-*.json 'docs/tiddlers/$__plugins_Gk0Wk_TW5-CodeMirror-Enhanced.json'
       - name: Build DemoWiki
         run: npm run build-demo
 
