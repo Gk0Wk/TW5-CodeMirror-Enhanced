@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
@@ -19,7 +19,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Build DemoWiki
-        run: npm run demo-wiki
+        run: npm run build-demo
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

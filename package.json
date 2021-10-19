@@ -10,7 +10,7 @@
     "lint:prettier": "prettier --check \"**/*.*\"",
     "lint:prettier:fix": "prettier --write \"**/*.*\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo-wiki": "zx scripts/build-wiki.mjs"
+    "build-demo": "zx doc/build.mjs"
   },
   "main": "index.js",
   "devDependencies": {

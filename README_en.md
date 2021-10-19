@@ -1,5 +1,7 @@
 # CodeMirror-Mode-TiddlyWiki5
 
+[示例 | demo](https://gk0wk.github.io/TW5-CodeMirror-Enhanced/)
+
 Implement a swift and rich extension framework for TiddlyWiki5's CodeMirror editor, including TiddlyWiki5 (`text/vnd.tiddlywiki`) syntax highlighting, Wiki link auto-completion, clickable links, Tiddler preview, and more. More features ( syntax tree, syntax completion , WYSIWYG mode , quick template input , etc. ) is under development . This framework is open source framework , anyone is welcome to join the development , the documentation is being written .
 
 [> 中文 README <](https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/blob/main/README.md)
