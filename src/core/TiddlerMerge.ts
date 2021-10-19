@@ -65,11 +65,11 @@ export function init(): Record<string, unknown> {
   }
 
   // Merge i18n files
-  for (const i18nShadowTiddler of getOverridei18nShadowTiddler()) {
+  $tw.utils.each(getOverridei18nShadowTiddler(), (i18nShadowTiddler) => {
     const mergedTiddler = mergeShadowAndTiddler(i18nShadowTiddler);
     if (mergedTiddler !== undefined) $tw.wiki.addTiddler(mergedTiddler);
     else $tw.wiki.deleteTiddler(i18nShadowTiddler);
-  }
+  });
 
   $tw.hooks.addHook('th-saving-tiddler', checkIncomingTiddler);
   $tw.hooks.addHook('th-importing-tiddler', checkIncomingTiddler);

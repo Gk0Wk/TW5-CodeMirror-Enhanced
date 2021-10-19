@@ -76,7 +76,7 @@ function globalHintRender(hintNode: HTMLLIElement, hints: Hints, currentHint: Hi
           return a.from - b.from;
         });
         let pointer = 0;
-        currentHint.hintMatch.forEach(function (range: Range): void {
+        $tw.utils.each(currentHint.hintMatch, function (range: Range): void {
           if (range.from > pointer) {
             textList.push(text.substring(pointer, range.from));
           }
@@ -122,7 +122,7 @@ export function init(): void {
                   let minPos: CodeMirror.Position = editor.getCursor();
                   if (typeof hints === 'object') {
                     if (hints.from !== undefined && CodeMirror.cmpPos(minPos, hints.from) > 0) minPos = hints.from;
-                    hints.list.forEach((hint: HintResult | string) => {
+                    $tw.utils.each(hints.list, function (hint: HintResult | string) {
                       if (typeof hint === 'string') {
                         if (hints.from !== undefined && hints.to !== undefined)
                           tmplist.push({
@@ -178,9 +178,9 @@ export function init(): void {
             list: [],
             to: editor.getCursor(),
           };
-          hintsList.forEach((hints) => {
+          $tw.utils.each(hintsList, function (hints: Hints | undefined) {
             if (hints === undefined) return;
-            hints.list.forEach((hint) => {
+            $tw.utils.each(hints.list, function (hint: string | Hint) {
               result.list.push(hint);
             });
             if (CodeMirror.cmpPos(result.from, hints.from) > 0) result.from = hints.from;

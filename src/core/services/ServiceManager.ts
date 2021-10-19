@@ -40,15 +40,13 @@ const services: Record<string, InnerService> = {};
 const api: Record<string, unknown> = {};
 
 function updateService(): void {
-  for (const name in services) {
-    const service: InnerService = services[name];
+  $tw.utils.each(services, (service: InnerService, name: string): boolean | undefined => {
     // Update add-ons
     if (service.tag === undefined) return;
     const tiddlers: string[] = $tw.wiki.filterTiddlers(`[all[tiddlers+shadows]tag[${service.tag}]!is[draft]]`) as string[];
 
     // register each existing addon tiddler
-    for (let index = 0, length = tiddlers.length; index < length; index++) {
-      const tiddler: string = tiddlers[index];
+    $tw.utils.each(tiddlers, function (tiddler: string) {
       if (!(tiddler in service.addons)) {
         // load add-on not loaded before
         const addon = loadTiddler(tiddler);
@@ -67,18 +65,18 @@ function updateService(): void {
           else delete service.addons[tiddler];
         }
       }
-    }
+    });
 
     // Unregister tiddlers already without tag
-    for (const tiddler in service.addons) {
+    $tw.utils.each(service.addons, function (addon: unknown, tiddler: string) {
       if (!tiddlers.includes(tiddler)) {
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete service.addons[tiddler];
       }
-    }
+    });
     // Update add-on update time
     service.lastAddonsUpdateTime = new Date();
-  }
+  });
 }
 
 export function registerService(service: Service): void {
