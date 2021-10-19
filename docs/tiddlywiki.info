@@ -18,6 +18,8 @@
     "tiddlywiki/katex",
     "tiddlywiki/markdown",
     "tiddlywiki/sax",
+    "tiddlywiki/bibtex",
+    "tiddlywiki/menubar",
     "dullroar/sitemap",
     "souk21/commandpalette",
     "flibbles/relink",
