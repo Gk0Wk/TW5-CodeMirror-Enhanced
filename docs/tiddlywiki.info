@@ -2,7 +2,6 @@
   "description": "Basic client-server edition",
   "plugins": [
     "tiddlywiki/highlight",
-    "tiddlywiki/pluginlibrary",
     "tiddlywiki/codemirror",
     "tiddlywiki/codemirror-autocomplete",
     "tiddlywiki/codemirror-closebrackets",
@@ -15,20 +14,25 @@
     "tiddlywiki/codemirror-mode-markdown",
     "tiddlywiki/codemirror-mode-xml",
     "tiddlywiki/codemirror-search-replace",
-    "tiddlywiki/dynannotate",
-    "tiddlywiki/dynaview",
-    "tiddlywiki/googleanalytics",
     "tiddlywiki/highlight",
     "tiddlywiki/katex",
     "tiddlywiki/markdown",
     "tiddlywiki/sax",
-    "tiddlywiki/text-slicer",
-    "tiddlywiki/qrcode",
-    "Gk0Wk/TW5-CodeMirror-Enhanced"
+    "dullroar/sitemap",
+    "souk21/commandpalette",
+    "flibbles/relink",
+    "flibbles/relink-markdown",
+    "felixhayashi/hotzone",
+    "felixhayashi/topstoryview",
+    "kookma/hsl",
+    "linonetwo/service-worker",
+    "linonetwo/github-external-image",
+    "linonetwo/opened-tiddlers-bar",
+    "linonetwo/prevent-edit",
+    "linonetwo/source-control-management"
   ],
   "themes": [
-    "tiddlywiki/vanilla",
-    "linonetwo/itonnote"
+    "tiddlywiki/vanilla"
   ],
   "languages": [
     "zh-Hans"
