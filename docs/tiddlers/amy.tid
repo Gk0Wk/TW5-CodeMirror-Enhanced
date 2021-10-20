@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/amy
+type: text/css
+module-type: codemirror-theme
+name: amy
+
+.cm-s-amy{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#200020;color:#d0d0ff}.cm-s-amy .CodeMirror-lines{padding:8px 0}.cm-s-amy .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#200020;padding-right:10px;z-index:3;border:none}.cm-s-amy div.CodeMirror-cursor{border-left:3px solid #d0d0ff}.cm-s-amy .CodeMirror-activeline-background{background:#80000040}.cm-s-amy .CodeMirror-selected{background:#80000080}.cm-s-amy .cm-string{color:#999}.cm-s-amy .cm-atom{color:null}.cm-s-amy .cm-number{color:null}.cm-s-amy .cm-keyword{color:#a080ff}.cm-s-amy .cm-variable{color:#50a0a0}.cm-s-amy .cm-def{color:#80b0b0}.cm-s-amy .cm-variable-2{color:#009090}.cm-s-amy .cm-property{color:null}.cm-s-amy .cm-operator{color:#a080ff}.cm-s-amy .CodeMirror-linenumber{color:null}

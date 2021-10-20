@@ -1,5 +1,5 @@
 // CodeMirror
-import * as CodeMirror from 'codemirror';
+import CodeMirror from 'codemirror';
 
 // Modules
 import { init as initTiddlerMerge } from './TiddlerMerge';

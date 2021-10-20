@@ -296,20 +296,40 @@ export function init(): void {
       });
     },
     api: {
-      makeLiteralHintMatch: (text: string, search: string, times?: number): Range[] => {
+      makeLiteralHintMatch: (text: string, search: string, options?: MatchOption): Range[] => {
         const hintMatch: Range[] = [];
-        if (times === 0 || text.length === 0 || search.length === 0) return hintMatch;
-        let counter = 0;
+        if (text.length === 0 || search.length === 0) return hintMatch;
+        if (options?.maxTimes === 0) return hintMatch;
+
+        if (options?.caseSensitive !== true) {
+          text = text.toLowerCase();
+          search = search.toLowerCase();
+        }
         let to = 0;
-        // eslint-disable-next-line no-unmodified-loop-condition
-        while (times === undefined || counter++ < times) {
-          const from: number = text.indexOf(search, to);
-          if (from < 0) break;
-          to = from + search.length;
-          hintMatch.push({ from, to });
+        if (options?.maxTimes !== undefined && options.maxTimes > 0) {
+          let counter = 0;
+          const times = options.maxTimes;
+          while (counter++ < times) {
+            const from: number = text.indexOf(search, to);
+            if (from < 0) break;
+            to = from + search.length;
+            hintMatch.push({ from, to });
+          }
+        } else {
+          while (true) {
+            const from: number = text.indexOf(search, to);
+            if (from < 0) break;
+            to = from + search.length;
+            hintMatch.push({ from, to });
+          }
         }
         return hintMatch;
       },
     },
   });
+}
+
+export interface MatchOption {
+  caseSensitive?: boolean;
+  maxTimes?: number;
 }

@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/fade-to-grey
+type: text/css
+module-type: codemirror-theme
+name: fade-to-grey
+
+.cm-s-fade-to-grey{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#000;color:#fff}.cm-s-fade-to-grey .CodeMirror-lines{padding:8px 0}.cm-s-fade-to-grey .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#000;padding-right:10px;z-index:3;border:none}.cm-s-fade-to-grey div.CodeMirror-cursor{border-left:3px solid #fff}.cm-s-fade-to-grey .CodeMirror-activeline-background{background:#3a3A007A}.cm-s-fade-to-grey .CodeMirror-selected{background:#4a8CDBB3}.cm-s-fade-to-grey .cm-comment{color:#696854}.cm-s-fade-to-grey .cm-keyword{color:#d01d33}.cm-s-fade-to-grey .cm-variable{color:#aaa}.cm-s-fade-to-grey .cm-def{color:#c3c3c3}.cm-s-fade-to-grey .cm-string{color:#e3e658}.cm-s-fade-to-grey .cm-property{color:#cbc3b1}.cm-s-fade-to-grey .cm-atom{color:#cbc3b1}.cm-s-fade-to-grey .cm-number{color:#cbc3b1}.cm-s-fade-to-grey .cm-operator{color:#d01d33}.cm-s-fade-to-grey .CodeMirror-linenumber{color:#696854}

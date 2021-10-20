@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/pastie
+type: text/css
+module-type: codemirror-theme
+name: pastie
+
+.cm-s-pastie{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fff;color:#000}.cm-s-pastie .CodeMirror-lines{padding:8px 0}.cm-s-pastie .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fff;padding-right:10px;z-index:3;border:none}.cm-s-pastie div.CodeMirror-cursor{border-left:3px solid #000}.cm-s-pastie .CodeMirror-activeline-background{background:#c1e2f8}.cm-s-pastie .CodeMirror-selected{background:#80c7ff}.cm-s-pastie .cm-comment{font-style:italic;color:#888}.cm-s-pastie .cm-number{color:#d71707}.cm-s-pastie .cm-atom{color:#d71707}.cm-s-pastie .cm-string{color:#d71707;background:#fff0f0}.cm-s-pastie .cm-property{color:#d71707}.cm-s-pastie .cm-keyword{color:null}.cm-s-pastie .cm-operator{color:null}.cm-s-pastie .CodeMirror-linenumber{color:italic}

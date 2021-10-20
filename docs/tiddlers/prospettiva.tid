@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/prospettiva
+type: text/css
+module-type: codemirror-theme
+name: prospettiva
+
+.cm-s-prospettiva{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fffEFAF2;color:#746f5a}.cm-s-prospettiva .CodeMirror-lines{padding:8px 0}.cm-s-prospettiva .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fffEFAF2;padding-right:10px;z-index:3;border:none}.cm-s-prospettiva div.CodeMirror-cursor{border-left:3px solid #746f5a}.cm-s-prospettiva .CodeMirror-activeline-background{background:#fafF0059}.cm-s-prospettiva .CodeMirror-selected{background:#fcfF0066}.cm-s-prospettiva .cm-comment{color:#b3b3b3;background:#17201300}.cm-s-prospettiva .cm-keyword{color:#b3935c}.cm-s-prospettiva .cm-string{color:#7ca563}.cm-s-prospettiva .cm-property{color:#c29863}.cm-s-prospettiva .cm-atom{color:#c29863}.cm-s-prospettiva .cm-number{color:#c29863}.cm-s-prospettiva .cm-operator{color:#b3935c}.cm-s-prospettiva .CodeMirror-linenumber{color:#b3b3b3}

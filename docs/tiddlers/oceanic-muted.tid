@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/oceanic-muted
+type: text/css
+module-type: codemirror-theme
+name: oceanic-muted
+
+.cm-s-oceanic-muted{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#1b2630;color:#f8f8f2}.cm-s-oceanic-muted .CodeMirror-lines{padding:8px 0}.cm-s-oceanic-muted .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#1b2630;padding-right:10px;z-index:3;border:none}.cm-s-oceanic-muted div.CodeMirror-cursor{border-left:3px solid #f8f8f2}.cm-s-oceanic-muted .CodeMirror-activeline-background{background:#3d2E2E77}.cm-s-oceanic-muted .CodeMirror-selected{background:#95a3A63D}.cm-s-oceanic-muted .cm-comment{color:#aeaeae}.cm-s-oceanic-muted .cm-string{color:#8ad6F2BF}.cm-s-oceanic-muted .cm-number{color:#ffb266BF}.cm-s-oceanic-muted .cm-atom{color:#ffb266BF}.cm-s-oceanic-muted .cm-keyword{color:#e47D80BF}.cm-s-oceanic-muted .cm-variable{color:#f2aAECBF}.cm-s-oceanic-muted .cm-def{font-style:italic;color:#ffd2A6BF}.cm-s-oceanic-muted .cm-variable-2{color:#bae682BF}.cm-s-oceanic-muted .cm-property{color:#ffb266BF}.cm-s-oceanic-muted .cm-operator{color:#e47D80BF}.cm-s-oceanic-muted .CodeMirror-linenumber{color:#aeaeae}

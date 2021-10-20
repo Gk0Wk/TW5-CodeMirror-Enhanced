@@ -1,4 +1,4 @@
-import * as CodeMirror from 'codemirror';
+import CodeMirror from 'codemirror';
 
 let activatedEditor: CodeMirror.Editor | undefined;
 

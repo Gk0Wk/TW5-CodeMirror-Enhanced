@@ -103,7 +103,9 @@
     {
       "src": "ControlPanel.tw5",
       "fields": {
-        "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/ControlPanel"
+        "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/ControlPanel",
+        "tags": "$:/tags/ControlPanel/SettingsTab $:/tags/MoreSideBar",
+        "caption": "CME"
       }
     },
     {

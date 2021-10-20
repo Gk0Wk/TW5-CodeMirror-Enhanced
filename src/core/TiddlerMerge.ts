@@ -28,13 +28,18 @@ function mergeShadowAndTiddler(tiddler: string): Tiddler | undefined {
   const plugin: PluginInfo = $tw.wiki.getPluginInfo('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced') as PluginInfo;
   let shadowTiddlerObject: unknown;
   try {
-    shadowTiddlerObject = JSON.parse(plugin.tiddlers[tiddler].text as string) as unknown;
+    if (plugin.tiddlers[tiddler].type !== undefined && plugin.tiddlers[tiddler].type === 'application/x-tiddler-dictionary') {
+      shadowTiddlerObject = $tw.utils.parseFields(plugin.tiddlers[tiddler].text as string);
+    } else {
+      shadowTiddlerObject = JSON.parse(plugin.tiddlers[tiddler].text as string) as unknown;
+    }
   } catch (error) {
     console.error(error);
     return undefined;
   }
 
   // Merge tiddler: shadow <- override
+  // TODO: change it to deep copy
   return new $tw.Tiddler(
     $tw.wiki.getCreationFields(),
     $tw.wiki.getPluginInfo('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced').tiddlers[tiddler],

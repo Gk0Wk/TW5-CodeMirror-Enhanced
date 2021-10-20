@@ -1,0 +1,7 @@
+tags: $:/tags/Stylesheet
+title: CodeMirrorThemes/classic-modified
+type: text/css
+module-type: codemirror-theme
+name: classic-modified
+
+.cm-s-classic-modified{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fff;color:#000}.cm-s-classic-modified .CodeMirror-lines{padding:8px 0}.cm-s-classic-modified .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fff;padding-right:10px;z-index:3;border:none}.cm-s-classic-modified div.CodeMirror-cursor{border-left:3px solid #000}.cm-s-classic-modified .CodeMirror-activeline-background{background:#00000012}.cm-s-classic-modified .CodeMirror-selected{background:#4d97FF54}.cm-s-classic-modified .cm-number{color:#909}.cm-s-classic-modified .cm-atom{color:#909}.cm-s-classic-modified .cm-string{color:#666;background:#fff}.cm-s-classic-modified .cm-property{color:#909}.cm-s-classic-modified .cm-keyword{color:null}.cm-s-classic-modified .cm-operator{color:null}.cm-s-classic-modified .CodeMirror-linenumber{color:null}
