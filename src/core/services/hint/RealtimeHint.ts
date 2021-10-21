@@ -1,6 +1,6 @@
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
-import * as CodeMirror from 'codemirror';
+import CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 
 export interface HintAddon {
@@ -253,9 +253,7 @@ export function init(): void {
       editor.on<'change'>('change', function (cm: CodeMirror.Editor, event: CodeMirror.EditorChange) {
         // Check if hint is open and hint function exists
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
-        if (cm.state.completeActive && typeof cm.showHint !== 'function') return;
-        // Check if auto hint switch on
-        if (!Options.realtimeHint) return;
+        if (cm.state.completeActive || typeof cm.showHint !== 'function' || !Options.realtimeHint) return;
         // If user type something
         if (event.origin === '+input') {
           if (cm.getDoc().modeOption === 'text/vnd.tiddlywiki') {
@@ -281,7 +279,7 @@ export function init(): void {
           if (event.to.ch < 2) return;
           // If text of line before the cursor is blank
           const theLine: string = cm.getDoc().getLine(event.to.line);
-          if (theLine.length === 0 || theLine.substr(0, event.to.ch - 1).trim() === '') return;
+          if (theLine === undefined || theLine.length === 0 || theLine.substr(0, event.to.ch - 1).trim() === '') return;
         } else {
           // paste cut undo
           return;
