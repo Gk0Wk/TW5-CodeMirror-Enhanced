@@ -1,15 +1,20 @@
-import { TW5ModeState } from '../tw5';
 import { StringStream } from 'codemirror';
+import { TW5ModeState } from '../tw5';
+import CommentRule from './blocks/comment';
+import ImportRule from './params/import';
 
-export type RuleTestFunction = (text: string) => boolean;
-export type RuleParseFunction = (stream: StringStream, context: Record<string, unknown>, modeState: TW5ModeState) => void;
+export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
+// Return -1 if not found, return index(0 ~ stream.string.length-1) if found
+export type RuleTestFunction = (stream: StringStream, nearMode: boolean) => number;
+export type RuleParseFunction<T = Record<string, unknown>> = (stream: StringStream, modeState: TW5ModeState, context: T) => void;
 
-export interface ParseRule {
+export interface ParseRule<T = Record<string, unknown>, O = Record<string, unknown>> {
+  init: RuleInitFunction<T, O>;
   name: string;
-  parse: RuleParseFunction;
+  parse: RuleParseFunction<T>;
   test: RuleTestFunction | string | RegExp;
 }
 
-export const ParametersRules: Record<string, ParseRule> = {};
-export const BlockRules: Record<string, ParseRule> = {};
-export const InlineRules: Record<string, ParseRule> = {};
+export const ParametersRules: unknown[] = [CommentRule, ImportRule];
+export const BlockRules: unknown[] = [CommentRule];
+export const InlineRules: unknown[] = [CommentRule];
