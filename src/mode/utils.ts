@@ -1,5 +1,6 @@
+import CodeMirror, { StringStream, Mode, EditorConfiguration } from 'codemirror';
 import { ParseRule } from './parserules/rules';
-import { StringStream } from 'codemirror';
+import 'codemirror/mode/meta';
 
 // Duff's device algorithm (ordered)
 export function arrayEach<T = unknown>(array: T[], callback: (item: T, index: number, array: T[]) => boolean): void {
@@ -103,4 +104,13 @@ export function findNearestRule(rules: ParseRule[], stream: StringStream): [Pars
     }
   });
   return answer === undefined ? undefined : [answer, nearest];
+}
+
+export function getMode(name: string, cmCfg: EditorConfiguration): Mode<unknown> | undefined {
+  if (typeof CodeMirror.findModeByName === 'function') {
+    const found = CodeMirror.findModeByName(name);
+    if (found !== undefined) name = found.mime ?? found.mimes?.[0] ?? name;
+  }
+  const mode_ = CodeMirror.getMode(cmCfg, name);
+  return mode_.name === 'null' ? undefined : mode_;
 }

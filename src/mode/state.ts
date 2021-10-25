@@ -1,10 +1,19 @@
-import { StringStream, Position } from 'codemirror';
+import { StringStream, Position, EditorConfiguration, Mode } from 'codemirror';
 import { ParseRule } from './parserules/rules';
 import BlankRule, { BlankRuleOption } from './parserules/inner/blank';
 import { arrayEach } from './utils';
 
+declare const development: unknown;
+const development_ = typeof development === 'undefined' ? false : development === true;
+
 interface LineStreamStorage {
   stream?: StringStream;
+}
+
+interface ModeAndState<T = unknown> {
+  isLaTeX: boolean;
+  mode: Mode<T>;
+  state: T;
 }
 
 export interface TW5ParseContext<T = Record<string, unknown>, O = Record<string, unknown>> {
@@ -32,13 +41,15 @@ export class TW5ModeState {
   public justPoped?: TW5ParseContext;
   public prevLine: LineStreamStorage;
   public thisLine: LineStreamStorage;
+  public cmCfg?: EditorConfiguration;
+  public innerMode?: ModeAndState;
 
   constructor(another?: TW5ModeState) {
     if (another === undefined) {
       this.parseTree = [];
       this.line = 0;
       this.contextStack = [];
-      this.shouldParseTree = true;
+      this.shouldParseTree = development_;
       this.parseOptions = {};
       this.maxPos = { line: 0, ch: 0 };
       this.justPoped = undefined;
@@ -63,6 +74,15 @@ export class TW5ModeState {
       this.justPoped = undefined;
       this.prevLine = another.prevLine;
       this.thisLine = another.thisLine;
+      this.cmCfg = another.cmCfg;
+      this.innerMode =
+        another.innerMode === undefined
+          ? undefined
+          : {
+              isLaTeX: another.innerMode.isLaTeX,
+              mode: another.innerMode.mode,
+              state: another.innerMode.mode.copyState?.(another.innerMode.state) ?? another.innerMode.state,
+            };
     }
   }
 
@@ -108,6 +128,7 @@ export class TW5ModeState {
   }
 
   public setArrtibute(key: string, value: unknown): void {
+    if (!this.shouldParseTree) return;
     const node = this.top()?.node;
     if (node !== undefined) {
       if (node.attributes === undefined) node.attributes = {};

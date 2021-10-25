@@ -2,6 +2,8 @@ import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../state';
 import CommentRule from './blocks/comment';
 import ImportRule from './params/import';
+import HeadingRule from './blocks/heading';
+import CodeBlockRule from './blocks/codeblock';
 
 export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
 // Return -1 if not found, return index(0 ~ stream.string.length-1) if found
@@ -16,5 +18,5 @@ export interface ParseRule<O = Record<string, unknown>, T = Record<string, unkno
 }
 
 export const ParametersRules: unknown[] = [CommentRule, ImportRule];
-export const BlockRules: unknown[] = [CommentRule];
+export const BlockRules: unknown[] = [CommentRule, HeadingRule, CodeBlockRule];
 export const InlineRules: unknown[] = [CommentRule];

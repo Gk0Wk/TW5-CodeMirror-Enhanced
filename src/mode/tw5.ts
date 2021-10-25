@@ -1,6 +1,9 @@
-import CodeMirror, { StringStream } from 'codemirror';
+import CodeMirror, { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from './state';
 import RootRule, { RootRuleOption } from './parserules/root';
+
+declare const development: unknown;
+const development_ = typeof development === 'undefined' ? false : development === true;
 
 function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   // New line
@@ -20,6 +23,11 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
     // eslint-disable-next-line unicorn/no-null
     if (context === undefined) return null; // This line will never be executed
     context.rule.parse(stream, state, context.context);
+    // Parse with inner mode
+    if (state.innerMode !== undefined) {
+      const token = state.innerMode.mode.token(stream, state.innerMode.state);
+      return (token === null ? '' : token) + ' line-background-cm-code-block-line';
+    }
   } while (originalPos === stream.pos && !stream.eol());
 
   // Token generation
@@ -37,13 +45,14 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   return token;
 }
 
-CodeMirror.defineMode('tiddlywiki5', (): CodeMirror.Mode<TW5ModeState> => {
+CodeMirror.defineMode('tiddlywiki5', (cmCfg: EditorConfiguration): CodeMirror.Mode<TW5ModeState> => {
   const mode = {
     name: 'tiddlywiki5',
     startState: () => {
       const state = new TW5ModeState();
       state.push<RootRuleOption>(RootRule, { parseParams: true });
-      window.state = state;
+      state.cmCfg = cmCfg;
+      if (development_) window.state = state;
       return state;
     },
     copyState: (oldState: TW5ModeState): TW5ModeState => new TW5ModeState(oldState),
@@ -55,9 +64,15 @@ CodeMirror.defineMode('tiddlywiki5', (): CodeMirror.Mode<TW5ModeState> => {
       state.prevLine = state.thisLine;
       state.thisLine = { stream: undefined };
     },
-    // indent: (state: TW5ModeState, textAfter: string, line: string): number => 0,
+    indent: (state: TW5ModeState, textAfter: string, line: string): number => {
+      if (state.innerMode !== undefined && typeof state.innerMode.mode.indent === 'function') {
+        return state.innerMode.mode.indent(state.innerMode.state, textAfter, line);
+      }
+      return 0;
+    },
     innerMode: (state: TW5ModeState) => {
-      return { state, mode };
+      if (state.innerMode !== undefined) return state.innerMode;
+      else return { state, mode };
     },
     blockCommentStart: '<!--',
     blockCommentEnd: '-->',
@@ -68,3 +83,5 @@ CodeMirror.defineMode('tiddlywiki5', (): CodeMirror.Mode<TW5ModeState> => {
 
 CodeMirror.defineMIME('text/vnd.tiddlywiki', 'tiddlywiki5');
 CodeMirror.defineMIME('', 'tiddlywiki5');
+
+if (development_) console.log('Development mode.');
