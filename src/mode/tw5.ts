@@ -84,4 +84,7 @@ CodeMirror.defineMode('tiddlywiki5', (cmCfg: EditorConfiguration): CodeMirror.Mo
 CodeMirror.defineMIME('text/vnd.tiddlywiki', 'tiddlywiki5');
 CodeMirror.defineMIME('', 'tiddlywiki5');
 
+CodeMirror.defineMIME('text/x-tex', 'stex');
+CodeMirror.defineMIME('tex', 'stex');
+
 if (development_) console.log('Development mode.');

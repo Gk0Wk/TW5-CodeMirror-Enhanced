@@ -1,4 +1,4 @@
-import { StringStream, Mode, EditorConfiguration } from 'codemirror';
+import { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import { getMode } from '../../utils';
@@ -77,7 +77,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
         if (mode !== undefined) {
           modeState.innerMode = {
             isLaTeX: false,
-            mode: getMode(context.type, modeState.cmCfg as unknown as EditorConfiguration) as Mode<unknown>,
+            mode,
             state: mode.startState?.() ?? ({} as unknown),
           };
         }
