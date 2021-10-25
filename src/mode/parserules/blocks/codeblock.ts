@@ -73,8 +73,6 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
     case 3: {
       context.stage++;
       if (context.type !== undefined) {
-        // eslint-disable-next-line security-node/detect-crlf
-        console.log('Codeblock mode:' + context.type);
         const mode = getMode(context.type, modeState.cmCfg as unknown as EditorConfiguration);
         if (mode !== undefined) {
           modeState.innerMode = {
@@ -120,7 +118,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
 const CodeBlockRule: ParseRule<Record<string, unknown>, CodeBlockRuleContext> = {
   init,
   name: 'CodeBlock',
-  test: /```([\w-]*)\s*$/gm,
+  test: /```[\w-]*\s*$/gm,
   parse,
 };
 

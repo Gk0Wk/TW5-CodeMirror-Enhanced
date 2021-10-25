@@ -3,7 +3,7 @@ import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 
 export interface TextRuleOption {
-  to?: number;
+  to: number;
 }
 
 interface TextRuleContext {

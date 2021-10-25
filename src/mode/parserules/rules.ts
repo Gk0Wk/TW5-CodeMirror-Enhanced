@@ -1,9 +1,24 @@
 import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../state';
-import CommentRule from './blocks/comment';
+
+// Parameter Rules
 import ImportRule from './params/import';
+// Block Rules
+import CommentRule from './blocks/comment';
 import HeadingRule from './blocks/heading';
 import CodeBlockRule from './blocks/codeblock';
+import HorizontalRule from './blocks/horizontal';
+// Inline Rules
+import CodeRule from './inline/code';
+import DashRule from './inline/dash';
+import EntityRule from './inline/entity';
+import ExtlinkRule from './inline/extlink';
+import BoldRule from './inline/bold';
+import ItalicRule from './inline/italic';
+import StrikethroughRule from './inline/strikethrough';
+import SubscriptRule from './inline/subscript';
+import SuperscriptRule from './inline/superscript';
+import UnderscoreRule from './inline/underscore';
 
 export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
 // Return -1 if not found, return index(0 ~ stream.string.length-1) if found
@@ -18,5 +33,17 @@ export interface ParseRule<O = Record<string, unknown>, T = Record<string, unkno
 }
 
 export const ParametersRules: unknown[] = [CommentRule, ImportRule];
-export const BlockRules: unknown[] = [CommentRule, HeadingRule, CodeBlockRule];
-export const InlineRules: unknown[] = [CommentRule];
+export const BlockRules: unknown[] = [CommentRule, HeadingRule, CodeBlockRule, HorizontalRule];
+export const InlineRules: unknown[] = [
+  CommentRule,
+  CodeRule,
+  DashRule,
+  EntityRule,
+  ExtlinkRule,
+  BoldRule,
+  ItalicRule,
+  StrikethroughRule,
+  SubscriptRule,
+  SuperscriptRule,
+  UnderscoreRule,
+];

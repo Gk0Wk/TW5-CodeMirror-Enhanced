@@ -55,7 +55,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Paragraph
     modeState.push<TextRuleOption>(TextRule, { to: ruleAndPos[1] });
     context.nextInlineRule = ruleAndPos[0];
   } else {
-    modeState.push(context.nextInlineRule);
+    modeState.push(ruleAndPos[0]);
   }
 }
 
