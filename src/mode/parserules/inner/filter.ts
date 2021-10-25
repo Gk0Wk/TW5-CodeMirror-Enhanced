@@ -20,7 +20,7 @@ function parse(stream: StringStream, modeState: TW5ModeState): void {
     }
     if (level === 0) break;
   }
-  stream.pos = index;
+  stream.pos = index + 1;
   modeState.pop();
 }
 

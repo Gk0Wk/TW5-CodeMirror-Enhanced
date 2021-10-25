@@ -1,6 +1,11 @@
 import { StringStream, Position } from 'codemirror';
 import { ParseRule } from './parserules/rules';
 import BlankRule, { BlankRuleOption } from './parserules/inner/blank';
+import { arrayEach } from './utils';
+
+interface LineStreamStorage {
+  stream?: StringStream;
+}
 
 export interface TW5ParseContext<T = Record<string, unknown>, O = Record<string, unknown>> {
   children: TW5ParseNode[];
@@ -23,9 +28,10 @@ export class TW5ModeState {
   public readonly maxPos: Position;
   public readonly contextStack: TW5ParseContext[];
   public readonly shouldParseTree: boolean;
-  public stream?: StringStream;
   public readonly parseOptions: Record<string, unknown>;
   public justPoped?: TW5ParseContext;
+  public prevLine: LineStreamStorage;
+  public thisLine: LineStreamStorage;
 
   constructor(another?: TW5ModeState) {
     if (another === undefined) {
@@ -36,22 +42,34 @@ export class TW5ModeState {
       this.parseOptions = {};
       this.maxPos = { line: 0, ch: 0 };
       this.justPoped = undefined;
+      this.prevLine = { stream: undefined };
+      this.thisLine = { stream: undefined };
     } else {
       this.parseTree = another.parseTree;
       this.line = another.line;
-      this.contextStack = another.contextStack;
+      this.contextStack = [];
+      arrayEach<TW5ParseContext>(another.contextStack, (context) => {
+        this.contextStack.push({
+          children: context.children,
+          context: { ...context.context },
+          node: { ...context.node } as unknown as TW5ParseNode,
+          rule: context.rule,
+        });
+        return true;
+      });
       this.shouldParseTree = another.shouldParseTree;
-      this.stream = another.stream;
-      this.parseOptions = another.parseOptions;
-      this.maxPos = another.maxPos;
-      this.justPoped = another.justPoped;
+      this.parseOptions = { ...another.parseOptions };
+      this.maxPos = { line: another.maxPos.line, ch: another.maxPos.ch };
+      this.justPoped = undefined;
+      this.prevLine = another.prevLine;
+      this.thisLine = another.thisLine;
     }
   }
 
   public pos(): Position {
     return {
       line: this.line,
-      ch: this.stream?.pos ?? 0,
+      ch: this.thisLine.stream?.pos ?? 0,
     };
   }
 
@@ -80,8 +98,9 @@ export class TW5ModeState {
   }
 
   public pop(): void {
-    this.justPoped = this.contextStack.pop();
-    if (this.justPoped?.node !== undefined) this.justPoped.node.to = this.pos();
+    const justPoped = this.contextStack.pop();
+    if (justPoped?.node !== undefined) justPoped.node.to = this.pos();
+    this.justPoped = justPoped;
   }
 
   public top<T = Record<string, unknown>>(): TW5ParseContext<T> | undefined {

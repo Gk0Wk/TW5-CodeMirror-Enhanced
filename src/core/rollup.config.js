@@ -6,10 +6,10 @@ import resolve from '@rollup/plugin-node-resolve';
 
 export default {
     input: 'Main.ts',
+    external: ['codemirror'],
     output: {
         file: '../../dist/build/core.js',
         format: 'iife',
-        name: 'CodeMirrorEnhanced',
         globals: {
             codemirror: 'CodeMirror'
         }

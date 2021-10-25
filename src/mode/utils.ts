@@ -39,7 +39,7 @@ export function recordEach<T = unknown>(object: Record<string, T>, callback: (va
   const length: number = keys.length;
   let index = 0;
   for (; index < length; index++) {
-    if (callback(object[keys[index]], keys[index], object)) break;
+    if (!callback(object[keys[index]], keys[index], object)) break;
   }
 }
 
@@ -49,23 +49,23 @@ export function matchRule(rules: ParseRule[], stream: StringStream): ParseRule |
     if (typeof rule.test === 'function') {
       if (rule.test(stream, false) === stream.pos) {
         answer = rule;
-        return true;
+        return false;
       }
-      return false;
+      return true;
     } else if (typeof rule.test === 'string') {
       if (stream.string.indexOf(rule.test, stream.pos) === stream.pos) {
         answer = rule;
-        return true;
+        return false;
       }
-      return false;
+      return true;
     } else {
       rule.test.lastIndex = stream.pos;
       const result = rule.test.exec(stream.string);
       if (result !== null && result.index === stream.pos) {
         answer = rule;
-        return true;
+        return false;
       }
-      return false;
+      return true;
     }
   });
   return answer;
@@ -80,26 +80,26 @@ export function findNearestRule(rules: ParseRule[], stream: StringStream): [Pars
       if (index >= stream.pos && index < nearest) {
         answer = rule;
         nearest = index;
-        return nearest === stream.pos;
+        return nearest !== stream.pos;
       }
-      return false;
+      return true;
     } else if (typeof rule.test === 'string') {
       const index = stream.string.indexOf(rule.test, stream.pos);
       if (index >= stream.pos && index < nearest) {
         answer = rule;
         nearest = index;
-        return nearest === stream.pos;
+        return nearest !== stream.pos;
       }
-      return false;
+      return true;
     } else {
       rule.test.lastIndex = stream.pos;
       const result = rule.test.exec(stream.string);
       if (result !== null && result.index < nearest) {
         answer = rule;
         nearest = result.index;
-        return nearest === stream.pos;
+        return nearest !== stream.pos;
       }
-      return false;
+      return true;
     }
   });
   return answer === undefined ? undefined : [answer, nearest];

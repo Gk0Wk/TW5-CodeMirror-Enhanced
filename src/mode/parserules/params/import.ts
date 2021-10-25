@@ -54,7 +54,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRul
 
 const ImportRule: ParseRule<Record<string, unknown>, ImportRuleContext> = {
   init,
-  name: '',
+  name: 'Import',
   test: /^\\import[^\S\n]/gm,
   parse,
 };

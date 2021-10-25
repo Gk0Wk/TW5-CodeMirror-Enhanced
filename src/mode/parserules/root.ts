@@ -4,12 +4,16 @@ import { ParseRule, ParametersRules, BlockRules } from './rules';
 import ParagraphRule, { ParagraphRuleOption } from './blocks/paragraph';
 import { matchRule } from '../utils';
 
+export interface RootRuleOption {
+  parseParams?: boolean;
+}
+
 interface RootRuleContext {
   parseParams: boolean;
   parsedWhitespace: boolean;
 }
 
-function init(options: Record<string, unknown>): RootRuleContext {
+function init(options: RootRuleOption): RootRuleContext {
   return {
     parseParams: options.parseParams === true,
     parsedWhitespace: false,
@@ -49,7 +53,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: RootRuleC
   }
 }
 
-const RootRule: ParseRule<Record<string, unknown>, RootRuleContext> = {
+const RootRule: ParseRule<RootRuleOption, RootRuleContext> = {
   init,
   name: 'Root',
   test: '',

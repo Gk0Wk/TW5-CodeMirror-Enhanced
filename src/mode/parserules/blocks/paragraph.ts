@@ -9,18 +9,23 @@ export interface ParagraphRuleOption {
 }
 
 interface ParagraphRuleContext {
+  firstIn: boolean;
+  line: number;
   nextInlineRule?: ParseRule;
-  terminator: RegExp;
+  terminator?: RegExp;
 }
 
 function init(options: ParagraphRuleOption): ParagraphRuleContext {
   return {
+    firstIn: true,
+    line: -1,
     nextInlineRule: undefined,
-    terminator: options.terminator ?? /^\r?$/,
+    terminator: options.terminator,
   };
 }
 
 function parse(stream: StringStream, modeState: TW5ModeState, context: ParagraphRuleContext): void {
+  if (context.line < 0) context.line = modeState.line;
   // Process the inline rule found previously
   if (context.nextInlineRule !== undefined) {
     modeState.push(context.nextInlineRule);
@@ -28,11 +33,19 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Paragraph
     return;
   }
   // Return if we've found the terminator
-  context.terminator.lastIndex = stream.pos;
-  if (context.terminator.test(stream.string)) {
-    modeState.pop();
-    return;
+  if (context.terminator !== undefined) {
+    context.terminator.lastIndex = stream.pos;
+    if (context.terminator.test(stream.string)) {
+      modeState.pop();
+      return;
+    }
+  } else {
+    if (!context.firstIn && modeState.prevLine.stream === undefined) {
+      modeState.pop();
+      return;
+    }
   }
+  context.firstIn = false;
   // Find the next occurrence of a inlinerule
   const ruleAndPos = findNearestRule(InlineRules as ParseRule[], stream);
   // Process any inline rule, along with the text preceding it

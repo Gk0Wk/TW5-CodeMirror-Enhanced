@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TW5 CodeMirror Mode Test</title>
+</head>
+
+<body>
+    <textarea id="cm"></textarea>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js" integrity="sha512-XMlgZzPyVXf1I/wbGnofk1Hfdx+zAWyZjh6c21yGo/k1zNC4Ve6xcQnTDTCHrjFGsOrVicJsBURLYktVEu/8vQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css" integrity="sha512-6sALqOPMrNSc+1p5xOhPwGIzs6kIlST+9oGWlI4Wwcbj1saaX9J3uzO3Vub016dmHV7hM+bMi/rfXLiF5DNIZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/keymap/sublime.min.js" integrity="sha512-CB1k89Ilzxp1upm9MpHjWR0Ec2wg/OzDfWC/pmjJkDnxmXMl4AhgZ4bYPdkWjlL6NoLfoZppxHf55hunUgg8wQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/theme/ayu-dark.min.css" integrity="sha512-mV3RUXi1gt22jDb4UyRBFhZVFgAIiOfRE6ul+2l1Hcj6glyg6x4xlnjPH+neGm/t6XrFmsMRu4++McQu0asjqg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="../../dist/build/tw5-mode.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.querySelector('#cm'), {
+            lineNumbers: true,
+            mode: 'text/vnd.tiddlywiki',
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: 'ayu-dark',
+            scrollbarStyle: null,
+        });
+        editor.setSize('100vw', '100vh');
+        window.editor = editor;
+    </script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</body>
+
+</html>
