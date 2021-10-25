@@ -4,19 +4,19 @@ import { ParseRule } from '../rules';
 import FilterRule from '../inner/filter';
 import WrongTailRule from '../inner/wrongtail';
 
-interface ImportRuleContext {
+interface WhitespaceRuleContext {
   line: number;
   stage: number;
 }
 
-function init(): ImportRuleContext {
+function init(): WhitespaceRuleContext {
   return {
     stage: 0,
     line: 0,
   };
 }
 
-function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRuleContext): void {
+function parse(stream: StringStream, modeState: TW5ModeState, context: WhitespaceRuleContext): void {
   switch (context.stage) {
     case 0: {
       // \import
@@ -52,11 +52,11 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRul
   }
 }
 
-const ImportRule: ParseRule<Record<string, unknown>, ImportRuleContext> = {
+const WhitespaceRule: ParseRule<Record<string, unknown>, WhitespaceRuleContext> = {
   init,
-  name: '',
-  test: /^\\import[^\S\n]/gm,
+  name: 'Whitespace',
+  test: /^\\whitespace[^\S\n]/gm,
   parse,
 };
 
-export default ImportRule;
+export default WhitespaceRule;

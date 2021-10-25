@@ -1,5 +1,5 @@
 import { StringStream } from 'codemirror';
-import { TW5ModeState } from '../../tw5';
+import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 
 export interface TextRuleOption {
@@ -25,7 +25,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: TextRuleC
   modeState.pop();
 }
 
-const TextRule: ParseRule<TextRuleContext, TextRuleOption> = {
+const TextRule: ParseRule<TextRuleOption, TextRuleContext> = {
   init,
   name: 'Text',
   test: '',

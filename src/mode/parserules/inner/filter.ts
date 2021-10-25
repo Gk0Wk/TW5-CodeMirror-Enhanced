@@ -1,4 +1,4 @@
-import { TW5ModeState } from '../../tw5';
+import { TW5ModeState } from '../../state';
 import { StringStream } from 'codemirror';
 import { ParseRule } from '../rules';
 

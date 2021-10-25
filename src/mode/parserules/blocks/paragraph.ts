@@ -1,5 +1,5 @@
 import { StringStream } from 'codemirror';
-import { TW5ModeState } from '../../tw5';
+import { TW5ModeState } from '../../state';
 import { ParseRule, InlineRules } from '../rules';
 import { findNearestRule } from '../../utils';
 import TextRule, { TextRuleOption } from '../inner/text';
@@ -46,7 +46,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Paragraph
   }
 }
 
-const ParagraphRule: ParseRule<ParagraphRuleContext, ParagraphRuleOption> = {
+const ParagraphRule: ParseRule<ParagraphRuleOption, ParagraphRuleContext> = {
   init,
   name: 'Paragraph',
   test: '',

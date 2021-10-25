@@ -1,5 +1,5 @@
 import { StringStream } from 'codemirror';
-import { TW5ModeState } from '../tw5';
+import { TW5ModeState } from '../state';
 import CommentRule from './blocks/comment';
 import ImportRule from './params/import';
 
@@ -8,7 +8,7 @@ export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unk
 export type RuleTestFunction = (stream: StringStream, nearMode: boolean) => number;
 export type RuleParseFunction<T = Record<string, unknown>> = (stream: StringStream, modeState: TW5ModeState, context: T) => void;
 
-export interface ParseRule<T = Record<string, unknown>, O = Record<string, unknown>> {
+export interface ParseRule<O = Record<string, unknown>, T = Record<string, unknown>> {
   init: RuleInitFunction<T, O>;
   name: string;
   parse: RuleParseFunction<T>;

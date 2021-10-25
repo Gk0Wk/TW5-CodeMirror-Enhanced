@@ -23,4 +23,3 @@ initSnippetsList();
 // Get global
 const selfGlobal = (window === undefined ? globalThis : window) as Record<string, unknown>;
 selfGlobal.$cme = api;
-export default api;

@@ -1,5 +1,5 @@
 import { StringStream } from 'codemirror';
-import { TW5ModeState } from '../tw5';
+import { TW5ModeState } from '../state';
 import { ParseRule, ParametersRules, BlockRules } from './rules';
 import ParagraphRule, { ParagraphRuleOption } from './blocks/paragraph';
 import { matchRule } from '../utils';
@@ -49,7 +49,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: RootRuleC
   }
 }
 
-const RootRule: ParseRule<RootRuleContext> = {
+const RootRule: ParseRule<Record<string, unknown>, RootRuleContext> = {
   init,
   name: 'Root',
   test: '',

@@ -1,5 +1,5 @@
 import { StringStream } from 'codemirror';
-import { TW5ModeState } from '../../tw5';
+import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 
 function init(): Record<string, unknown> {
