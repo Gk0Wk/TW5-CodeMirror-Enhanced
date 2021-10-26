@@ -2,7 +2,7 @@ import { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import { getMode } from '../../utils';
-import WrongTailRule from '../inner/wrongtail';
+import WrongTextRule from '../inner/wrongtext';
 
 const LaTeXBorderRule: ParseRule = {
   init: () => {
@@ -40,7 +40,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: LaTeXRule
     case 1: {
       // Tail after ```xxx
       if (context.line === modeState.line && stream.string.substr(stream.pos).trim() === '') {
-        modeState.push(WrongTailRule);
+        modeState.push(WrongTextRule);
       }
       context.stage++;
       return;

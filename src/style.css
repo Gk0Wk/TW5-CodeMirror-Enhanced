@@ -15,7 +15,7 @@
 
 li.CodeMirror-hint-active {
     background: <<colour primary>> !important;
-    color: <<colour foreground>> !important;
+    color: <<colour background>> !important;
 }
 
 li.cm-hacked-hint {
@@ -27,11 +27,12 @@ li.cm-hacked-hint {
 li.cm-hacked-hint>span.hint-title {
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 li.cm-hacked-hint>span.hint-title>span.hint-title-highlighted {
     background: <<colour alert-highlight>>;
-    color: <<colour muted-foreground>>
+    color: <<colour background>>;
 }
 
 li.cm-hacked-hint>span.hint-type {

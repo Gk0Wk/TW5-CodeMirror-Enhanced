@@ -1,6 +1,6 @@
 created: 20211020092203407
 creator: Sttot
-modified: 20211020092438498
+modified: 20211026014810928
 modifier: Sttot
 tags: 
 title: HighlightExample
@@ -25,7 +25,7 @@ file://external.file
 
 ''Bold'' ~~Deleted~~ __Underlined__ {{Translclude}} //Italics// ^^SuperScript^^ ,,SubScipt,, `Code`
 
-```javascript
+```js
 function foo() {
 	console.log('Hello World!');
 	return 0;

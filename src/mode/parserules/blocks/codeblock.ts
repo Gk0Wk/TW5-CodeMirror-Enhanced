@@ -2,7 +2,7 @@ import { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import { getMode } from '../../utils';
-import WrongTailRule from '../inner/wrongtail';
+import WrongTextRule from '../inner/wrongtext';
 
 const CodeBlockBorderRule: ParseRule = {
   init: () => {
@@ -65,7 +65,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
     case 2: {
       // Tail after ```xxx
       if (context.line === modeState.line) {
-        modeState.push(WrongTailRule);
+        modeState.push(WrongTextRule);
       }
       context.stage++;
       return;
@@ -104,7 +104,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
     case 5: {
       // Tail after ```
       if (context.line === modeState.line) {
-        modeState.push(WrongTailRule);
+        modeState.push(WrongTextRule);
       }
       context.stage++;
       return;

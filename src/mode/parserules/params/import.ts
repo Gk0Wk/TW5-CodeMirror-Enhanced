@@ -2,7 +2,7 @@ import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import FilterRule from '../inner/filter';
-import WrongTailRule from '../inner/wrongtail';
+import WrongTextRule from '../inner/wrongtext';
 
 interface ImportRuleContext {
   line: number;
@@ -44,7 +44,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRul
     default: {
       // Eat other string this line
       if (context.line === modeState.line) {
-        modeState.push(WrongTailRule);
+        modeState.push(WrongTextRule);
       } else {
         modeState.pop();
       }

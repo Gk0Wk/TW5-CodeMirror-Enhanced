@@ -6,7 +6,7 @@ export interface TextRuleOption {
   to: number;
 }
 
-interface TextRuleContext {
+export interface TextRuleContext {
   to?: number;
 }
 

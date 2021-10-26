@@ -23,7 +23,7 @@ import LaTeXRuleContext from './inline/latex';
 
 export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
 // Return -1 if not found, return index(0 ~ stream.string.length-1) if found
-export type RuleTestFunction = (stream: StringStream, nearMode: boolean) => number;
+export type RuleTestFunction = (stream: StringStream, nearMode: boolean, getFullText?: () => [string, number]) => number;
 export type RuleParseFunction<T = Record<string, unknown>> = (stream: StringStream, modeState: TW5ModeState, context: T) => void;
 
 export interface ParseRule<O = Record<string, unknown>, T = Record<string, unknown>> {
