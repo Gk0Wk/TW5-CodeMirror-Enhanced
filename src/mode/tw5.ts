@@ -35,8 +35,9 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
     state.contextStack.push(state.justPoped);
   }
 
+  const context = state.contextStack[state.contextStack.length - 1];
   // eslint-disable-next-line unicorn/no-null
-  const token = state.contextStack[state.contextStack.length - 1]?.rule.name ?? null;
+  const token = context?.overrideName ?? context?.rule.name ?? null;
 
   if (state.justPoped !== undefined) {
     state.contextStack.pop();
@@ -45,7 +46,8 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   return token;
 }
 
-CodeMirror.defineMode('tiddlywiki5', (cmCfg: EditorConfiguration): CodeMirror.Mode<TW5ModeState> => {
+// For CodeMirror 6(Next)
+export const mkTW5 = (cmCfg: EditorConfiguration): CodeMirror.Mode<TW5ModeState> => {
   const mode = {
     name: 'tiddlywiki5',
     startState: () => {
@@ -79,12 +81,17 @@ CodeMirror.defineMode('tiddlywiki5', (cmCfg: EditorConfiguration): CodeMirror.Mo
     closeBrackets: '()[]{}\'\'""``',
   };
   return mode;
-});
+};
 
-CodeMirror.defineMIME('text/vnd.tiddlywiki', 'tiddlywiki5');
-CodeMirror.defineMIME('', 'tiddlywiki5');
+// For CodeMirror 5
+if (CodeMirror?.defineMode !== undefined) {
+  CodeMirror.defineMode('tiddlywiki5', mkTW5);
 
-CodeMirror.defineMIME('text/x-tex', 'stex');
-CodeMirror.defineMIME('tex', 'stex');
+  CodeMirror.defineMIME('text/vnd.tiddlywiki', 'tiddlywiki5');
+  CodeMirror.defineMIME('', 'tiddlywiki5');
+
+  CodeMirror.defineMIME('text/x-tex', 'stex');
+  CodeMirror.defineMIME('tex', 'stex');
+}
 
 if (development_) console.log('Development mode.');

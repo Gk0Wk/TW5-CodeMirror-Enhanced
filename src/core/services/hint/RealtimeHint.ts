@@ -172,13 +172,12 @@ export function init(): void {
               }),
             );
           }
-          const hintsList = await Promise.all(getHintAsyncTasks);
           const result: Hints = {
             from: editor.getCursor(),
             list: [],
             to: editor.getCursor(),
           };
-          $tw.utils.each(hintsList, function (hints: Hints | undefined) {
+          $tw.utils.each(await Promise.all(getHintAsyncTasks), function (hints: Hints | undefined) {
             if (hints === undefined) return;
             $tw.utils.each(hints.list, function (hint: string | Hint) {
               result.list.push(hint);

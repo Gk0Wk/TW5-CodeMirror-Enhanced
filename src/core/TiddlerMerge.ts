@@ -40,15 +40,13 @@ function mergeShadowAndTiddler(tiddler: string): Tiddler | undefined {
 
   // Merge tiddler: shadow <- override
   // TODO: change it to deep copy
-  return new $tw.Tiddler(
-    $tw.wiki.getCreationFields(),
-    $tw.wiki.getPluginInfo('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced').tiddlers[tiddler],
-    $tw.wiki.getTiddler(tiddler),
-    {
-      text: JSON.stringify(Object.assign(shadowTiddlerObject, overrideTiddlerObject), null, 4),
-    },
-    $tw.wiki.getModificationFields(),
-  ) as Tiddler;
+  return new $tw.Tiddler({
+    ...$tw.wiki.getCreationFields(),
+    ...$tw.wiki.getPluginInfo('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced').tiddlers[tiddler],
+    ...$tw.wiki.getTiddler(tiddler),
+    text: JSON.stringify({ ...shadowTiddlerObject, ...overrideTiddlerObject }, null, 4),
+    ...$tw.wiki.getModificationFields(),
+  }) as Tiddler;
 }
 
 function checkIncomingTiddler(tiddler: Tiddler): Tiddler | undefined {

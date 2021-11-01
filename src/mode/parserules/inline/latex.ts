@@ -2,19 +2,7 @@ import { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import { getMode } from '../../utils';
-import WrongTextRule from '../inner/wrongtext';
-
-const LaTeXBorderRule: ParseRule = {
-  init: () => {
-    return {};
-  },
-  name: 'LaTeXBorder',
-  test: '$$',
-  parse: (stream: StringStream, modeState: TW5ModeState): void => {
-    stream.pos += 2;
-    modeState.pop();
-  },
-};
+import TextRule, { TextRuleOption } from '../inner/text';
 
 interface LaTeXRuleContext {
   line: number;
@@ -34,13 +22,13 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: LaTeXRule
       // $$
       context.stage++;
       context.line = modeState.line;
-      modeState.push(LaTeXBorderRule);
+      modeState.push<TextRuleOption>(TextRule, { to: stream.pos + 2 }, 'LaTeXBorderLeft');
       return;
     }
     case 1: {
       // Tail after ```xxx
       if (context.line === modeState.line && stream.string.substr(stream.pos).trim() === '') {
-        modeState.push(WrongTextRule);
+        modeState.push(TextRule, {}, 'WrongText');
       }
       context.stage++;
       return;
@@ -59,10 +47,10 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: LaTeXRule
     }
     case 3: {
       // LaTeX body
-      if (stream.string.indexOf(LaTeXBorderRule.test as string, stream.pos) === stream.pos) {
+      if (stream.string.indexOf('$$', stream.pos) === stream.pos) {
         context.stage++;
         modeState.innerMode = undefined;
-        modeState.push(LaTeXBorderRule);
+        modeState.push<TextRuleOption>(TextRule, { to: stream.pos + 2 }, 'LaTeXBorderLeft');
       } else {
         if (modeState.innerMode === undefined) stream.skipToEnd();
       }
@@ -77,7 +65,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: LaTeXRule
 const LaTeXRule: ParseRule<Record<string, unknown>, LaTeXRuleContext> = {
   init,
   name: 'LaTeX',
-  test: '$$',
+  test: /\$\$$|\$\$[^$]/gm,
   parse,
 };
 

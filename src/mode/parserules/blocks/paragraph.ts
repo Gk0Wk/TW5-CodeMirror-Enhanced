@@ -3,7 +3,6 @@ import { TW5ModeState } from '../../state';
 import { ParseRule, InlineRules } from '../rules';
 import { findNearestRule } from '../../utils';
 import TextRule, { TextRuleOption } from '../inner/text';
-import WrongTextRule from '../inner/wrongtext';
 
 export interface ParagraphRuleOption {
   terminator?: RegExp;
@@ -46,7 +45,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Paragraph
       return;
     } else if (stream.string.trim() === '') {
       modeState.pop();
-      modeState.push(WrongTextRule);
+      modeState.push(TextRule, {}, 'WrongText');
       return;
     }
   }

@@ -20,6 +20,7 @@ export interface TW5ParseContext<T = Record<string, unknown>, O = Record<string,
   children: TW5ParseNode[];
   context: Record<string, unknown>;
   node?: TW5ParseNode;
+  overrideName?: string;
   rule: ParseRule<T, O>;
 }
 
@@ -27,6 +28,7 @@ export interface TW5ParseNode {
   attributes?: Record<string, unknown>;
   children?: TW5ParseNode[];
   from: Position;
+  overrideName?: string;
   to: Position;
   token: string;
 }
@@ -43,8 +45,10 @@ export class TW5ModeState {
   public thisLine: LineStreamStorage;
   public cmCfg?: EditorConfiguration;
   public innerMode?: ModeAndState;
+  public readonly cmVersion: '5' | 'next';
 
-  constructor(another?: TW5ModeState) {
+  constructor(another?: TW5ModeState, cmVersion: '5' | 'next' = '5') {
+    if (!['5', 'next'].includes(cmVersion)) cmVersion = '5';
     if (another === undefined) {
       this.parseTree = [];
       this.line = 0;
@@ -55,6 +59,7 @@ export class TW5ModeState {
       this.justPoped = undefined;
       this.prevLine = { stream: undefined };
       this.thisLine = { stream: undefined };
+      this.cmVersion = cmVersion;
     } else {
       this.parseTree = another.parseTree;
       this.line = another.line;
@@ -83,6 +88,7 @@ export class TW5ModeState {
               mode: another.innerMode.mode,
               state: another.innerMode.mode.copyState?.(another.innerMode.state) ?? another.innerMode.state,
             };
+      this.cmVersion = another.cmVersion;
     }
   }
 
@@ -93,12 +99,13 @@ export class TW5ModeState {
     };
   }
 
-  public push<T = Record<string, unknown>>(rule: unknown, options?: T): void {
+  public push<T = Record<string, unknown>>(rule: unknown, options: T = {} as unknown as T, overrideName?: string): void {
     // Make new context
     const newContext: TW5ParseContext<T> = {
-      context: (rule as ParseRule<T>).init(options ?? ({} as unknown as T)),
+      context: (rule as ParseRule<T>).init(options),
       rule: rule as ParseRule<T>,
       children: [],
+      overrideName,
     };
     // Build parse tree
     if (this.shouldParseTree && (rule as ParseRule<T>).name !== '') {
@@ -109,6 +116,7 @@ export class TW5ModeState {
         from: this.pos(),
         to: this.maxPos,
         token: (rule as ParseRule<T>).name,
+        overrideName,
       };
       newContext.node = newNode;
       parentChildrenList.push(newNode);

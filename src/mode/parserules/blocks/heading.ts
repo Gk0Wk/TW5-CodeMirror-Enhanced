@@ -2,6 +2,7 @@ import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import TextRule from '../inner/text';
+import StyleClassRule from '../inner/styleclass';
 
 interface HeadingRuleContext {
   level: number;
@@ -30,12 +31,26 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: HeadingRu
       return;
     }
     case 1: {
-      // spaces after !+
-      context.stage++;
-      modeState.skipWhitespace(true);
+      // classes after !
+      if (context.line !== modeState.line) {
+        modeState.pop();
+      } else {
+        if (stream.peek() === '.') modeState.push(StyleClassRule);
+        else context.stage++;
+      }
       return;
     }
     case 2: {
+      // spaces after class
+      if (context.line !== modeState.line) {
+        modeState.pop();
+      } else {
+        context.stage++;
+        modeState.skipWhitespace(true);
+      }
+      return;
+    }
+    case 3: {
       // Heading title
       if (context.line !== modeState.line) {
         modeState.pop();

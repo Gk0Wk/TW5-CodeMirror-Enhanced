@@ -1,7 +1,7 @@
 import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
-import WrongTextRule from '../inner/wrongtext';
+import TextRule from '../inner/text';
 
 interface HorizontalRuleContext {
   line: number;
@@ -27,7 +27,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Horizonta
     case 1: {
       // Tail after ---+
       if (context.line === modeState.line) {
-        modeState.push(WrongTextRule);
+        modeState.push(TextRule, {}, 'WrongText');
       }
       context.stage++;
       return;

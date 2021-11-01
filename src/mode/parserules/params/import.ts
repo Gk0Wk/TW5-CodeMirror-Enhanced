@@ -1,8 +1,8 @@
 import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
-import FilterRule from '../inner/filter';
-import WrongTextRule from '../inner/wrongtext';
+import TextRule, { TextRuleOption } from '../inner/text';
+import BlankRule, { BlankRuleOption } from '../inner/blank';
 
 interface ImportRuleContext {
   line: number;
@@ -19,32 +19,38 @@ function init(): ImportRuleContext {
 function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRuleContext): void {
   switch (context.stage) {
     case 0: {
-      // \import
+      // whitespaces
       context.stage++;
-      stream.pos += 7;
-      context.line = modeState.line;
+      modeState.push<BlankRuleOption>(BlankRule, { inlineMode: true }, 'WrongText');
       return;
     }
     case 1: {
+      // \import
+      context.stage++;
+      context.line = modeState.line;
+      modeState.push<TextRuleOption>(TextRule, { to: stream.pos + 7 }, 'ImportHeader');
+      return;
+    }
+    case 2: {
       // spaces after \import
       context.stage++;
       modeState.skipWhitespace(true);
       return;
     }
-    case 2: {
-      // filter expression [...]
+    case 3: {
+      // filter expressions [...] [...] ...
       if (context.line !== modeState.line) {
         modeState.pop();
       } else {
         context.stage++;
-        modeState.push(FilterRule);
+        modeState.push<TextRuleOption>(TextRule, { to: stream.pos + stream.string.substring(stream.pos).trimEnd().length }, 'Filters');
       }
       return;
     }
     default: {
-      // Eat other string this line
+      // Eat last empty string of this line
       if (context.line === modeState.line) {
-        modeState.push(WrongTextRule);
+        modeState.push(TextRule, {}, 'WrongText');
       } else {
         modeState.pop();
       }
@@ -55,7 +61,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: ImportRul
 const ImportRule: ParseRule<Record<string, unknown>, ImportRuleContext> = {
   init,
   name: 'Import',
-  test: /^\\import[^\S\n]/gm,
+  test: /^\s*\\import[^\S\n]/gm,
   parse,
 };
 
