@@ -11,7 +11,7 @@ const { CacheFirst, StaleWhileRevalidate } = workbox.strategies;
 const { ExpirationPlugin } = workbox.expiration;
 const { precacheAndRoute, matchPrecache } = workbox.precaching;
 
-precacheAndRoute([{"revision":"51b1c635de81aaf49c1b674eb91971fa","url":"favicon.ico"},{"revision":"f027383aef0824dac225b8268e255e9c","url":"index.html"},{"revision":"ea2bab232dcff10a49b48a50be4f7c2e","url":"tiddlywiki5.js"}]);
+precacheAndRoute([{"revision":"51b1c635de81aaf49c1b674eb91971fa","url":"favicon.ico"},{"revision":"4d85aae5583f1ceb1c981617d7554749","url":"index.html"},{"revision":"ea2bab232dcff10a49b48a50be4f7c2e","url":"tiddlywiki5.js"}]);
 
 registerRoute(
   /\.css$/,
