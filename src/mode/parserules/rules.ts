@@ -22,6 +22,7 @@ import UnderscoreRule from './inline/underscore';
 import LaTeXRuleContext from './inline/latex';
 import TranscludeRule from './inline/transclude';
 import FilteredTranscludeRule from './inline/filteredtransclude';
+import HardLineBreakRuleContext from './inline/haedlinebreak';
 
 export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
 // Return -1 if not found, return index(0 ~ stream.string.length-1) if found
@@ -52,4 +53,5 @@ export const InlineRules: unknown[] = [
   LaTeXRuleContext,
   TranscludeRule,
   FilteredTranscludeRule,
+  HardLineBreakRuleContext,
 ];

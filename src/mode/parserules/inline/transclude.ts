@@ -15,7 +15,7 @@ function init(): TranscludeRuleContext {
   };
 }
 
-const TextReferenceRegEx = /(?:(.*?)!!(.+))|(?:(.*?)##(.+))|(.*)/gm;
+const TextReferenceRegEx = /(?:(.*?)(!!.*))|(?:(.*?)(##.*))|(.*)/gm;
 
 function parse(stream: StringStream, modeState: TW5ModeState, context: TranscludeRuleContext): void {
   if (context.match1 === undefined) {
@@ -62,17 +62,17 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: Transclud
       if ((context.match2 as RegExpExecArray)[2] !== undefined) {
         // Tiddler!!Field
         modeState.push<TextRuleOption>(TextRule, { to: stream.pos + (context.match2 as RegExpExecArray)[2].length }, 'Field');
-        context.stage = 5;
       }
+      context.stage = 5;
       return;
     }
     case 4: {
       // ##Index
-      if ((context.match2 as RegExpExecArray)[2] !== undefined) {
+      if ((context.match2 as RegExpExecArray)[4] !== undefined) {
         // Tiddler!!Field
         modeState.push<TextRuleOption>(TextRule, { to: stream.pos + (context.match2 as RegExpExecArray)[4].length }, 'Index');
-        context.stage = 5;
       }
+      context.stage = 5;
       return;
     }
     case 5: {
@@ -98,7 +98,7 @@ const TranscludeRule: ParseRule<Record<string, unknown>, TranscludeRuleContext> 
   init,
   name: 'Transclude',
   // eslint-disable-next-line security/detect-unsafe-regex
-  test: /({\s*{)([^{|}]+)?(\|\|[^{|}]+)?(}\s*})/gm,
+  test: /({{)([^{|}]+)?(\|\|[^{|}]+)?(}})/gm,
   parse,
 };
 

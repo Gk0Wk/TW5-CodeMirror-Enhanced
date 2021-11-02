@@ -7,7 +7,7 @@ function init(): Record<string, unknown> {
 }
 
 function parse(stream: StringStream, modeState: TW5ModeState): void {
-  let pointer = stream.pos;
+  let pointer = stream.pos + 1;
   const length = stream.string.length;
   for (; pointer < length && !/[\s.]/.test(stream.string.charAt(pointer)); pointer++);
   stream.pos = pointer;

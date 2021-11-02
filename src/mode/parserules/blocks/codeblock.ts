@@ -2,35 +2,9 @@ import { StringStream, EditorConfiguration } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule } from '../rules';
 import { getMode } from '../../utils';
-import TextRule from '../inner/text';
+import TextRule, { TextRuleOption } from '../inner/text';
 
-const CodeBlockBorderRule: ParseRule = {
-  init: () => {
-    return {};
-  },
-  name: 'CodeBlockBorder',
-  test: /^```/gm,
-  parse: (stream: StringStream, modeState: TW5ModeState): void => {
-    stream.pos += 3;
-    modeState.pop();
-  },
-};
-
-const CodeBlockTypeRule: ParseRule = {
-  init: () => {
-    return {};
-  },
-  name: 'CodeBlockType',
-  test: '',
-  parse: (stream: StringStream, modeState: TW5ModeState): void => {
-    const type = stream.string.substr(stream.pos).trimEnd();
-    if (type.length > 0 && modeState.contextStack.length > 1) {
-      (modeState.contextStack[modeState.contextStack.length - 2].context as unknown as CodeBlockRuleContext).type = type;
-    }
-    stream.pos += type.length;
-    modeState.pop();
-  },
-};
+const CodeBlockBorderRule = /^```/gm;
 
 interface CodeBlockRuleContext {
   line: number;
@@ -51,13 +25,15 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
       // ```
       context.stage++;
       context.line = modeState.line;
-      modeState.push(CodeBlockBorderRule);
+      modeState.push<TextRuleOption>(TextRule, { to: stream.pos + 3 }, 'CodeBlockBorderLeft');
       return;
     }
     case 1: {
       // CodeBlock type
       if (context.line === modeState.line) {
-        modeState.push(CodeBlockTypeRule);
+        const type = stream.string.substr(stream.pos).trimEnd();
+        if (type.length > 0) context.type = type;
+        modeState.push<TextRuleOption>(TextRule, { to: stream.pos + type.length }, 'CodeBlockType');
       }
       context.stage++;
       return;
@@ -90,12 +66,12 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: CodeBlock
         if (modeState.innerMode === undefined) stream.skipToEnd();
         return;
       }
-      (CodeBlockBorderRule.test as RegExp).lastIndex = stream.pos;
-      if ((CodeBlockBorderRule.test as RegExp).test(stream.string)) {
+      CodeBlockBorderRule.lastIndex = stream.pos;
+      if (CodeBlockBorderRule.test(stream.string)) {
         context.stage++;
         modeState.innerMode = undefined;
         context.line = modeState.line;
-        modeState.push(CodeBlockBorderRule);
+        modeState.push<TextRuleOption>(TextRule, { to: stream.pos + 3 }, 'CodeBlockBorderRight');
       } else {
         if (modeState.innerMode === undefined) stream.skipToEnd();
       }

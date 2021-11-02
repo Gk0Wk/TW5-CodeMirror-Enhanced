@@ -59,6 +59,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: FilteredT
         { to: stream.pos + length },
         length === 2 ? 'FilteredTranscludeBorderRight1' : 'WrongFilteredTranscludeBorderRight1',
       );
+      context.stage++;
       return;
     }
     case 5: {
@@ -89,7 +90,7 @@ const FilteredTranscludeRule: ParseRule<Record<string, unknown>, FilteredTranscl
   init,
   name: 'FilteredTransclude',
   // eslint-disable-next-line security/detect-unsafe-regex
-  test: /({\s*{\s*{)(?:([^|]+?)(\|[^{|}]+)?(\|\|[^{|}]+)?)?(}\s*})([^}]*)}(\.\S+)?/gm,
+  test: /({{{)(?:([^|]+?)(\|[^{|}]+)?(\|\|[^{|}]+)?)?(}})([^}]*)}(\.\S+)?/gm,
   parse,
 };
 
