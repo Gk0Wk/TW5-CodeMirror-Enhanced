@@ -121,13 +121,27 @@
       "preview": [
         "!! Insert a Definitions.",
         "",
-        "HTML definition lists are created with this syntax:",
-        "",
-        "<<wikitext-example src:\"; Term being defined",
+        "```tw5",
+        "; Term being defined",
         ": Definition of that term",
         "; Another term",
         ": Another definition",
-        "\">>"
+        "```",
+        "",
+        "That renders as:",
+        "",
+        "```",
+        "Term being defined",
+        "    Definition of that term",
+        "Another term",
+        "    Another definition",
+        "```",
+        "",
+        "and the underlying HTML is:",
+        "",
+        "```html",
+        "<dl><dt>Term being defined</dt><dd>Definition of that term</dd><dt>Another term</dt><dd>Another definition</dd></dl>",
+        "```"
       ]
     },
     "codeinline": {
@@ -135,58 +149,34 @@
       "preview": [
         "!! insert codeinline",
         "",
-        "<code>&#96;backticks&#96;</code> for `code` (<<.icon $:/core/images/mono-line>>)",
+        "<code>&#96;backticks&#96;</code> for `code`",
         "",
         "* Alternatively, <code>&#96;&#96;double backticks allows &#96;embedded&#96; backticks&#96;&#96;</code>"
       ]
     },
     "bold": {
       "name": "bold",
-      "preview": [
-        "!! insert bold",
-        "",
-        "`''bold''` for ''bold text'' (<<.icon $:/core/images/bold>>)"
-      ]
+      "preview": ["!! insert bold", "", "`''bold''` for ''bold text''"]
     },
     "italic": {
       "name": "italic",
-      "preview": [
-        "!! insert italic",
-        "",
-        "`//italic//` for //italic text// (<<.icon $:/core/images/italic>>)"
-      ]
+      "preview": ["!! insert italic", "", "`//italic//` for //italic text//"]
     },
     "underline": {
       "name": "underline",
-      "preview": [
-        "!! insert underline",
-        "",
-        "`__underscore__` for __underscored text__ (<<.icon $:/core/images/underline>>)"
-      ]
+      "preview": ["!! insert underline", "", "`__underscore__` for __underscored text__"]
     },
     "superscript": {
       "name": "superscript",
-      "preview": [
-        "!! insert superscript",
-        "",
-        "`^^superscript^^` for ^^superscripted^^ text (<<.icon $:/core/images/superscript>>)"
-      ]
+      "preview": ["!! insert superscript", "", "`^^superscript^^` for ^^superscripted^^ text"]
     },
     "subscript": {
       "name": "subscript",
-      "preview": [
-        "!! insert subscript",
-        "",
-        "`,,subscript,,` for ,,subscripted,, text (<<.icon $:/core/images/subscript>>)"
-      ]
+      "preview": ["!! insert subscript", "", "`,,subscript,,` for ,,subscripted,, text"]
     },
     "deleteStrikeThrough": {
       "name": "strikeThrough",
-      "preview": [
-        "!! insert strikeThrough",
-        "",
-        "`~~strikethrough~~` for ~~strikethrough~~ text (<<.icon $:/core/images/strikethrough>>)"
-      ]
+      "preview": ["!! insert strikeThrough", "", "`~~strikethrough~~` for ~~strikethrough~~ text"]
     },
     "image": {
       "name": "image",

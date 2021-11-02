@@ -117,11 +117,27 @@
         "",
         "以此语法创建 HTML 定义清单：",
         "",
-        "<<wikitext-example src:\"; Term being defined",
+        "```tw5",
+        "; Term being defined",
         ": Definition of that term",
         "; Another term",
         ": Another definition",
-        "\">>"
+        "```",
+        "",
+        "显示结果：",
+        "",
+        "```",
+        "Term being defined",
+        "    Definition of that term",
+        "Another term",
+        "    Another definition",
+        "```",
+        "",
+        "HTML 标记：",
+        "",
+        "```html",
+        "<dl><dt>Term being defined</dt><dd>Definition of that term</dd><dt>Another term</dt><dd>Another definition</dd></dl>",
+        "```"
       ]
     },
     "codeinline": {
@@ -131,56 +147,32 @@
         "",
         "<code>&#96;反引号&#96;</code> 用于 `代码`",
         "",
-        "* 另外，<code>&#96;&#96;连续两个反引号则为 &#96;可嵌入&#96; 反引号&#96;&#96;</code> (<<.icon $:/core/images/mono-line>>)"
+        "* 另外，<code>&#96;&#96;连续两个反引号则为 &#96;可嵌入&#96; 反引号&#96;&#96;</code>"
       ]
     },
     "bold": {
       "name": "粗体",
-      "preview": [
-        "!! 输入粗体",
-        "",
-        "`''粗体''` 显示 ''粗体字'' (<<.icon $:/core/images/bold>>)"
-      ]
+      "preview": ["!! 输入粗体", "", "`''粗体''` 显示 ''粗体字''"]
     },
     "italic": {
       "name": "斜体",
-      "preview": [
-        "!! 输入斜体",
-        "",
-        "`//斜体//` 显示 //斜体字// (<<.icon $:/core/images/italic>>)"
-      ]
+      "preview": ["!! 输入斜体", "", "`//斜体//` 显示 //斜体字//"]
     },
     "underline": {
       "name": "下划线",
-      "preview": [
-        "!! 输入下划线",
-        "",
-        "`__下划线__` 显示 __下划线__ (<<.icon $:/core/images/underline>>)"
-      ]
+      "preview": ["!! 输入下划线", "", "`__下划线__` 显示 __下划线__"]
     },
     "superscript": {
       "name": "上标",
-      "preview": [
-        "!! 输入上标",
-        "",
-        "`^^上标^^` 显示 ^^上标^^字 (<<.icon $:/core/images/superscript>>)"
-      ]
+      "preview": ["!! 输入上标", "", "`^^上标^^` 显示 ^^上标^^字"]
     },
     "subscript": {
       "name": "下标",
-      "preview": [
-        "!! 输入下标",
-        "",
-        "`,,下标,,` 显示 ,,下标,,字 (<<.icon $:/core/images/subscript>>)"
-      ]
+      "preview": ["!! 输入下标", "", "`,,下标,,` 显示 ,,下标,,字"]
     },
     "deleteStrikeThrough": {
       "name": "删除线",
-      "preview": [
-        "!! 输入删除线",
-        "",
-        "`~~删除线~~` 显示 ~~删除文本~~  (<<.icon $:/core/images/strikethrough>>)"
-      ]
+      "preview": ["!! 输入删除线", "", "`~~删除线~~` 显示 ~~删除文本~~"]
     },
     "image": {
       "name": "图片",
