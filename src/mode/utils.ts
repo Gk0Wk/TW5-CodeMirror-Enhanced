@@ -114,3 +114,9 @@ export function getMode(name: string, cmCfg: EditorConfiguration): Mode<unknown>
   const mode_ = CodeMirror.getMode(cmCfg, name);
   return mode_.name === 'null' ? undefined : mode_;
 }
+
+export function isUrl(string: string): number {
+  if (/^(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]$/.test(string)) return 2;
+  if (/(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]/.test(string)) return 1;
+  return 0;
+}
