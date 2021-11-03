@@ -8,6 +8,7 @@ import CommentRule from './blocks/comment';
 import HeadingRule from './blocks/heading';
 import CodeBlockRule from './blocks/codeblock';
 import HorizontalRule from './blocks/horizontal';
+import ListRule from './blocks/list';
 // Inline Rules
 import CodeRule from './inline/code';
 import DashRule from './inline/dash';
@@ -24,6 +25,7 @@ import TranscludeRule from './inline/transclude';
 import FilteredTranscludeRule from './inline/filteredtransclude';
 import HardLineBreakRuleContext from './inline/haedlinebreak';
 import ImageRule from './inline/image';
+import MacroCallRule from './inline/macrocall';
 
 export type RuleInitFunction<T = Record<string, unknown>, O = Record<string, unknown>> = (option: O) => T;
 // Return -1 if not found, return index(0 ~ stream.string.length-1) if found
@@ -38,7 +40,7 @@ export interface ParseRule<O = Record<string, unknown>, T = Record<string, unkno
 }
 
 export const ParametersRules: unknown[] = [CommentRule, ImportRule];
-export const BlockRules: unknown[] = [CommentRule, HeadingRule, CodeBlockRule, HorizontalRule];
+export const BlockRules: unknown[] = [CommentRule, HeadingRule, CodeBlockRule, HorizontalRule, ListRule];
 export const InlineRules: unknown[] = [
   CommentRule,
   CodeRule,
@@ -56,4 +58,5 @@ export const InlineRules: unknown[] = [
   FilteredTranscludeRule,
   HardLineBreakRuleContext,
   ImageRule,
+  MacroCallRule,
 ];
