@@ -1,37 +1,35 @@
 import { StringStream } from 'codemirror';
 import { TW5ModeState } from '../../state';
 import { ParseRule, InlineRules } from '../rules';
-import { findNearestRule } from '../../utils';
 import TextRule, { TextRuleOption } from '../inner/text';
 import StyleClassRule from '../inner/styleclass';
+import { findNearestRule } from '../../utils';
 
-interface HeadingRuleContext {
+interface ListRuleContext {
+  header: string;
   justParsedAInlineRule: boolean;
-  level: number;
   line: number;
   nextInlineRule?: ParseRule;
   stage: number;
 }
 
-function init(): HeadingRuleContext {
+function init(): ListRuleContext {
   return {
+    header: '',
     justParsedAInlineRule: false,
-    level: 0,
     stage: 0,
     line: 0,
   };
 }
 
-function parse(stream: StringStream, modeState: TW5ModeState, context: HeadingRuleContext): void {
+function parse(stream: StringStream, modeState: TW5ModeState, context: ListRuleContext): void {
   switch (context.stage) {
     case 0: {
-      // !+
+      // *#;:>+
       context.stage++;
-      (HeadingRule.test as RegExp).lastIndex = stream.pos;
-      const length = ((HeadingRule.test as RegExp).exec(stream.string) as RegExpExecArray)[1].length;
-      modeState.push<TextRuleOption>(TextRule, { to: stream.pos + length }, 'HeadingHeader');
-      context.level = length;
-      stream.pos += context.level;
+      (ListRule.test as RegExp).lastIndex = stream.pos;
+      context.header = ((ListRule.test as RegExp).exec(stream.string) as RegExpExecArray)[1];
+      modeState.push<TextRuleOption>(TextRule, { to: stream.pos + context.header.length }, 'ListHeader');
       context.line = modeState.line;
       return;
     }
@@ -56,7 +54,7 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: HeadingRu
       return;
     }
     default: {
-      // Heading content
+      // List contents
       if (context.nextInlineRule !== undefined) {
         modeState.push(context.nextInlineRule);
         context.nextInlineRule = undefined;
@@ -87,11 +85,11 @@ function parse(stream: StringStream, modeState: TW5ModeState, context: HeadingRu
   }
 }
 
-const HeadingRule: ParseRule<Record<string, unknown>, HeadingRuleContext> = {
+const ListRule: ParseRule<Record<string, unknown>, ListRuleContext> = {
   init,
-  name: 'Heading',
-  test: /(!{1,6})/gm,
+  name: 'List',
+  test: /([#*:;>]+)/gm,
   parse,
 };
 
-export default HeadingRule;
+export default ListRule;
