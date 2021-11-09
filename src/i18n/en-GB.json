@@ -1,6 +1,6 @@
 {
   "readme": [
-    "View more on [[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]].",
+    "View more on [[~GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]].",
     "",
     "CodeMirror editor for TiddlyWiki provides a flexible and rich extension framework (including highlighting, completion, preview and other features), anyone can use this framework to write extension plug-ins for the editor! Currently based on this framework to achieve the following features.",
     "",
@@ -79,9 +79,11 @@
       "preview": [
         "!! You can use triple backticks <code>&#96;&#96;&#96;</code> to mark code blocks",
         "",
+        "",
         "```",
         "This will be monospaced",
         "```",
+        "",
         "",
         "To be interpreted correctly, the three backticks need to be at the start of the line and immediately followed by a line-break.",
         "",

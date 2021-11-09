@@ -1,6 +1,6 @@
 {
   "readme": [
-    "如想了解更多，请关注我们的[[GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]]。",
+    "如想了解更多，请关注我们的[[~GitHub Repo|https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced]]。",
     "",
     "为TiddlyWiki的CodeMirror编辑器提供一个灵活而丰富的扩展框架(包括高亮、补全、预览等功能)，任何人都可以使用此框架为编辑器编写扩展插件！目前基于此框架实现的功能有：",
     "",
@@ -79,9 +79,11 @@
       "preview": [
         "!! 你可以使用三个反斜线<code>&#96;&#96;&#96;</code>来标记代码块",
         "",
+        "",
         "```",
         "这将是以等宽字体显示的。",
         "```",
+        "",
         "",
         "为了正确显示，这三个反斜线需要在行的开头，并紧跟一个换行。",
         "",
