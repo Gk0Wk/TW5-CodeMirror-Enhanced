@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/monoindustrial
-type: text/css
-module-type: codemirror-theme
-name: monoindustrial
-
-.cm-s-monoindustrial{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#222c28;color:#fff}.cm-s-monoindustrial .CodeMirror-lines{padding:8px 0}.cm-s-monoindustrial .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#222c28;padding-right:10px;z-index:3;border:none}.cm-s-monoindustrial div.CodeMirror-cursor{border-left:3px solid #fff}.cm-s-monoindustrial .CodeMirror-activeline-background{background:#0c0D0C40}.cm-s-monoindustrial .CodeMirror-selected{background:#91999466}.cm-s-monoindustrial .cm-comment{color:#666c68;background:#151c19}.cm-s-monoindustrial .cm-number{color:#588e60}.cm-s-monoindustrial .cm-def{color:#648bd2}.cm-s-monoindustrial .cm-property{color:#588e60}.cm-s-monoindustrial .cm-variable-2{color:#a65eff}.cm-s-monoindustrial .cm-atom{color:#588e60}.cm-s-monoindustrial .cm-keyword{color:null}.cm-s-monoindustrial .cm-operator{color:null}.cm-s-monoindustrial .CodeMirror-linenumber{color:#666c68}

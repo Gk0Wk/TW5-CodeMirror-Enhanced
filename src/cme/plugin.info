@@ -1,0 +1,11 @@
+{
+  "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced",
+  "name": "CodeMirror Enhanced",
+  "author": "Gk0Wk",
+  "description": "Your must-have CodeMirror enhancement plugin!",
+  "plugin-type": "plugin",
+  "version": "0.1.1",
+  "list": "readme ControlPanel LICENSE",
+  "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete $:/plugins/tiddlywiki/codemirror",
+  "source": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced"
+}

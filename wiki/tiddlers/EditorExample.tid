@@ -1,0 +1,10 @@
+title: EditorExample
+type: text/vnd.tiddlywiki
+
+<style>
+.demo-textarea {
+  width: 100%;
+}
+</style>
+
+<$edit-codemirror class="demo-textarea" focus="yes" tiddler="EditorExampleStateTiddler" />

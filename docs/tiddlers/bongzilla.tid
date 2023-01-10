@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/bongzilla
-type: text/css
-module-type: codemirror-theme
-name: bongzilla
-
-.cm-s-bongzilla{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#1f1f1f;color:#f8f8f8}.cm-s-bongzilla .CodeMirror-lines{padding:8px 0}.cm-s-bongzilla .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#1f1f1f;padding-right:10px;z-index:3;border:none}.cm-s-bongzilla div.CodeMirror-cursor{border-left:3px solid #f8f8f8}.cm-s-bongzilla .CodeMirror-activeline-background{background:#fffFFF0F}.cm-s-bongzilla .CodeMirror-selected{background:#253b76}.cm-s-bongzilla .cm-comment{color:#aeaeae}.cm-s-bongzilla .cm-keyword{color:#fc6}.cm-s-bongzilla .cm-property{color:null}.cm-s-bongzilla .cm-atom{color:null}.cm-s-bongzilla .cm-number{color:null}.cm-s-bongzilla .cm-operator{color:#fc6}.cm-s-bongzilla .CodeMirror-linenumber{color:#aeaeae}

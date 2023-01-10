@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/freckle
-type: text/css
-module-type: codemirror-theme
-name: freckle
-
-.cm-s-freckle{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fff;color:#000}.cm-s-freckle .CodeMirror-lines{padding:8px 0}.cm-s-freckle .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fff;padding-right:10px;z-index:3;border:none}.cm-s-freckle div.CodeMirror-cursor{border-left:3px solid #000}.cm-s-freckle .CodeMirror-activeline-background{background:#333435}.cm-s-freckle .CodeMirror-selected{background:#abd9e2}.cm-s-freckle .cm-comment{font-style:italic;color:#797c74}.cm-s-freckle .cm-number{color:#e84480}.cm-s-freckle .cm-atom{color:#e84480}.cm-s-freckle .cm-string{color:#666961;background:#d4f09a}.cm-s-freckle .cm-property{color:#e84480}.cm-s-freckle .cm-keyword{color:null}.cm-s-freckle .cm-operator{color:null}.cm-s-freckle .CodeMirror-linenumber{color:italic}

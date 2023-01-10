@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/krtheme
-type: text/css
-module-type: codemirror-theme
-name: krtheme
-
-.cm-s-krtheme{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#0b0a09;color:#fcffe0}.cm-s-krtheme .CodeMirror-lines{padding:8px 0}.cm-s-krtheme .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#0b0a09;padding-right:10px;z-index:3;border:none}.cm-s-krtheme div.CodeMirror-cursor{border-left:3px solid #fcffe0}.cm-s-krtheme .CodeMirror-activeline-background{background:#38403d}.cm-s-krtheme .CodeMirror-selected{background:#aa00FF73}.cm-s-krtheme .cm-keyword{color:#949c8b}.cm-s-krtheme .cm-comment{font-style:italic;color:#706d5b}.cm-s-krtheme .cm-property{color:#85873a}.cm-s-krtheme .cm-atom{color:#85873a}.cm-s-krtheme .cm-number{color:#85873a}.cm-s-krtheme .cm-operator{color:#949c8b}.cm-s-krtheme .CodeMirror-linenumber{color:italic}

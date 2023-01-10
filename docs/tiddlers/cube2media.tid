@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/cube2media
-type: text/css
-module-type: codemirror-theme
-name: cube2media
-
-.cm-s-cube2media{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#000;color:#fcf9ff}.cm-s-cube2media .CodeMirror-lines{padding:8px 0}.cm-s-cube2media .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#000;padding-right:10px;z-index:3;border:none}.cm-s-cube2media div.CodeMirror-cursor{border-left:3px solid #fcf9ff}.cm-s-cube2media .CodeMirror-activeline-background{background:#00000012}.cm-s-cube2media .CodeMirror-selected{background:#3e3840}.cm-s-cube2media .cm-comment{color:#858186;background:#20202042}.cm-s-cube2media .cm-string{color:#60b690}.cm-s-cube2media .cm-property{color:null}.cm-s-cube2media .cm-atom{color:null}.cm-s-cube2media .cm-number{color:null}.cm-s-cube2media .cm-keyword{color:null}.cm-s-cube2media .cm-operator{color:null}.cm-s-cube2media .CodeMirror-linenumber{color:#858186}

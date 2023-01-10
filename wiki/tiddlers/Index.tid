@@ -1,0 +1,20 @@
+creator: Sttot
+icon: 💻
+modifier: Sttot
+page-cover: https://unsplash.dogedoge.com/photos/_SgRNwAVNKw/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OXx8Y29kZXx8MHx8fHwxNjM3OTExNjQ1&force=true&w=1920
+tags:
+title: Index
+type: text/vnd.tiddlywiki
+
+<<<
+Installation: drap [[$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced]] into your wiki window.
+<<<
+
+# Type `/` for snippets
+# Type `[[]]` for tiddler auto completetion
+# Press <kbd>ctrl</kbd> (or <kbd>⌘</kbd> in mac), then click some url or tiddler link
+# Try more syntax for highlights
+
+{{EditorExample}}
+
+{{EditorExampleStateTiddler}}

@@ -1,0 +1,44 @@
+creator: Sttot
+modifier: Sttot
+tags:
+title: HighlightExample
+type: text/vnd.tiddlywiki
+
+! H1
+!! H2
+
+Formular:$$X =
+\begin{bmatrix}
+	1 & 2 \\
+	2 & 4
+\end{bmatrix}
+% this is a line of comment.
+$$
+
+[[Index]]
+
+[[Google|https://google.com]]
+
+file://external.file
+
+''Bold'' ~~Deleted~~ __Underlined__ {{Translclude}} //Italics// ^^SuperScript^^ ,,SubScipt,, `Code`
+
+```js
+function foo() {
+	console.log('Hello World!');
+	return 0;
+}
+```
+
+* list-1
+** list-2
+**; list-3
+**:# list-4
+
+; subject
+	: desciption
+
+<<<.tc-big-quote
+!!! Head in Quote
+* list in quote
+<<<

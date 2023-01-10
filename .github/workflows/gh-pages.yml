@@ -3,26 +3,40 @@ name: Deploy Tiddlywiki To Github Pages
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2-beta
         with:
           node-version: '16'
 
-      - name: Install Dependency
-        run: npm install
-      - name: Build
-        run: npm run build && cp dist/TW5-CodeMirror-Enhanced-*.json 'docs/tiddlers/$__plugins_Gk0Wk_TW5-CodeMirror-Enhanced.json'
-      - name: Build DemoWiki
-        run: npm run build-demo
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            ~/.pnpm-store
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: npm install -g pnpm && pnpm install
+
+      - name: Build Library and static website
+        run: pnpm run publish
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public-dist
+          publish_dir: ./dist

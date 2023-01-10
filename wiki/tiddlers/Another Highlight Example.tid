@@ -1,0 +1,8 @@
+creator: Sttot
+icon:
+modifier: Sttot
+tags:
+title: Another Highlight Example
+type: text/vnd.tiddlywiki
+
+<$edit-codemirror class="demo-textarea" focus="no" tiddler="HighlightExample" />

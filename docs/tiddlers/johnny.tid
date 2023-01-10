@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/johnny
-type: text/css
-module-type: codemirror-theme
-name: johnny
-
-.cm-s-johnny{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fff;color:#010101}.cm-s-johnny .CodeMirror-lines{padding:8px 0}.cm-s-johnny .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fff;padding-right:10px;z-index:3;border:none}.cm-s-johnny div.CodeMirror-cursor{border-left:3px solid #010101}.cm-s-johnny .CodeMirror-activeline-background{background:#ecdE0021}.cm-s-johnny .CodeMirror-selected{background:#c8c8d3}.cm-s-johnny .cm-comment{color:#898989}.cm-s-johnny .cm-keyword{color:#016692}.cm-s-johnny .cm-string{color:#008d6b}.cm-s-johnny .cm-number{color:#7a7025}.cm-s-johnny .cm-property{color:#7a7025}.cm-s-johnny .cm-atom{color:#7a7025}.cm-s-johnny .cm-operator{color:#016692}.cm-s-johnny .CodeMirror-linenumber{color:#898989}

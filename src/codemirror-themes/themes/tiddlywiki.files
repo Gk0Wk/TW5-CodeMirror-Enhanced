@@ -1,0 +1,17 @@
+{
+  "directories": [
+    {
+      "path": "css",
+      "filesRegExp": "\\.css$",
+      "isTiddlerFile": false,
+      "fields": {
+        "type": "itext/css",
+        "module-type": "codemirror-theme",
+        "tags": "$:/tags/Stylesheet",
+        "name": { "source": "basename" },
+        "title": { "source": "filename", "prefix": "$:/plugins/Gk0Wk/codemirror-themes/css/" }
+      },
+      "isEditableFile": false
+    }
+  ]
+}

@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/juicy
-type: text/css
-module-type: codemirror-theme
-name: juicy
-
-.cm-s-juicy{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#f1f1f1;color:#000}.cm-s-juicy .CodeMirror-lines{padding:8px 0}.cm-s-juicy .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#f1f1f1;padding-right:10px;z-index:3;border:none}.cm-s-juicy div.CodeMirror-cursor{border-left:3px solid #000}.cm-s-juicy .CodeMirror-activeline-background{background:#00000012}.cm-s-juicy .CodeMirror-selected{background:#a9c9ff}.cm-s-juicy .cm-comment{font-style:italic;color:#999}.cm-s-juicy .cm-string{color:#f60}.cm-s-juicy .cm-number{color:#c00}.cm-s-juicy .cm-keyword{color:#930}.cm-s-juicy .cm-variable{color:red}.cm-s-juicy .cm-variable-2{color:red}.cm-s-juicy .cm-property{color:#c00}.cm-s-juicy .cm-atom{color:#c00}.cm-s-juicy .cm-operator{color:#930}.cm-s-juicy .CodeMirror-linenumber{color:italic}

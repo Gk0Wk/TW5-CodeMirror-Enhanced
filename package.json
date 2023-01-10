@@ -1,56 +1,9 @@
 {
+  "url": "https://gk0wk.github.io/TW5-CodeMirror-Enhanced/",
+  "license": "MIT",
   "name": "tw5-codemirror-enhanced",
   "description": "Implement a swift and rich extension framework for TiddlyWiki5's CodeMirror editor, including TiddlyWiki5 (`text/vnd.tiddlywiki`) syntax highlighting, Wiki link auto-completion, clickable links, Tiddler preview, and more. More features ( syntax tree, syntax completion , WYSIWYG mode , quick template input , etc. ) is under development . This framework is open source framework , anyone is welcome to join the development , the documentation is being written .",
   "version": "0.1.1",
-  "scripts": {
-    "build": "cd src/core && rollup -c && cd ../.. && python3 ./build.py",
-    "clean": "rm -rf ./dist ./public-dist ./output",
-    "lint": "eslint ./src --ext js,ts,tsx,json",
-    "lint:fix": "eslint ./src --ext js,ts,tsx,json --fix",
-    "lint:prettier": "prettier --check \"**/*.*\"",
-    "lint:prettier:fix": "prettier --write \"**/*.*\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-demo": "zx docs/build.mjs"
-  },
-  "main": "index.js",
-  "devDependencies": {
-    "@lopatnov/rollup-plugin-uglify": "^2.1.1",
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
-    "@rollup/plugin-typescript": "^8.2.5",
-    "@types/codemirror": "^5.60.4",
-    "@typescript-eslint/eslint-plugin": "4.33.0",
-    "@typescript-eslint/parser": "4.33.0",
-    "clean-css-cli": "^5.4.1",
-    "eslint": "7.32.0",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-config-standard": "16.0.3",
-    "eslint-config-standard-with-typescript": "21.0.1",
-    "eslint-import-resolver-alias": "1.1.2",
-    "eslint-import-resolver-typescript": "2.5.0",
-    "eslint-plugin-html": "6.2.0",
-    "eslint-plugin-import": "2.24.2",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-promise": "5.1.0",
-    "eslint-plugin-react": "7.26.1",
-    "eslint-plugin-react-hooks": "4.2.0",
-    "eslint-plugin-security": "1.4.0",
-    "eslint-plugin-security-node": "1.0.14",
-    "eslint-plugin-typescript-sort-keys": "^1.8.0",
-    "eslint-plugin-unicorn": "36.0.0",
-    "html-minifier-terser": "^6.0.2",
-    "prettier": "^2.4.1",
-    "rollup": "^2.58.0",
-    "terser": "^5.9.0",
-    "tiddlywiki": "^5.2.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.4.3",
-    "uglify-js": "^3.14.2",
-    "workbox-cli": "^6.3.0",
-    "zx": "^4.2.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced.git"
@@ -72,9 +25,53 @@
       "url": "https://github.com/linonetwo"
     }
   ],
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced/issues"
   },
-  "homepage": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced#readme"
+  "homepage": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced#readme",
+  "scripts": {
+    "reset": "rimraf ./**/node_modules",
+    "clean": "rimraf dist",
+    "prepare": "husky install",
+    "update": "npm-check-updates -u",
+    "new": "tiddlywiki-plugin-dev new",
+    "dev": "tiddlywiki-plugin-dev dev",
+    "build": "npm run clean && tiddlywiki-plugin-dev build",
+    "build:library": "npm run clean && tiddlywiki-plugin-dev build --library --output dist/library",
+    "publish": "npm run clean && tiddlywiki-plugin-dev publish",
+    "publish:offline": "npm run clean && tiddlywiki-plugin-dev publish --offline"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    ],
+    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    ]
+  },
+  "devDependencies": {
+    "@modern-js/eslint-config": "^2.0.2",
+    "@modern-js/tsconfig": "^2.0.2",
+    "@types/codemirror": "^5.60.6",
+    "@types/node": "^18.11.18",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "tw5-typed": "^0.2.16",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "npm-check-updates": "^16.6.2",
+    "tiddlywiki": "^5.2.5",
+    "tiddlywiki-plugin-dev": "^0.0.25"
+  }
 }

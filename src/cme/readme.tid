@@ -1,0 +1,4 @@
+title: $:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced/readme
+type: text/vnd.tiddlywiki
+
+<$wikify name="rendered" text={{{[cmei18n[readme]]}}} output=html><<rendered>></$wikify>

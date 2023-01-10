@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/lowlight
-type: text/css
-module-type: codemirror-theme
-name: lowlight
-
-.cm-s-lowlight{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#1e1e1e;color:#cacaca}.cm-s-lowlight .CodeMirror-lines{padding:8px 0}.cm-s-lowlight .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#1e1e1e;padding-right:10px;z-index:3;border:none}.cm-s-lowlight div.CodeMirror-cursor{border-left:3px solid #cacaca}.cm-s-lowlight .CodeMirror-activeline-background{background:#00000014}.cm-s-lowlight .CodeMirror-selected{background:#68729B29}.cm-s-lowlight .cm-comment{font-style:italic;color:#3c5636;background:#112B0A1A}.cm-s-lowlight .cm-keyword{color:#8f8d17}.cm-s-lowlight .cm-string{color:#a57c5c}.cm-s-lowlight .cm-property{color:#edd34d}.cm-s-lowlight .cm-variable-2{color:#baa827}.cm-s-lowlight .cm-atom{color:#edd34d}.cm-s-lowlight .cm-number{color:#edd34d}.cm-s-lowlight .cm-operator{color:#8f8d17}.cm-s-lowlight .CodeMirror-linenumber{color:italic}

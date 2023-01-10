@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/black-pearl
-type: text/css
-module-type: codemirror-theme
-name: black-pearl
-
-.cm-s-black-pearl{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#000;color:#fff}.cm-s-black-pearl .CodeMirror-lines{padding:8px 0}.cm-s-black-pearl .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#000;padding-right:10px;z-index:3;border:none}.cm-s-black-pearl div.CodeMirror-cursor{border-left:3px solid #fff}.cm-s-black-pearl .CodeMirror-activeline-background{background:#fffFFF0D}.cm-s-black-pearl .CodeMirror-selected{background:#fffFFF26}.cm-s-black-pearl .cm-comment{font-style:italic;color:#428bdd}.cm-s-black-pearl .cm-keyword{color:#8aa6c1}.cm-s-black-pearl .cm-def{font-style:italic;color:#8aa6c1}.cm-s-black-pearl .cm-string{color:#c6f}.cm-s-black-pearl .cm-number{color:null}.cm-s-black-pearl .cm-variable-2{color:#fff}.cm-s-black-pearl .cm-property{color:null}.cm-s-black-pearl .cm-atom{color:null}.cm-s-black-pearl .cm-operator{color:#8aa6c1}.cm-s-black-pearl .CodeMirror-linenumber{color:italic}

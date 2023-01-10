@@ -1,0 +1,9 @@
+{
+  "title": "$:/plugins/Gk0Wk/codemirror-themes",
+  "name": "CodeMirror Themes",
+  "author": "Gk0Wk",
+  "description": "Tons of codemirror themes for TiddlyWiki",
+  "plugin-type": "plugin",
+  "version": "0.0.1",
+  "list": "readme"
+}

@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/made-of-code
-type: text/css
-module-type: codemirror-theme
-name: made-of-code
-
-.cm-s-made-of-code{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#090916F2;color:#f8f8f8}.cm-s-made-of-code .CodeMirror-lines{padding:8px 0}.cm-s-made-of-code .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#090916F2;padding-right:10px;z-index:3;border:none}.cm-s-made-of-code div.CodeMirror-cursor{border-left:3px solid #f8f8f8}.cm-s-made-of-code .CodeMirror-activeline-background{background:#00000000}.cm-s-made-of-code .CodeMirror-selected{background:#007DFF80}.cm-s-made-of-code .cm-comment{color:#54576b;background:#00000000}.cm-s-made-of-code .cm-keyword{color:#ff3854}.cm-s-made-of-code .cm-string{color:#8fff58;background:#102622FA}.cm-s-made-of-code .cm-property{color:#f1d950}.cm-s-made-of-code .cm-atom{color:#f1d950}.cm-s-made-of-code .cm-number{color:#f1d950}.cm-s-made-of-code .cm-operator{color:#ff3854}.cm-s-made-of-code .CodeMirror-linenumber{color:#54576b}

@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/notebook
-type: text/css
-module-type: codemirror-theme
-name: notebook
-
-.cm-s-notebook{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#beb69d;color:#000000BF}.cm-s-notebook .CodeMirror-lines{padding:8px 0}.cm-s-notebook .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#beb69d;padding-right:10px;z-index:3;border:none}.cm-s-notebook div.CodeMirror-cursor{border-left:3px solid #000000BF}.cm-s-notebook .CodeMirror-activeline-background{background:#fffFFF29}.cm-s-notebook .CodeMirror-selected{background:#fffFFFDB}.cm-s-notebook .cm-comment{font-style:italic;color:#ffeECE80}.cm-s-notebook .cm-string{color:#fffFFF1A;background:#e9d92BBF}.cm-s-notebook .cm-number{color:null;background:#9afF42BF}.cm-s-notebook .cm-atom{color:null;background:#65d8E6BF}.cm-s-notebook .cm-keyword{color:#c52727}.cm-s-notebook .cm-variable{text-decoration:underline}.cm-s-notebook .cm-property{color:null}.cm-s-notebook .cm-operator{color:#c52727}.cm-s-notebook .CodeMirror-linenumber{color:italic}

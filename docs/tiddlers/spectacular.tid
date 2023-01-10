@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/spectacular
-type: text/css
-module-type: codemirror-theme
-name: spectacular
-
-.cm-s-spectacular{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#0b0a0a;color:#f3f3f3}.cm-s-spectacular .CodeMirror-lines{padding:8px 0}.cm-s-spectacular .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#0b0a0a;padding-right:10px;z-index:3;border:none}.cm-s-spectacular div.CodeMirror-cursor{border-left:3px solid #f3f3f3}.cm-s-spectacular .CodeMirror-activeline-background{background:#f8f8f8}.cm-s-spectacular .CodeMirror-selected{background:#fffFFF59}.cm-s-spectacular .cm-comment{font-style:italic;color:#60606d}.cm-s-spectacular .cm-keyword{color:#fa0}.cm-s-spectacular .cm-string{color:#a9e448}.cm-s-spectacular .cm-property{color:#ffb454}.cm-s-spectacular .cm-atom{color:#ffb454}.cm-s-spectacular .cm-number{color:#ffb454}.cm-s-spectacular .cm-operator{color:#fa0}.cm-s-spectacular .CodeMirror-linenumber{color:italic}

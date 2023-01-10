@@ -1,7 +1,0 @@
-created: 20211019015331135
-modified: 20211019015331135
-title: EditorExample
-tmap.id: c4593d94-e3a5-4852-aea2-d5e48668f115
-type: text/vnd.tiddlywiki
-
-<$edit-codemirror class="demo-textarea" focus="yes" tiddler="EditorExampleStateTiddler" />

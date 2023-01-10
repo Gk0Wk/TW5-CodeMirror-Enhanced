@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/merbivore
-type: text/css
-module-type: codemirror-theme
-name: merbivore
-
-.cm-s-merbivore{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#161616;color:#e6e1dc}.cm-s-merbivore .CodeMirror-lines{padding:8px 0}.cm-s-merbivore .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#161616;padding-right:10px;z-index:3;border:none}.cm-s-merbivore div.CodeMirror-cursor{border-left:3px solid #e6e1dc}.cm-s-merbivore .CodeMirror-activeline-background{background:#333435}.cm-s-merbivore .CodeMirror-selected{background:#5a647EE0}.cm-s-merbivore .cm-comment{font-style:italic;color:#ad2ea4}.cm-s-merbivore .cm-number{color:null}.cm-s-merbivore .cm-atom{color:null}.cm-s-merbivore .cm-string{color:#8dff0a}.cm-s-merbivore .cm-property{color:null}.cm-s-merbivore .cm-keyword{color:null}.cm-s-merbivore .cm-operator{color:null}.cm-s-merbivore .CodeMirror-linenumber{color:italic}

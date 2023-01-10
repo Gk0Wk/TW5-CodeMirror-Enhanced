@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/dawn
-type: text/css
-module-type: codemirror-theme
-name: dawn
-
-.cm-s-dawn{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#f9f9f9;color:#080808}.cm-s-dawn .CodeMirror-lines{padding:8px 0}.cm-s-dawn .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#f9f9f9;padding-right:10px;z-index:3;border:none}.cm-s-dawn div.CodeMirror-cursor{border-left:3px solid #080808}.cm-s-dawn .CodeMirror-activeline-background{background:#2463B41F}.cm-s-dawn .CodeMirror-selected{background:#275FFF4D}.cm-s-dawn .cm-comment{font-style:italic;color:#5a525f}.cm-s-dawn .cm-keyword{color:#794938}.cm-s-dawn .cm-property{color:#693a17}.cm-s-dawn .cm-atom{color:#693a17}.cm-s-dawn .cm-number{color:#693a17}.cm-s-dawn .cm-operator{color:#794938}.cm-s-dawn .CodeMirror-linenumber{color:italic}

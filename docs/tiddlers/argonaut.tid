@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/argonaut
-type: text/css
-module-type: codemirror-theme
-name: argonaut
-
-.cm-s-argonaut{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#151515;color:#b2b2b2}.cm-s-argonaut .CodeMirror-lines{padding:8px 0}.cm-s-argonaut .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#151515;padding-right:10px;z-index:3;border:none}.cm-s-argonaut div.CodeMirror-cursor{border-left:3px solid #b2b2b2}.cm-s-argonaut .CodeMirror-activeline-background{background:#000c16}.cm-s-argonaut .CodeMirror-selected{background:#002f53}.cm-s-argonaut .cm-comment{font-style:italic;color:#00a6ff}.cm-s-argonaut .cm-string{color:#6497c5}.cm-s-argonaut .cm-number{color:#815db3}.cm-s-argonaut .cm-variable{color:#ffca00}.cm-s-argonaut .cm-def{font-style:italic}.cm-s-argonaut .cm-property{color:#815db3}.cm-s-argonaut .cm-variable-2{color:#0065d3}.cm-s-argonaut .cm-atom{color:#815db3}.cm-s-argonaut .cm-keyword{color:null}.cm-s-argonaut .cm-operator{color:null}.cm-s-argonaut .CodeMirror-linenumber{color:italic}

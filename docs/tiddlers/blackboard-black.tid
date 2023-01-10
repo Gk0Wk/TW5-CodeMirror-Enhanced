@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/blackboard-black
-type: text/css
-module-type: codemirror-theme
-name: blackboard-black
-
-.cm-s-blackboard-black{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#1f1f1f;color:#f8f8f8}.cm-s-blackboard-black .CodeMirror-lines{padding:8px 0}.cm-s-blackboard-black .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#1f1f1f;padding-right:10px;z-index:3;border:none}.cm-s-blackboard-black div.CodeMirror-cursor{border-left:3px solid #f8f8f8}.cm-s-blackboard-black .CodeMirror-activeline-background{background:#fffFFF0F}.cm-s-blackboard-black .CodeMirror-selected{background:#253b76}.cm-s-blackboard-black .cm-comment{color:#aeaeae}.cm-s-blackboard-black .cm-keyword{color:#fbde2d}.cm-s-blackboard-black .cm-property{color:null}.cm-s-blackboard-black .cm-atom{color:null}.cm-s-blackboard-black .cm-number{color:null}.cm-s-blackboard-black .cm-operator{color:#fbde2d}.cm-s-blackboard-black .CodeMirror-linenumber{color:#aeaeae}

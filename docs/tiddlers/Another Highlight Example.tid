@@ -1,9 +1,0 @@
-created: 20211020092316813
-creator: Sttot
-modified: 20211020092450700
-modifier: Sttot
-tags: 
-title: Another Highlight Example
-type: text/vnd.tiddlywiki
-
-<$edit-codemirror class="demo-textarea" focus="no" tiddler="HighlightExample" />

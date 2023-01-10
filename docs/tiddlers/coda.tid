@@ -1,7 +1,0 @@
-tags: $:/tags/Stylesheet
-title: CodeMirrorThemes/coda
-type: text/css
-module-type: codemirror-theme
-name: coda
-
-.cm-s-coda{font-size:1em;line-height:1.5em;font-family:inconsolata,monospace;letter-spacing:.3px;word-spacing:1px;background:#fff;color:#000}.cm-s-coda .CodeMirror-lines{padding:8px 0}.cm-s-coda .CodeMirror-gutters{box-shadow:1px 0 2px 0 rgba(0,0,0,.5);-webkit-box-shadow:1px 0 2px 0 rgba(0,0,0,.5);background-color:#fff;padding-right:10px;z-index:3;border:none}.cm-s-coda div.CodeMirror-cursor{border-left:3px solid #000}.cm-s-coda .CodeMirror-activeline-background{background:#eef1f5}.cm-s-coda .CodeMirror-selected{background:#a7caff}.cm-s-coda .cm-comment{font-style:italic;color:#3c802c}.cm-s-coda .cm-string{color:#ed7722}.cm-s-coda .cm-number{color:#7520af}.cm-s-coda .cm-atom{color:#7520af}.cm-s-coda .cm-keyword{color:#aa2063}.cm-s-coda .cm-variable{color:#053369}.cm-s-coda .cm-def{color:#053369}.cm-s-coda .cm-variable-2{color:#881181}.cm-s-coda .cm-property{color:#7520af}.cm-s-coda .cm-operator{color:#aa2063}.cm-s-coda .CodeMirror-linenumber{color:italic}
