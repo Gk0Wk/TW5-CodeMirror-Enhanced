@@ -1,17 +1,31 @@
 [
     {
-        "version": "0.1.1",
-        "type": "application/json",
         "title": "$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced",
-        "plugin-type": "plugin",
-        "name": "CodeMirror TW5 Enhanced",
-        "list": "readme ControlPanel LICENSE",
-        "description": "TiddlyWiki5 highlighting mode for CodeMirror",
-        "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete",
+        "name": "CodeMirror Enhanced",
         "author": "Gk0Wk",
-        "email": "nmg_wk@yeah.net",
+        "description": "Your must-have CodeMirror enhancement plugin!",
+        "plugin-type": "plugin",
+        "version": "0.1.1",
+        "list": "readme ControlPanel LICENSE",
+        "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete $:/plugins/tiddlywiki/codemirror",
         "source": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced",
+        "type": "application/json",
+        "Modern.TiddlyDev#SHA256-Hashed": "88f5ffd5e1178f561b6765bd6b7e2b4afc654451a4e2444a190a71783db417e7",
         "readme": "<$wikify name=\"rendered\" text={{{[cmei18n[readme]]}}} output=html><<rendered>></$wikify>\n",
         "requires-reload": "yes"
+    },
+    {
+        "title": "$:/plugins/Gk0Wk/codemirror-themes",
+        "name": "CodeMirror Themes",
+        "author": "Gk0Wk",
+        "description": "Tons of codemirror themes for TiddlyWiki",
+        "plugin-type": "plugin",
+        "version": "0.0.1",
+        "list": "readme",
+        "dependents": "",
+        "type": "application/json",
+        "Modern.TiddlyDev#SHA256-Hashed": "cc296ca96d51fa14f3f6688c70c2576c8ba59353f8d4e992cb741e21fdc16f43",
+        "readme": "! codemirror-themes\n\nTons of codemirror themes for TiddlyWiki",
+        "requires-reload": "no"
     }
 ]
