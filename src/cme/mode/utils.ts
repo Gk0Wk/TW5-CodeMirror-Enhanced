@@ -1,16 +1,24 @@
-import CodeMirror, { StringStream, Mode, EditorConfiguration } from 'codemirror';
+import CodeMirror, {
+  StringStream,
+  Mode,
+  EditorConfiguration,
+} from 'codemirror';
 import { ParseRule } from './parserules/rules';
 import 'codemirror/mode/meta';
 
 // Duff's device algorithm (ordered)
-export function arrayEach<T = unknown>(array: T[], callback: (item: T, index: number, array: T[]) => boolean): void {
-  const length: number = array.length;
-  const blocks: number = Math.trunc(length * 0.125);
+export function arrayEach<T = unknown>(
+  array: T[],
+  callback: (item: T, index: number, array: T[]) => boolean,
+): void {
+  const { length } = array;
+  const blocks = Math.trunc(length * 0.125);
   let f: number;
   let next: boolean;
   if (blocks > 0) {
     let n = 0;
     do {
+      // eslint-disable-next-line no-bitwise
       f = n++ << 3;
       next =
         !callback(array[f], f, array) ||
@@ -30,23 +38,30 @@ export function arrayEach<T = unknown>(array: T[], callback: (item: T, index: nu
   if (f > 0) {
     do {
       next = callback(array[length - f], length - f, array);
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     } while (--f && next); // n must be greater than 0 here
   }
 }
 
-export function recordEach<T = unknown>(object: Record<string, T>, callback: (value: T, key: string, object: Record<string, T>) => boolean): void {
+export function recordEach<T = unknown>(
+  object: Record<string, T>,
+  callback: (value: T, key: string, object: Record<string, T>) => boolean,
+): void {
   const keys: string[] = Object.keys(object);
-  const length: number = keys.length;
+  const { length } = keys;
   let index = 0;
   for (; index < length; index++) {
-    if (!callback(object[keys[index]], keys[index], object)) break;
+    if (!callback(object[keys[index]], keys[index], object)) {
+      break;
+    }
   }
 }
 
-export function matchRule(rules: ParseRule[], stream: StringStream): ParseRule | undefined {
+export function matchRule(
+  rules: ParseRule[],
+  stream: StringStream,
+): ParseRule | undefined {
   let answer: ParseRule | undefined;
-  arrayEach<ParseRule>(rules, (rule) => {
+  arrayEach<ParseRule>(rules, rule => {
     if (typeof rule.test === 'function') {
       if (rule.test(stream, false) === stream.pos) {
         answer = rule;
@@ -72,10 +87,13 @@ export function matchRule(rules: ParseRule[], stream: StringStream): ParseRule |
   return answer;
 }
 
-export function findNearestRule(rules: ParseRule[], stream: StringStream): [ParseRule, number] | undefined {
+export function findNearestRule(
+  rules: ParseRule[],
+  stream: StringStream,
+): [ParseRule, number] | undefined {
   let answer: ParseRule | undefined;
   let nearest = stream.string.length;
-  arrayEach<ParseRule>(rules, (rule) => {
+  arrayEach<ParseRule>(rules, rule => {
     if (typeof rule.test === 'function') {
       const index = rule.test(stream, true);
       if (index >= stream.pos && index < nearest) {
@@ -106,17 +124,33 @@ export function findNearestRule(rules: ParseRule[], stream: StringStream): [Pars
   return answer === undefined ? undefined : [answer, nearest];
 }
 
-export function getMode(name: string, cmCfg: EditorConfiguration): Mode<unknown> | undefined {
+export function getMode(
+  name: string,
+  cmCfg: EditorConfiguration,
+): Mode<unknown> | undefined {
   if (typeof CodeMirror.findModeByName === 'function') {
     const found = CodeMirror.findModeByName(name);
-    if (found !== undefined) name = found.mime ?? found.mimes?.[0] ?? name;
+    // eslint-disable-next-line no-param-reassign
+    name = found?.mimes?.[0] ?? name;
   }
   const mode_ = CodeMirror.getMode(cmCfg, name);
   return mode_.name === 'null' ? undefined : mode_;
 }
 
 export function isUrl(string: string): number {
-  if (/^(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]$/.test(string)) return 2;
-  if (/(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]/.test(string)) return 1;
+  if (
+    /^(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]$/.test(
+      string,
+    )
+  ) {
+    return 2;
+  }
+  if (
+    /(?:file|https?|mailto|ftp|irc|news|data|skype):\/\/[\w!#%&+,./:;=?@|~-]+[\w#%&+/=@|~-]/.test(
+      string,
+    )
+  ) {
+    return 1;
+  }
   return 0;
 }

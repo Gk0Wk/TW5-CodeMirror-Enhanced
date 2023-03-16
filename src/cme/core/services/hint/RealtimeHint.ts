@@ -1,15 +1,8 @@
 /* eslint-disable max-lines */
-import {
-  Editor,
-  Position,
-  EditorChange,
-  on,
-  ShowHintOptions,
-} from 'codemirror';
+import { Editor, Position, EditorChange, ShowHintOptions } from 'codemirror';
 import * as ServiceManager from '../ServiceManager';
 import Options from '../../Options';
-
-const CodeMirror = require('$:/plugins/tiddlywiki/codemirror/lib/codemirror.js');
+import CodeMirror from '$:/plugins/tiddlywiki/codemirror/lib/codemirror.js';
 
 export interface HintAddon {
   hint: (
@@ -280,7 +273,7 @@ export function init(): void {
             };
             if (result.list.length > 0) {
               // perform action to dom node when a hint is selected
-              (CodeMirror.on as typeof on)<'select'>(
+              CodeMirror.on<'select'>(
                 result,
                 'select',
                 (selectedData_: string | Hint, selectedNode_: Element) => {
@@ -299,9 +292,7 @@ export function init(): void {
                         selectedNode.ownerDocument.createElement('div');
                       previewBoxNode.id = appendId;
                       previewBoxNode.className = `CodeMirror-hints CodeMirror-hints-append ${
-                        editor.getOption('theme') === undefined
-                          ? ''
-                          : (editor.getOption('theme') as string)
+                        editor.getOption('theme') ?? ''
                       }`;
                       previewBoxNode.style.left = `${
                         parentNode.offsetLeft + parentNode.offsetWidth
@@ -334,12 +325,8 @@ export function init(): void {
                     }
                     if (shouldDisplay) {
                       if (shouldCreate) {
-                        (CodeMirror.on as typeof on)<'close'>(
-                          result,
-                          'close',
-                          closePreview,
-                        );
-                        (CodeMirror.on as typeof on)<'endCompletion'>(
+                        CodeMirror.on<'close'>(result, 'close', closePreview);
+                        CodeMirror.on<'endCompletion'>(
                           editor,
                           'endCompletion',
                           closePreview,
@@ -380,7 +367,7 @@ export function init(): void {
         // Check if hint is open and hint function exists
         if (
           cm.state.completeActive ||
-          typeof (cm as any).showHint !== 'function' ||
+          typeof cm.showHint !== 'function' ||
           !Options.realtimeHint
         ) {
           return;

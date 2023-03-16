@@ -1,7 +1,6 @@
 import { Editor } from 'codemirror';
 import { loadTiddler } from '../utils/tiddlerIO';
-
-const CodeMirror = require('$:/plugins/tiddlywiki/codemirror/lib/codemirror.js');
+import CodeMirror from '$:/plugins/tiddlywiki/codemirror/lib/codemirror.js';
 
 export type Addons = Map<string, unknown>;
 

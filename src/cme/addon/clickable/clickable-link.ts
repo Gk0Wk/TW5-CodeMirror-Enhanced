@@ -6,9 +6,7 @@ export const handler = (_editor: any, event: MouseEvent) => {
   } else if (
     (event.target as HTMLElement).classList.contains('cm-internallink')
   ) {
-    new ($tw as any).Story().navigateTiddler(
-      (event.target as HTMLElement).innerText,
-    );
+    new $tw.Story({}).navigateTiddler((event.target as HTMLElement).innerText);
     return true;
   } else {
     return false;

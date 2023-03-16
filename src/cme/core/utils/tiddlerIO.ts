@@ -11,7 +11,7 @@ export const loadTiddler = (
         return JSON.parse(fields.text);
       }
       case 'application/x-tiddler-dictionary': {
-        return $tw.utils.parseFields(fields.text) as any;
+        return $tw.utils.parseFields(fields.text);
       }
       default: {
         break;

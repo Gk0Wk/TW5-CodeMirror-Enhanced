@@ -8,8 +8,10 @@ import { init as initClickableToken } from './services/clickable/ClickableToken'
 import { init as initRealtimeHint } from './services/hint/RealtimeHint';
 import { init as initSnippetsList } from './services/snippetslist/SnippetsList';
 
+import CodeMirror from '$:/plugins/tiddlywiki/codemirror/lib/codemirror.js';
+
 const api: Record<string, unknown> = {
-  CodeMirror: require('$:/plugins/tiddlywiki/codemirror/lib/codemirror.js'),
+  CodeMirror,
   tiddlerMerge: initTiddlerMerge(),
   editor: initEditor(),
 };

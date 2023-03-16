@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/lines-between-class-members */
 import { StringStream, Position, EditorConfiguration, Mode } from 'codemirror';
 import { ParseRule } from './parserules/rules';
 import BlankRule, { BlankRuleOption } from './parserules/inner/blank';
 import { arrayEach } from './utils';
 
 declare const development: unknown;
-const development_ = typeof development === 'undefined' ? false : development === true;
+const development_ =
+  typeof development === 'undefined' ? false : development === true;
 
 interface LineStreamStorage {
   stream?: StringStream;
@@ -16,7 +18,10 @@ interface ModeAndState<T = unknown> {
   state: T;
 }
 
-export interface TW5ParseContext<T = Record<string, unknown>, O = Record<string, unknown>> {
+export interface TW5ParseContext<
+  T = Record<string, unknown>,
+  O = Record<string, unknown>,
+> {
   children: TW5ParseNode[];
   context: Record<string, unknown>;
   node?: TW5ParseNode;
@@ -47,8 +52,10 @@ export class TW5ModeState {
   public innerMode?: ModeAndState;
   public readonly cmVersion: '5' | 'next';
 
-  constructor(another?: TW5ModeState, cmVersion: '5' | 'next' = '5') {
-    if (!['5', 'next'].includes(cmVersion)) cmVersion = '5';
+  constructor(another?: TW5ModeState, _cmVersion: '5' | 'next' = '5') {
+    const cmVersion: '5' | 'next' = ['5', 'next'].includes(_cmVersion)
+      ? _cmVersion
+      : '5';
     if (another === undefined) {
       this.parseTree = [];
       this.line = 0;
@@ -64,7 +71,7 @@ export class TW5ModeState {
       this.parseTree = another.parseTree;
       this.line = another.line;
       this.contextStack = [];
-      arrayEach<TW5ParseContext>(another.contextStack, (context) => {
+      arrayEach<TW5ParseContext>(another.contextStack, context => {
         this.contextStack.push({
           children: context.children,
           context: { ...context.context },
@@ -86,7 +93,9 @@ export class TW5ModeState {
           : {
               isLaTeX: another.innerMode.isLaTeX,
               mode: another.innerMode.mode,
-              state: another.innerMode.mode.copyState?.(another.innerMode.state) ?? another.innerMode.state,
+              state:
+                another.innerMode.mode.copyState?.(another.innerMode.state) ??
+                another.innerMode.state,
             };
       this.cmVersion = another.cmVersion;
     }
@@ -99,7 +108,11 @@ export class TW5ModeState {
     };
   }
 
-  public push<T = Record<string, unknown>>(rule: unknown, options: T = {} as unknown as T, overrideName?: string): void {
+  public push<T = Record<string, unknown>>(
+    rule: unknown,
+    options: T = {} as unknown as T,
+    overrideName?: string,
+  ): void {
     // Make new context
     const newContext: TW5ParseContext<T> = {
       context: (rule as ParseRule<T>).init(options),
@@ -127,19 +140,27 @@ export class TW5ModeState {
 
   public pop(): void {
     const justPoped = this.contextStack.pop();
-    if (justPoped?.node !== undefined) justPoped.node.to = this.pos();
+    if (justPoped?.node !== undefined) {
+      justPoped.node.to = this.pos();
+    }
     this.justPoped = justPoped;
   }
 
   public top<T = Record<string, unknown>>(): TW5ParseContext<T> | undefined {
-    return this.contextStack.length > 0 ? (this.contextStack[this.contextStack.length - 1] as unknown as TW5ParseContext<T>) : undefined;
+    return this.contextStack.length > 0
+      ? (this.contextStack[
+          this.contextStack.length - 1
+        ] as unknown as TW5ParseContext<T>)
+      : undefined;
   }
 
   public setArrtibute(key: string, value: unknown): void {
-    if (!this.shouldParseTree) return;
+    if (!this.shouldParseTree) {
+      return;
+    }
     const node = this.top()?.node;
     if (node !== undefined) {
-      if (node.attributes === undefined) node.attributes = {};
+      node.attributes ??= {};
       node.attributes[key] = value;
     }
   }
@@ -148,3 +169,4 @@ export class TW5ModeState {
     this.push<BlankRuleOption>(BlankRule, { inlineMode });
   }
 }
+/* eslint-enable @typescript-eslint/lines-between-class-members */

@@ -3,14 +3,15 @@ import { TW5ModeState } from './state';
 import RootRule, { RootRuleOption } from './parserules/root';
 
 declare const development: unknown;
-const development_ = typeof development === 'undefined' ? false : development === true;
+const development_ =
+  typeof development === 'undefined' ? false : development === true;
 
 function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   // New line
   if (stream !== state.thisLine.stream) {
     state.line++;
     state.prevLine = state.thisLine;
-    state.thisLine = { stream: stream };
+    state.thisLine = { stream };
     state.maxPos.line++;
     state.maxPos.ch = stream.string.length;
   }
@@ -20,13 +21,17 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   do {
     state.justPoped = undefined;
     const context = state.top();
-    // eslint-disable-next-line unicorn/no-null
-    if (context === undefined) return null; // This line will never be executed
+    // This line will never be executed
+    if (context === undefined) {
+      return null;
+    }
     context.rule.parse(stream, state, context.context);
     // Parse with inner mode
     if (state.innerMode !== undefined) {
       const token = state.innerMode.mode.token(stream, state.innerMode.state);
-      return (token === null ? '' : token) + ' line-background-cm-code-block-line';
+      return `${
+        token === null ? '' : token
+      } line-background-cm-code-block-line`;
     }
   } while (originalPos === stream.pos && !stream.eol());
 
@@ -36,7 +41,6 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
   }
 
   const context = state.contextStack[state.contextStack.length - 1];
-  // eslint-disable-next-line unicorn/no-null
   const token = context?.overrideName ?? context?.rule.name ?? null;
 
   if (state.justPoped !== undefined) {
@@ -47,17 +51,22 @@ function handleToken(stream: StringStream, state: TW5ModeState): string | null {
 }
 
 // For CodeMirror 6(Next)
-export const mkTW5 = (cmCfg: EditorConfiguration): CodeMirror.Mode<TW5ModeState> => {
+export const mkTW5 = (
+  cmCfg: EditorConfiguration,
+): CodeMirror.Mode<TW5ModeState> => {
   const mode = {
     name: 'tiddlywiki5',
     startState: () => {
       const state = new TW5ModeState();
       state.push<RootRuleOption>(RootRule, { parseParams: true });
       state.cmCfg = cmCfg;
-      if (development_) window.state = state;
+      if (development_) {
+        (globalThis as any).state = state;
+      }
       return state;
     },
-    copyState: (oldState: TW5ModeState): TW5ModeState => new TW5ModeState(oldState),
+    copyState: (oldState: TW5ModeState): TW5ModeState =>
+      new TW5ModeState(oldState),
     token: handleToken,
     blankLine: (state: TW5ModeState): void => {
       state.line++;
@@ -67,15 +76,20 @@ export const mkTW5 = (cmCfg: EditorConfiguration): CodeMirror.Mode<TW5ModeState>
       state.thisLine = { stream: undefined };
     },
     indent: (state: TW5ModeState, textAfter: string, line: string): number => {
-      if (state.innerMode !== undefined && typeof state.innerMode.mode.indent === 'function') {
-        return state.innerMode.mode.indent(state.innerMode.state, textAfter, line);
+      if (
+        state.innerMode !== undefined &&
+        typeof state.innerMode.mode.indent === 'function'
+      ) {
+        return state.innerMode.mode.indent(
+          state.innerMode.state,
+          textAfter,
+          line,
+        );
       }
       return 0;
     },
-    innerMode: (state: TW5ModeState) => {
-      if (state.innerMode !== undefined) return state.innerMode;
-      else return { state, mode };
-    },
+    innerMode: (state: TW5ModeState) =>
+      state.innerMode !== undefined ? state.innerMode : { state, mode },
     blockCommentStart: '<!--',
     blockCommentEnd: '-->',
     closeBrackets: '()[]{}\'\'""``',
@@ -94,4 +108,7 @@ if (CodeMirror?.defineMode !== undefined) {
   CodeMirror.defineMIME('tex', 'stex');
 }
 
-if (development_) console.log('Development mode.');
+if (development_) {
+  // eslint-disable-next-line no-console
+  console.debug('CME Development mode.');
+}

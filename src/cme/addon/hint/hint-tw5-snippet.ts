@@ -75,7 +75,7 @@ export const hint = (editor: Editor, _options: any, cme: any) => {
       '[all[tiddlers+shadows]tag[$:/tags/TextEditor/Snippet]]',
     ),
     snippetTiddler => {
-      const snippet = $tw.wiki.getTiddler(snippetTiddler!);
+      const snippet = $tw.wiki.getTiddler(snippetTiddler);
       if (!snippet) {
         return;
       }
@@ -106,7 +106,7 @@ export const hint = (editor: Editor, _options: any, cme: any) => {
       '[all[tiddlers+shadows]tag[$:/tags/KaTeX/Snippet]]',
     ),
     snippetTiddler => {
-      const snippet = $tw.wiki.getTiddler(snippetTiddler!);
+      const snippet = $tw.wiki.getTiddler(snippetTiddler);
       if (!snippet) {
         return;
       }

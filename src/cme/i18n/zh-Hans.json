@@ -9,7 +9,9 @@
     "* Tiddler预览；",
     "* 可点击链接；",
     "",
-    "更多功能正在开发中，欢迎你的加入！"
+    "更多功能正在开发中，欢迎你的加入！",
+    "",
+    "> 本插件使用灵活而强大的 <$text text=\"TiddlyWiki\" /> 开发框架 [[Tiddly.ModernDev|https://github.com/tiddly-gittly/Modern.TiddlyDev]]"
   ],
   "control-panel": {
     "language": {

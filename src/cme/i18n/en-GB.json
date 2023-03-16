@@ -9,7 +9,9 @@
     "* Tiddler preview; * Tiddler preview.",
     "* Clickable links.",
     "",
-    "More features are in development, welcome to join!"
+    "More features are in development, welcome to join!",
+    "",
+    "> This plugin uses the flexible and powerful <$text text=\"TiddlyWiki\" /> development framework [[Tiddly.ModernDev|https://github.com/tiddly-gittly/Modern.TiddlyDev]]"
   ],
   "control-panel": {
     "language": {

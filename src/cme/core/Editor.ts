@@ -1,6 +1,5 @@
-import { Editor } from 'codemirror';
-
-const CodeMirror = require('$:/plugins/tiddlywiki/codemirror/lib/codemirror.js');
+import type { Editor } from 'codemirror';
+import CodeMirror from '$:/plugins/tiddlywiki/codemirror/lib/codemirror.js';
 
 let activatedEditor: Editor | undefined;
 
