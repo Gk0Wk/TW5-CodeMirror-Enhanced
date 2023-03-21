@@ -55,7 +55,7 @@ const mergeShadowAndTiddler = (tiddler: string): Tiddler | undefined => {
     ...$tw.wiki.getCreationFields(),
     ...$tw.wiki.getPluginInfo('$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced')
       .tiddlers[tiddler],
-    ...$tw.wiki.getTiddler(tiddler),
+    ...($tw.wiki.getTiddler(tiddler)?.fields ?? {}),
     text: JSON.stringify(
       { ...shadowTiddlerObject, ...overrideTiddlerObject },
       null,
