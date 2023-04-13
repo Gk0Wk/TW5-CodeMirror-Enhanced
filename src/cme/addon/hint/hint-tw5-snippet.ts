@@ -23,7 +23,8 @@ export const hint = (editor: Editor, _options: any, cme: any) => {
     if (end - pointer > max_length && !/[\w./-]/i.test(ch)) {
       return undefined;
     }
-    if (ch !== '/') {
+    // 一直向前移动指针，寻找是否有 / 或者 、
+    if (ch !== '/' && ch !== '、') {
       pointer--;
     } else {
       break;
