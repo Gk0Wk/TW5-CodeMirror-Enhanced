@@ -23,7 +23,7 @@ import UnderscoreRule from './inline/underscore';
 import LaTeXRuleContext from './inline/latex';
 import TranscludeRule from './inline/transclude';
 import FilteredTranscludeRule from './inline/filteredtransclude';
-import HardLineBreakRuleContext from './inline/haedlinebreak';
+import HardLineBreakRuleContext from './inline/hardlinebreak';
 import ImageRule from './inline/image';
 import MacroCallRule from './inline/macrocall';
 
