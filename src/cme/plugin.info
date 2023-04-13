@@ -4,7 +4,7 @@
   "author": "Gk0Wk",
   "description": "Your must-have CodeMirror enhancement plugin!",
   "plugin-type": "plugin",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "list": "readme ControlPanel LICENSE",
   "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete $:/plugins/tiddlywiki/codemirror",
   "source": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced"
