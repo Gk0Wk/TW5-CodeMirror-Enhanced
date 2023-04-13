@@ -10,7 +10,7 @@
         "dependents": "$:/plugins/tiddlywiki/codemirror-autocomplete $:/plugins/tiddlywiki/codemirror",
         "source": "https://github.com/Gk0Wk/TW5-CodeMirror-Enhanced",
         "type": "application/json",
-        "Modern.TiddlyDev#SHA256-Hashed": "307ca620647fb25f1841e656d0f167b99f9f5c29874df823af7552a04c19640d",
+        "Modern.TiddlyDev#SHA256-Hashed": "3bbe84117456978f8c102287752755f87b5d67613b096241539ebf18f0bb9518",
         "readme": "<$wikify name=\"rendered\" text={{{[cmei18n[readme]]}}} output=html><<rendered>></$wikify>\n",
         "requires-reload": "yes"
     },
