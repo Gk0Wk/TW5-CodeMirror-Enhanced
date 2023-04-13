@@ -120,8 +120,8 @@
       var ch = stream.peek(); // Returns the next character in the stream without advancing it. Will return a null at the end of the line.
 
       // 检查是不是block的开头
-      // 两个条件：1.在行首 2.以</*{}-`开头
-      if (sol && /[<\/\*{}\-`]/.test(ch)) {
+      // 两个条件：1.在行首 2.以<*{}-`开头
+      if (sol && /[<*{}\-`]/.test(ch)) {
         // <<<引用block
         if (stream.match(reBlockQuote)) {
           return twTokenQuote(stream, state);
@@ -138,7 +138,7 @@
 
       // 其他情况
       var matched = null;
-      if (sol && (matched = stream.match(/^\s*([\/\*!#;:>|])/))) {
+      if (sol && (matched = stream.match(/^\s*([*!#;:>|])/))) {
         ch = matched[1];
         // 标题
         if (ch === '!') {
