@@ -24,8 +24,8 @@
         "list": "readme",
         "dependents": "",
         "type": "application/json",
-        "Modern.TiddlyDev#SHA256-Hashed": "cc296ca96d51fa14f3f6688c70c2576c8ba59353f8d4e992cb741e21fdc16f43",
-        "readme": "! codemirror-themes\n\nTons of codemirror themes for TiddlyWiki",
+        "Modern.TiddlyDev#SHA256-Hashed": "917f5675cf63343cb18ff83c06c42b9fb710c5b41e85dba022c08ca762afb56b",
+        "readme": "! codemirror-themes\n\nTons of codemirror themes for TiddlyWiki.\n\nAfter install, you will have multiple themes selectable in ControlPanel's codemirror config.",
         "requires-reload": "no"
     }
 ]
