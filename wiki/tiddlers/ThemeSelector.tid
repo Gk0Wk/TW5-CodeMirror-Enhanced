@@ -13,3 +13,5 @@ type: text/vnd.tiddlywiki
 <option value=<<currentTiddler>>><$transclude field="name"><$text text=<<currentTiddler>>/></$transclude></option>
 </$list>
 </$select>
+
+(''Enter and quit edit mode'' to refresh the codemirror editor to let theme ''takes effect''. )
