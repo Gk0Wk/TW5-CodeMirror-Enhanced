@@ -3,4 +3,6 @@ type: text/vnd.tiddlywiki
 
 ! codemirror-themes
 
-Tons of codemirror themes for TiddlyWiki
+Tons of codemirror themes for TiddlyWiki.
+
+After install, you will have multiple themes selectable in ControlPanel's codemirror config.
