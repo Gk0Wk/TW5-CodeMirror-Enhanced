@@ -20,3 +20,7 @@ Installation: drap [[$:/plugins/Gk0Wk/TW5-CodeMirror-Enhanced]] into your wiki w
 {{EditorExample}}
 
 {{EditorExampleStateTiddler}}
+
+Install [[$:/plugins/Gk0Wk/codemirror-themes]] to get these themes:
+
+{{ThemeSelector}}
